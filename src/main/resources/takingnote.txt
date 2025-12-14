@@ -1,0 +1,4 @@
+frontend:
+AngularJS: We define a base path and assign a HTML for it now we define routes for the base path and we have controllers for various UI elements.
+so instead of getting entire web page only that part is fetched by controller. we can also direclty give like show this view if this is set as true
+which means there is a direct binding between view and data. To communicate between controllers we have to define services

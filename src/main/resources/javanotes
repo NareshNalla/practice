@@ -1,0 +1,11 @@
+
+Interviewer: "How do you join a list of strings?"
+You: "For a direct join, I'd use String.join() for its simplicity and readability. However,
+if I need to perform operations like filtering or mapping on the list first, I'd use a stream pipeline
+and terminate it with Collectors.joining(), as it's more efficient and avoids creating intermediate collections."
+
+hashtable is synchronized. hashmap is not. concurrenthashmap is synchronized.
+
+try to minimize stroing arrays in db. if stored solve the problems of duplication and updating if one of the array element changes all elements linked with that should be changed accordingly
+
+abstract classes can be instantiated

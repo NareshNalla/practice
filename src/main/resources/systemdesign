@@ -1,0 +1,108 @@
+System design:
+1. whatsapp:
+messaging queue , httpserver, db, cdn , offlinestorage.
+process queue,UID.. timstamp, loadbalencer.
+symmetric/asymmetric encryption.
+symmetric: a key can be sued to encrypt/decrypt message.
+asymmetric: public key, private key. private key with us to encrypt/decrypt messages.
+hash and mediatype to -metatadata- get info from db or CDN.
+ERLANG is the programming language used to code WhatsApp.
+XMPP (Extensible Messaging and Presence Protocol).DSL ensures network security and also helps in preventing private data transfer.
+Whatsapp uses HTML5 WebSockets which communication technology which facilitates two-way communication.
+Mnesia DB, handles the heavy-duty task of database managemen. YAWS. webserver.
+FreeBSD :os
+Cassandra database Chat logs are a key for instant messaging applications.
+Multimedia messages including audio, image, video are saved in Amazon S3 bucket.
+WebRTC is a source code that is used to build real-time communication (RTC) in browsers and mobile app.
+Contus Fly offers a 3 layered security flow – end-to-end encryption, HMAC authenticated screening, and online/offline verification protocol; that ensures the data transmitted within the chat app is secure.
+Server application : custom ejabberd
+Encryption: RC4
+*************************
+2. Type ahead System: Or auto suggestions 
+googlesearch/ search
+
+1) response time 2) relavent/contextual 3) number/sorted
+Trie-data structure: get results - TS Order(L) -l-length of prefix.
+space optimized.
+DOG 9,DOLL 11,DONT 21, DART 14, DIP 6
+D -> DO | DA | DP
+DOG 9| DOL 
+DOLL 11
+ like wise:
+ TS: O(L)+O(n)+K(long k)
+ pre-compute:
+ [Dont 21 , dart, 14, dog 9] till last ... now O(L) order of prefix.
+ cache or, db.
+ prefix hashtable
+ prefix|suggestions colums
+ system design:  LB -> Api server -> DB or REdis wirh prefix - horizobtally distributed api servers.
+ Database cluser of Nodes Database.{ replication of database in 3nodes of database)
+ . prefix hashtable values , user history sore, today or recent Trending search keys.
+ Detailed SD: front end -> assembler -> hadoop -> Server zookeper -> distributer.
+ **************************
+3. BOOKMYSHOW, ONLINE TICKET BOOKING
+ FEATURES:
+ 1, highly concurrent ,2. responsive UI, 3. multiple cities, 4.payments, 5.movie suggestions, 6. coments & raitngs, 7. Movie info, 8. send tickets by sms,email, whatsapp.
+ Architechture:
+ mobile, desktop -> LB -> VARNISH cahce ->(many) APP servers ->cache -> RDBMS (Slaves ), NOSQL (Nodes)-> 
+ AS->Queue -> workers -> email,sms tickes
+ AS-> Hadoop(PIG,HIVE,ML recomentdations) -> Spark(for Trends)
+ AS- > LogStash ->ELK
+ payment (JustPAY)
+ CDN (cloud flare or cloud front)
+GCM or APM or firebase - send notifications
+replication for DB and NOSQL.
+ appservers - ec2
+ S3
+master write/read- slaves only read. 
+kafka in b/w spark and apserver to find treands.
+10min we can lock for booking- once payment is success we can relase the lock. uniqid genereate after booking.uniqid or qr code to identify the ticket booked.
+asynch workers -  
+ table DB:
+ USERS -->many TICKET ->SEATS<-many- TIER  THEATER-MANY->(PLACE)-many->  SCREEN  <-1<-MOVIE  <-1<-  OFFERS 
+ nosql db:
+ COMMENTS , RATINGS , MOVIE_INFO , TRAILER_GALLARY ,ARTISTS  ,CAST,  REVIEWS ,ANALYTICAL_DATA;
+ BMS:
+ ui reactjs,bootstrap, java,springboot,swaggger,hibernate, tomcat,rabitMQ,justpay, ansible,docket,git, logstacks kibana logs. jira notification. inginiz LB.
+ **************************************************
+ 4.Redis System Design (Cache Service)
+ Cache best practice:
+	 validity
+	 Timetoleave ;TTL
+	 heigh hit rate
+	 cache miss
+Features/Estimation:
+  1 tera bite
+  2 50k to 1m QPS(query per sec)
+  3. ~ 1ms (latency)
+  4. LRU (Eviction)
+  5. 100% (availability)
+  6. scalability
+  7. fault tolarent
+Cache Access patterns:
+i Write through
+ii Write around
+iii  write back.  [c] -> [db]
+HashTable:
+LRU - leaset recentlu used
+consistent hasing to distributed
+HashTable allo index of Double ended linkedlist.
+DL accepts - key/value index.. when it access second time. we are adding this to start of the list. maintaingin start/end pointer.
+deleting o(1) only. geting/puting O(1).
+get/put request -> [ event queue] -> event loop O -> threadpool -> [ memory ram]
+callbacks response
+Fault Tolarent:
+1. regular interval snapshot.
+2. Log Reconstruction.
+
+Avaialbility:
+replicae - or slave for cache.  -> DB
+***************************************************
+ COnsistence Hashing:
+normal hashing function, Disadvantage: The Rehashing problem.
+ Ringpop 1) uses FarmHash as its hashing function, 2) uses a red-black tree for its ring, and 3) adds a uniform number of replica points per node
+ 
+ working: find the hash value then insert the bucket of values is greterthan that.
+ unavaialbility of node , will sotre it in first locatiom.(Ring)
+ and doesnt effect he systtem, no need for rehashing.
+ ***************************
