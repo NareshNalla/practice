@@ -145,6 +145,22 @@ A situation where two or more threads are blocked forever, waiting for each othe
 
 ## 5. Java 8+ Features
 
+### Key Features by Version
+- **Java 8 (LTS):**
+    - Lambda Expressions
+    - Streams API
+    - `Optional`
+    - Default and Static Methods in Interfaces
+    - New Date and Time API (`java.time`)
+- **Java 11 (LTS):**
+    - Local-Variable Type Inference (`var`)
+    - New `String` and `Files` Methods
+    - Standardized HTTP Client
+- **Java 17 (LTS):**
+    - Records
+    - Sealed Classes
+    - Pattern Matching for `instanceof`
+
 ### Functional Programming
 - **Functional Interface:** An interface with exactly one abstract method. The `@FunctionalInterface` annotation is optional but recommended for clarity.
     - **`Predicate<T>`:** `boolean test(T t)` - Represents a boolean-valued function.

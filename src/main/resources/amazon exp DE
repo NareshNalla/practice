@@ -1,0 +1,26 @@
+My Path to an Amazon Data Engineer Role:
+For everyone asking, here’s a condensed guide to the Amazon Data Engineer interview process. It’s a challenging but navigable path focused on two things: your technical skills and your alignment with the Amazon Leadership Principles (LPs).
+
+Stage 1: Online Assessment (OA)
+What it is: The initial screening.
+Focus: SQL (multiple-choice and hands-on coding) and sometimes basic Python data manipulation.
+Tip: Get comfortable with window functions (ROW_NUMBER, etc.) and CTEs.
+
+Stage 2: Phone Screen
+What it is: A 1-hour interview with a Data Engineer.
+Focus: A mix of behavioral questions based on Leadership Principles and live coding (moderate SQL and Python).
+Tip: Prepare stories for the LPs using the STAR method (Situation, Task, Action, Result) and practice talking through your code.
+
+Stage 3: The Final "Loop" (4-5 Interviews)
+What it is: The final round of back-to-back interviews.
+Focus:
+Data Modeling: Designing schemas (e.g., star schema) and writing complex SQL against them.
+Data Architecture: High-level design of an end-to-end data pipeline (e.g., "Design a clickstream analytics system").
+Bar Raiser: A deep dive into your experience focused almost exclusively on the Leadership Principles to ensure you meet the hiring bar.
+Tip: In design rounds, always discuss the trade-offs of your decisions.
+
+Key To Success:
+Know the Leadership Principles: You must have real-world examples for how you've demonstrated them. This is non-negotiable.
+Communicate Clearly: They want to see how you think. Explain your approach out loud during coding and design sessions.
+Think Big Picture: Understand not just the code, but the architecture and the business problem it solves.
+The process is rigorous for a reason, but with focused preparation, you can succeed. Good luck!

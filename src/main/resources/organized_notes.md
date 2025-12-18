@@ -298,7 +298,9 @@ Organized Notes on Computer Science, Algorithms, and System Design
   2. Root server directs to a Top-Level Domain (TLD) server (e.g., for `.com`).
   3. TLD server directs to the authoritative domain's name server (e.g., `quora.com`'s server).
   4. The authoritative server returns the final IP address.
-
+  -it calls actually when we type. . (dot at end .com.) - root  (ROOT NS)
+  check internal os cache  - next ip address name serevers TLD nameservers - topleveldomain. resolving NS( Authorative NS). domain register helps to find this route.
+     resolving NS -> Root NS -> TLD NS -> Authorative NS
 ### Subnetting
 - **Purpose:** Divides a large network into smaller, more manageable logical networks (subnets).
 - **Subnet Mask:** A 32-bit number that defines the range of IP addresses available within a network. `255` corresponds to `11111111`.
