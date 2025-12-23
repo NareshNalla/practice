@@ -35,7 +35,8 @@ Essentially, it eliminates most of the boilerplate configuration and setup, so y
 - **Spring MVC:** For building web applications.
 - **Spring Data JPA:** Simplifies implementing JPA-based repositories by providing CRUD implementations at runtime from a `Repository` (`Interface`).
 - **Spring Security:** A framework for handling authentication and authorization.
-- **Spring AOP:** Allows you to manage cross-cutting concerns (like logging and transactions).
+- **Spring AOP:** Allows you to manage cross-cutting concerns (like logging and transactions) in a clean way.
+- **Spring Test:** Provides support for unit and integration testing of Spring components.
 
 ### What is the Spring IoC Container?
 - The container is the core of the Spring Framework. Its job is to create, configure, and manage the lifecycle of objects (beans).
@@ -78,7 +79,31 @@ Essentially, it eliminates most of the boilerplate configuration and setup, so y
 - The `DispatcherServlet` (`Class`) acts as the central "Front Controller". It receives a request, consults a `HandlerMapping` (`Interface`) to find the correct `@Controller`, which then processes the request and returns a view name. A `ViewResolver` (`Interface`) then maps this name to the actual View template to render the final response.
 
 ---
-
+How do you pass data from the controller to the view?
+For REST APIs, you typically return a Java object from a @RestController method. Spring, using libraries like Jackson, automatically serializes this object into a JSON response. The @ResponseBody annotation is key here.
+Servlet Lifecycle & Concepts
+Can you instantiate a servlet with a constructor? No. The servlet container (e.g., Tomcat) is responsible for creating servlet instances. It calls the public, no-arg constructor via reflection. Configuration is passed via the init() method.
+ServletContext vs. ServletConfig:
+ServletContext: An object created by the container for the entire web application. It's shared among all servlets. Used for application-scope parameters.
+ServletConfig: An object created by the container for a specific servlet. It's used to pass initialization parameters unique to that servlet.
+Session Tracking without Cookies: If cookies are disabled, you can use URL Rewriting. The session ID is appended to every URL. The response.encodeURL("test.jsp") method does this automatically.
+JSP (JavaServer Pages)
+How to include another JSP? Use the <jsp:include> action tag. This is a dynamic include that happens at request time.
+Can you include static content? Yes, using the <%@ include file="..." %> directive. This is a static include that happens at translation time (when the JSP is converted into a servlet).
+---
+What is SOA (Service-Oriented Architecture)?
+SOA is an architectural style for building distributed systems where functionality is grouped into distinct, reusable units of business logic called services.
+Key Principles:
+Loose Coupling: Services are independent and don't need to know the technical details of other services.
+Standardized Contract: Services communicate through a well-defined, formal contract (often using WSDL for SOAP-based services).
+Discoverability: Services can be discovered through a central registry.
+Note: While often associated with SOAP and XML, the principles of SOA are still relevant. Microservices can be seen as a more modern, fine-grained evolution of the SOA style.
+---
+What is MVP?
+MVP stands for Model-View-Presenter. It's a variation of MVC.
+Key Difference: In MVP, the Presenter is more involved than a Controller. It directly manipulates the View through an interface, and the View is typically more "dumb." The Presenter fetches data from the Model and tells the View exactly what to display. This creates a stronger separation and makes testing easier.
+MVC vs. MVP: In MVC, the View often pulls data from the Model. In MVP, the Presenter pushes data to the View.
+---
 ## 5. Java EE & Enterprise Integration
 
 ### Application Server vs. Servlet Container
