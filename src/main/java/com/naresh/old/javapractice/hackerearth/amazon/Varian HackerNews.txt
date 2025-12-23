@@ -1,0 +1,123 @@
+[Problem Statement]
+
+Develop a pseudo Front End Application which would let the users help list and browse top Hacker News articles conveniently.
+
+ 
+
+[Minimum Requirement]
+
+— Use of Web API to fetch news details.
+
+    Utilise Response Parameters:
+
+[ id,title, url, num_points, num_comments, author, created_at ].
+
+    Implement functionality to list articles in a web page.
+
+— Visually interactive responsive design listing all the articles.
+
+— Submit Screenshot, Source code & Instructions.
+
+ 
+
+[Plus Point]
+
+— A feature to Search by name. Store the API response in local storage and make queries to that.
+
+— Implement  Sort feature (to filter result through ‘number of points’ in ascending and descending order).
+
+— href url parameter. All headings should be links which should open in new window. (Should open in new window | target="_blank")
+
+ 
+
+[Extra Work]
+
+— Implement feature to sort articles based on dates/time.(Sort based on old-to-new and new-to-old based on time).
+
+— Add autocomplete feature to Search articles conveniently . Search local storage where you have stored the API Response. IndexedDB is preferred as local storage.
+
+— Custom elegant design, fonts and icons to make web app more user-friendly.
+
+— You may add portfolio activity comprising awesome work you have done on web application(s).
+
+— Use your imagination and add features which would make things easier for end users.
+
+ 
+
+[Guide]
+
+— Articles API: http://starlord.hackerearth.com/hackernews
+
+— Ideal Frontend Stack:
+
+* Silverlight, JQuery, Angular JS, React
+
+ 
+
+— HTML5 Local Storage: http://html5demos.com/storage
+
+— IndexedDB API : https://developer.mozilla.org/en/docs/Web/API/IndexedDB_API
+
+        https://www.tutorialspoint.com/html5/html5_indexeddb.htm
+
+ 
+
+— For icons and subtle texture :
+
+ 
+
+    http://glyphsearch.com/
+
+ 
+
+    http://subtlepatterns.com/thumbnail-view/
+
+ 
+
+    http://codebeautify.org/jsonviewer
+
+ 
+
+    http://www.flaticon.com/categories
+
+ 
+
+[Wireframe MVP / Reference Structure]
+
+ 
+
+    Mockup image with instructions
+
+    App Page I — Home page comprising list of articles.
+
+ 
+
+# Hi-Res Link
+
+ 
+
+Note:  Mockup design is just a reference made available to kickstart the design process, you are free to come up with your own design, we always admire creativity.
+
+— API Specs shall be accessible once event starts.
+
+
+[Structure / Data Parameters]:
+
+ 
+
+    id,title, url, num_points, num_comments, author, created_at
+
+
+ 
+
+    id — ‘id’
+
+    title — title of the article.
+
+    url — url of the article.
+
+    num_points — number of points of an article.
+
+    num_comments — number of comments on a article.
+
+    created_at — time of the article posted.

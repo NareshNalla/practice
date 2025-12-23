@@ -1,0 +1,185 @@
+springboot - if we want to run jetty server, need to provide the jetty jar in pom.xml
+how springboot run: based on jar file it loads.
+************
+@Bean @Component 
+- if we write methodlevel @Bean that is from thirdparty class, we are creating object.
+- @Components are our own classes.
+************************
+in rest - if input is XML, i sent id as String but resource accepts integers only. how we pass error.
+we use xsd document that handles. @Consumer @Producers will takecare.
+***************
+MICROSERVICES ARCHITECTURE | DEPLOYMENT STRATEGIES
+- multiples services per host
+- service per vm/container - autoscaling kubernaties/dockerswarn
+- serverless - google functions/ aws lambda.
+*******************
+ For getting insight of registered beans = applicationContext.getBeanDefinitionNames();
+@Bean
+@ConditionalOnProperty(name = "env", havingValue = "prod")
+This annotation lets configuration be included based on the presence and value of a Spring Environment property.
+******************
+Logbacksupports ERROR, WARN, INFO, DEBUG, or TRACE as logging level. By default, logging level is set to INFO. It means that code>DEBUG and TRACE messages are not visible
+we can set the logging level in application.properties file. Also, we can pass the –debug or –trace arguments on the command line while starting the application.
+# In properties file
+debug=true
+
+# In Console
+$ java -jar target/my-app-0.0.1-SNAPSHOT.jar --trace
+
+specific packages
+# In Console
+-Dlogging.level.org.springframework=ERROR 
+-Dlogging.level.com.howtodoinjava=TRACE
+ 
+# In properties file
+logging.level.org.springframework=ERROR 
+logging.level.com.howtodoinjava=TRACE
+If the log level for a package is defined multiple times with different log levels, the lowest level will be used. TRACE is lowest and ERROR is highest.
+***************************************
+Log Format:
+logging.pattern.console= %d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n
+  
+# Logging pattern for file
+logging.pattern.file= %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%
+
+logging.file or logging.path. default console. to print logs in file.
+***************************
+ @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
+ .........
+ docker build
+ docker tag
+ docker push
+ ************************
+ Service Mess: Service Discovery, LoadBalance , Fault tolerent , Distributed tracing , telemetrics, Security, retries ,circute breaking, timeouts.
+ Control Plane :  centralized hub or single hub which acts as like a control panel which we can configure for all of the proxies which are side loaded with every microservice in evry instance.
+ Data Plane : collection of all proxy service mess's.
+ Canarey deploy - befor switch 1.0v , after switch 2.0v
+ Rolling Deploy - 95% to one 1.0v and 5% to one 1.0v.
+ 
+ Istio + Envoy
+ Envoy - acks as sidecar . each envoy talks with with TLS and without TLS HTTP1, HTTP2, gPRC, TCP.
+ Istio - contains Istio-auth . tls certs to envoy. config data to Envoys. polocy checks telemetry, 
+ Likerd -
+ ********************
+ Apache Kafka:
+ decopules the services , including event streams, request response.
+ pub/sub system., store info, process.
+ ***********
+ finagle , Histrix, Stubby
+ ************
+Response Code:
+1xx: Informational – Communicates transfer protocol-level information.
+2xx: Success – Indicates that the client’s request was accepted successfully.
+3xx: Redirection – Indicates that the client must take some additional action in order to complete their request.
+4xx: Client Error – This category of error status codes points the finger at clients.
+5xx: Server Error – The server takes responsibility for these error status codes. 
+201 (Created) - 
+202 (Accepted) -
+203 Non-Authoritative Information -
+204 (No Content) -
+304 (Not Modified)
+401 (Unauthorized)
+403 (Forbidden)
+500 (Internal Server Error)
+********************
+ Name the types of transaction management that Spring supports ?
+ ********
+ Why spring famous?
+ IOC container, all objects life cycle it handles. dependency managment. not worry on developer.
+ 
+ @Component @Service differences?
+ miskly used @Componet on service class? same class different ?
+ *********************
+ @Bean @Component
+ A method annotated with @Bean annotation indicates that the method produces a bean to be managed by the Spring container.
+ A class annotated with @Component annotation indicates that the class is a "component" and it can be considered as a candidate for auto-detection when using annotation-based configuration and classpath scanning.
+ @Bean annotation is preferred over @Component annotation if you are using a third-party class or Java ARchive (JAR) file.
+ 
+ *****************
+ Branch microservice pattern:
+ 
+ ******************************
+ In Spring Data JPA, which of the following interfaces is extended by  CrudRepository  to provide additional methods to retrieve entities using the pagination and sorting abstraction?
+ PagingAndSortingRepository
+ ************
+ springboot interceptors
+ ****************
+ @RequestMapping will only be processed if a corresponding HandlerMapping (for type level annotations) and/or HandlerAdapter (for method level annotations) is present in the dispatcher. This is the case by default in both DispatcherServlet and DispatcherPortlet.
+ ****************************
+ difference between @repository, @service and @controller?
+ 
+ 
+ *******************************************
+S - Single-responsiblity Principle
+O - Open-closed Principle (Open for extension, closed for modification)
+L - Liskov Substitution Principle
+I - Interface Segregation Principle
+D - Dependency Inversion Principle
+
+Open-Closed Principle:
+Objects or entities should be open for extension but closed for modification.
+Liskov Substitution Principle:
+Let q(x) be a property provable about objects of x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.
+Interface Segregation Principle:
+A client should never be forced to implement an interface that it doesn’t use, or clients shouldn’t be forced to depend on methods they do not use.
+Dependency Inversion Principle:
+Entities must depend on abstractions, not on concretions. It states that the high-level module must not depend on the low-level module, but they should depend on abstractions.
+**************************************************************************
+Strong experience in Microservices (Decompose, Strangler, Saga, Event sourcing, CQRS, Tx Messaging). Knowledge of a microservices architecture.
+Avro:
+****************
+You have 4 microservices A,B,C,D. You are calling B from A, C from B & then D from C for doing some transaction(i.e. A->B->C->D). Lets say D microservice has done some database transaction & return to C, then C has also done some database transation & return to B. Now B got failed, then how you will rollback the transactions made in C & D microservices??
+by using saga we can design + kafka
+Setter/Field Injection
+implement ApplicationContextAware and InitializingBean
+Implementing InitializingBean we indicate that this bean has to do some actions after all its properties have been set;
+Another way to break the cycle is injecting a dependency using @Autowired on one of the beans, and then use a method annotated with @PostConstruct to set the other dependency.
+******************
+Spring web flux? reactive programming. based on Rx Java.
+It is fully non-blocking, supports Reactive Streams back pressure, and runs on such servers as Netty, Undertow, and Servlet 3.1+ containers.
+***************************
+Targetgroups - two vunde.. if req incresse based on memory, cpu utilization... taget group(instance service) ni crease chestham.
+Lambda tho sheduling..: monitor lambda - [Cloundwatch - rules set.. events triggers- ].
+EC2 types: 
+ECS: - {ec2,forgot} -
+  -image - {ECR- image host.. fargate to will take and run. }
+privae ]  
+
+*******************************************
+DI types:
+constructor, setter methods, field declaretion (un safe).
+*********
+AWS Functions Lambda:
+ Fn CLI tool
+*************
+how request mapping is done in AWS.(domain name to ip address)?
+******************
+singleton in spring: per container only one object.
+**********************
+@ControllerAdivice
+***********
+how do you share your rest apis to other.
+*****************
+spring been Lisfe cycle:
+
+preDestroy() & postInitialization() - override methods in lifecycle of bean.
+**********
+steriotypes ?
+Because @Controller is a specialization of Spring's @Component Stereotype annotation
+Annotations denoting the roles of types or methods in the overall architecture (at a conceptual, rather than implementation, level).
+Stereotype tell Spring that all Friend is an American, directly on the Class declaration.
+Component
+public class American extends Friend {
+
+    @Override
+    public String favoriteDrink() {
+        return "Coffee";
+    }
+}
+That is why the Component, Repository, Service, and Controller annotations belong to Stereotype package. Spring doesn't care much about the detail of your class, from Spring perspective your Classes are either Repository, Service, and Controller, if it doesn't belong to any of that, then its a Component.
+Spring just making oversimplification of your Classes. Hence, the name Stereotype.
+***********************
+parameters are changing on runtime:
+
+direct request we need to pass to controller method and do our operation.
+*************

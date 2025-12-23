@@ -1,0 +1,141 @@
+1. Equal Array
+
+You are given an array
+ of size 
+
+Find the minimum non negative number
+ such that there exist an index  and when you can replace  by , the sum of elements of array from index  to   and to   becomes equal, where
+
+. Assume array to be 1-indexed.
+
+If there is no possible
+ print
+
+in separate line.
+
+Input Format
+
+The first line contains
+, the number of test cases.
+For each Test case :
+The first line contains an integer , size of the array.
+The second line contains  space-separated integers, the of which is
+
+.
+
+Input Constraints
+
+
+
+
+Sum of N all over testcases doesn't not exceed .
+........................
+2. One Swap to Palindrome
+You are given T tasks to perform. In each task, you are given a string S of length N. You are allowed to select any two indices i and j (i!=j) of the given string and perform exactly one swap between the characters at these indices.
+
+If it is possible to make the new string a palindrome then print "Yes", else print "No".
+
+Note:
+
+A string is said to be palindrome if it reads same as its reverse form. For example: "madam" , "dad" etc.
+
+INPUT
+First line contain an integer T denoting total number of tasks to perform.
+
+Each of the following T lines contains a string S.
+
+OUTPUT
+For each task, print a single line with "Yes" if it is possible to make palindrome otherwise print "No" without any quotes.
+
+Constraints
+String contains only lowercase English alphabets
+Sample Input
+
+1
+bbg
+
+Sample Output
+
+Yes
+
+Explanation
+
+We can swap indices pair (1,2) [ 0-based ] , so that final string will be "bgb" which is a palindrome.
+
+3. Bob and cities
+Bob is living in a city in which houses are arranged in NxM block.
+
+The city is denoted by N strings having M characters such that '.' denotes house while '#' denotes forests.
+
+Bob has to pay a certain amount LCost, RCost, UCost, DCost to move 1 step across left, right, up or down respectively.
+
+Bob lives in a house having co-ordinates (Stx , Sty) (1-Based Indexing).
+
+You are given Q tasks contains an integer X each. In each task, you have to find number of unique houses (including his house) can be travelled using the amount X.
+
+INPUT
+First line contains two space separated integers N and M, denoting number of rows and columns respectively.
+
+Next N lines contain a string each containing M characters. (Note :- Top left corner will denote {1,1} )
+
+Next line containd four space separated integers denoting LCost, RCost, UCost, DCost respectively.
+
+Next line contains two space separated integers Stx and Sty, denoting position of Bob's house.
+
+Next line contains an integer Q denoting number of tasks.
+
+Next Q lines contain an integer X each, denoting the amount Bob have.
+Output
+For each task, output a single integer denoting the number of unique houses (including his house) Bob can visit using the amount X.
+
+Constraint
+
+1 <= N, M <= 1000
+
+1 <= Stx <= N 
+
+1 <= Sty <= M
+
+1 <= LCost, RCost, UCost, DCost <= 109
+
+1 <= Q <= 105
+
+0  <= X <= 1018 
+
+Sample Input
+
+3 4
+
+..#.
+
+#...
+
+..#.
+
+1 2 3 4
+
+2 3
+
+3
+
+2
+
+5
+
+10
+
+Sample Output
+
+3
+
+7
+
+9
+
+Explanation
+
+As the starting point is {2, 3}.
+
+In first query Bob has 2 units of money. The total number of unique houses that can be visited are (2,3), (2,2), (2,4). Therefore the answer is 3 .
+
+Similarly we can check for other 2 queries

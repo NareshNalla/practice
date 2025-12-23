@@ -1,3 +1,18 @@
+⚠️ **[MARKED FOR DELETION - DO NOT EDIT]** ⚠️
+
+This file has been CONSOLIDATED and all its content has been merged into:
+- `spring_boot_summary.md` (for Spring Boot & Bean Lifecycle concepts)
+- `spring_web_flux_interview_deep_dive.md` (for Reactive Programming & WebFlux)
+
+Please delete this file. It is no longer needed.
+
+Date Marked: December 22, 2025
+Reason: Content duplication - all material moved to consolidated files
+
+---
+
+ORIGINAL CONTENT BELOW (REFERENCE ONLY - DO NOT USE)
+
 # Spring, Spring Boot & Microservices: Interview Deep Dive
 
 This document provides a nuanced, in-depth look at key concepts for a modern Java backend interview at a top company.

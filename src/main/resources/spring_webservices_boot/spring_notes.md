@@ -1,3 +1,18 @@
+⚠️ **[MARKED FOR DELETION - DO NOT EDIT]** ⚠️
+
+This file has been CONSOLIDAT and all its content has been merged into:
+- `spring_boot_summary.md` (for Spring Boot & Core Spring Framework concepts)
+
+Please delete this file. It is no longer needed.
+
+Date Marked: December 22, 2025
+Reason: Content duplication - all material moved to consolidated files
+
+---
+
+ORIGINAL CONTENT BELOW (REFERENCE ONLY - DO NOT USE)
+
+
 # Spring Framework & Java EE - Interview Notes
 
 ## 1. Core Spring Concepts

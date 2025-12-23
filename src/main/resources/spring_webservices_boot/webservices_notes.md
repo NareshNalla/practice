@@ -10,21 +10,14 @@
 | **Data Format** | Strictly permits **XML** only. | Flexible. Permits various formats like **JSON**, XML, HTML, plain text, etc. JSON is the most popular. |
 | **Transport** | Can use any transport protocol (HTTP, SMTP, etc.). | Almost always uses **HTTP/HTTPS**. |
 | **Standards** | Very strict standards (e.g., WSDL for service definition, built-in error handling). | No strict standards, relies on HTTP standards. It's more of a set of guiding principles. |
-| **Security** | Has its own comprehensive security standard: **WS-Security**, which supports advanced enterprise features. | Inherits security from the underlying transport (HTTPS). Authentication is typically handled via tokens (e.g., JWT, OAuth). |
-| **Performance** | Requires more bandwidth and resources due to the verbose XML structure and protocol overhead. | More performant and requires less bandwidth, especially when using lightweight formats like JSON. |
+| **Security** | Has its own comprehensive security standard: **WS-Security**. | Inherits security from the underlying transport (HTTPS). |
+| **Performance** | Requires more bandwidth due to verbose XML. | More performant and requires less bandwidth, especially with JSON. |
 | **API** | The Java API is **JAX-WS**. | The Java API is **JAX-RS**. |
-| **Paradigm** | Exposes **operations** or functions (like an RPC call). | Exposes **resources** (like data entities) that are acted upon by HTTP methods. |
+| **Paradigm** | Exposes **operations** or functions (RPC style). | Exposes **resources** that are acted upon by HTTP methods. |
 
 ### When to use SOAP vs. REST?
-- **Use REST when:**
-    - You are exposing a public API over the internet.
-    - You need to support a wide range of clients, including browsers (which work well with JSON).
-    - Performance and scalability are critical (REST reads can be cached).
-    - Simplicity and ease of development are important.
-- **Use SOAP when:**
-    - You need enterprise-grade security features provided by **WS-Security**.
-    - You require guaranteed reliability and messaging through **WS-ReliableMessaging**.
-    - You need support for **ACID transactions** over a service (e.g., for banking or financial operations).
+- **Use REST for:** Public APIs, mobile apps, and when performance and scalability are critical.
+- **Use SOAP for:** Enterprise applications requiring advanced security (WS-Security), guaranteed reliability, or ACID transactions.
 
 ---
 
@@ -32,79 +25,133 @@
 
 ### What does REST stand for?
 - **RE**presentational **S**tate **T**ransfer.
-    - **Representational:** How data is formatted (e.g., JSON, XML).
+    - **Representational:** How data is formatted (e.g., JSON).
     - **State:** The data of a resource.
-    - **Transfer:** How that data is communicated (using the HTTP protocol).
+    - **Transfer:** How that data is communicated (via HTTP).
 
 ### Why are REST APIs stateless?
 - **Statelessness** is a core constraint of REST.
-- It means that each request from a client to the server must contain **all the information necessary** for the server to understand and process the request.
-- The server does not store any session state or context about the client between requests. All session state is kept entirely on the client side.
-- **Benefit:** This simplifies the server design, improves scalability (any server can handle any request), and enhances reliability.
+- It means that **each request must contain all the information necessary** for the server to process it.
+- The server does not store any session state or context about the client between requests.
+- **Benefit:** This simplifies server design, improves scalability (any server can handle any request), and enhances reliability.
 
 ### What are the standard HTTP Methods used in REST?
 REST maps CRUD (Create, Read, Update, Delete) operations to HTTP methods:
 
-- **`GET` (Read):** Retrieves a resource. It should be safe (no side effects) and idempotent (calling it multiple times has the same effect as calling it once).
-- **`POST` (Create):** Creates a new resource on the server. It is not idempotent.
-- **`PUT` (Update/Replace):** Updates an existing resource or creates it if it doesn't exist. It should be idempotent.
-- **`DELETE` (Delete):** Removes a resource. It should be idempotent.
+- **`GET` (Read):** Retrieves a resource. It is safe and idempotent.
+- **`POST` (Create):** Creates a new resource. It is not idempotent.
+- **`PUT` (Update/Replace):** Replaces an existing resource entirely. It is idempotent.
+- **`PATCH` (Partial Update):** Applies a partial modification to a resource. It is not guaranteed to be idempotent.
+- **`DELETE` (Delete):** Removes a resource. It is idempotent.
 - **`OPTIONS`:** Used to get the supported operations on a resource.
 
-### What is the difference between GET and POST?
+### HTTP Methods Comparison: PUT, PATCH, and POST
 
-| Feature | GET | POST |
-| :--- | :--- | :--- |
-| **Purpose** | To retrieve data. | To submit data to be processed (e.g., create or update a resource). |
-| **Data Location** | Data is sent in the URL's query string. | Data is sent in the request body. |
-| **Security** | Less secure; data is visible in the URL, browser history, and server logs. | More secure; data is not exposed in the URL. |
-| **Data Size** | Limited by the maximum URL length. | Can send large amounts of data. |
-| **Caching** | Can be cached by browsers and proxies. | Cannot be cached. |
-| **Idempotent** | Yes (multiple identical requests have the same effect). | No (multiple identical requests may create multiple resources). |
-| **Bookmarking** | Can be bookmarked. | Cannot be bookmarked. |
+| Feature | `POST` (Create) | `PUT` (Full Update/Replace) | `PATCH` (Partial Update) |
+| :--- | :--- | :--- | :--- |
+| **Purpose** | Creates a new resource. | Replaces an entire resource with the complete updated state. | Applies a partial modification to a resource (only specified fields). |
+| **Data Submission** | Submits data to be processed by the server. | Sends the complete, updated state of the entire resource. | Sends only the specific fields that need to be changed. |
+| **Data Location** | Data is sent in the request body. | Data is sent in the request body. | Data is sent in the request body. |
+| **Idempotency** | **Not idempotent.** Sending the same POST request multiple times creates multiple resources. | **Idempotent.** Making the same PUT request multiple times results in the same final state. | **Not inherently idempotent.** A PATCH to increment a value produces different results if sent multiple times. |
+| **Bandwidth** | Moderate; only new data sent. | High; entire object must be sent. | Low; only changed fields sent (most network-efficient). |
+| **Use Case** | Creating new resources (e.g., POST /users to create a new user). | Replacing entire resources where client has full state (e.g., PUT /users/123 with complete user object). | Updating specific fields without sending entire object (e.g., PATCH /users/123 to update only the email field). |
+| **Server Response** | Typically returns `201 Created` with the new resource. | Typically returns `200 OK` with updated resource. | Typically returns `200 OK` with updated resource. |
+| **Security** | More secure than GET; data not exposed in URL. | More secure; data not exposed in URL. | More secure; data not exposed in URL. |
+| **Resource State** | Server determines the final state of the new resource. | Client determines the complete final state of the resource. | Client determines which specific fields to update; server merges with existing data. |
 
 ### What is HATEOAS?
 - **HATEOAS** stands for **Hypermedia as the Engine of Application State**.
-- It's a principle that a REST client should be able to navigate an entire application just by following hyperlinks provided in the API's responses.
-- The server's response for a resource should contain links to other related actions or resources. For example, a response for a user's account might include links to "deposit-money", "withdraw-money", and "close-account".
-- **Benefit:** This decouples the client from the server. The client doesn't need to hardcode all the API URIs; it can discover them dynamically from the server's responses.
+- It's a principle that a REST client should be able to navigate an application by following hyperlinks provided in the API's responses.
+- The server's response for a resource should contain links to other related actions or resources (e.g., a response for a user might include a link to "view-orders").
+- **Benefit:** This decouples the client from the server, as the client doesn't need to hardcode API URIs.
 
 ---
 
-## 3. Web & Network Concepts
+## 3. Inter-Service Communication Strategies
+
+### Overview
+In microservices architectures, services need to communicate with each other. There are multiple patterns, each with different trade-offs in terms of performance, resilience, and complexity.
+
+### REST (Synchronous Communication)
+- **What:** The standard choice for service-to-service communication. Services communicate via HTTP/HTTPS REST APIs.
+- **Pros:**
+  - Simple, familiar, and widely understood.
+  - Easy to implement with standard tools and libraries.
+  - Good for request-response patterns where immediate feedback is needed.
+- **Cons:**
+  - Can lead to a **"Distributed Monolith"** if not managed carefully — tight coupling and cascading failures.
+  - If Service A calls Service B which calls Service C, a failure in C cascades back to A.
+  - **Solution:** Use **Circuit Breakers** (Hystrix, Resilience4j) to detect failures and prevent cascading.
+- **Best For:** Simple point-to-point communication, when immediate response is critical.
+
+### gRPC (High-Performance Synchronous Communication)
+- **What:** A modern RPC framework developed by Google. Uses **HTTP/2** for transport and **Protocol Buffers** for serialization.
+- **Pros:**
+  - **Much faster than REST/JSON:** Binary protocol (Protobuf) vs text-based JSON.
+  - **Low latency:** Multiplexing requests over a single connection.
+  - **Strongly typed:** Schema is explicitly defined, reducing errors.
+  - **Excellent for internal microservice communication** where performance is critical.
+- **Cons:**
+  - Not as easy to debug (binary format).
+  - Requires additional tooling and learning curve.
+  - Less suitable for public APIs (harder for clients to consume).
+- **Best For:** Internal service-to-service communication where performance and low latency are critical.
+
+### Event-Driven (Asynchronous Communication)
+- **What:** Services communicate by publishing events to a message broker (Kafka, RabbitMQ, AWS SNS/SQS). Other services subscribe and react to those events.
+- **Pros:**
+  - **Loose coupling:** Services don't need to know about each other; they only know about the event format.
+  - **Resilience:** If a subscriber is temporarily down, events are stored and processed later.
+  - **Eventual consistency:** Acknowledges that distributed systems can't guarantee immediate consistency.
+  - **Highly recommended for senior developers:** Ensures system resilience, scalability, and fault tolerance.
+- **Cons:**
+  - More complex to implement and reason about.
+  - Eventual consistency means data is not immediately consistent across all services.
+  - Harder to debug and trace request flows.
+- **Message Brokers:**
+  - **Kafka:** High throughput, persistent, immutable log. Best for event streaming and real-time analytics.
+  - **RabbitMQ:** Message queuing with flexible routing. Good for traditional pub-sub patterns.
+  - **AWS SNS/SQS:** Managed services in AWS. SNS for pub-sub, SQS for queues.
+  - **Google Cloud Pub/Sub:** Fully managed messaging service in Google Cloud. Scales automatically, supports global message ordering, and integrates well with other GCP services. Good for building decoupled, scalable systems on Google Cloud.
+- **Best For:** Decoupling services, handling spiky loads, audit trails, eventual consistency scenarios (order processing, user notifications).
+
+### Comparison Table
+
+| Strategy | Latency | Coupling | Resilience | Consistency | Complexity |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **REST** | Low (direct call) | Tight | Low (cascading failures) | Immediate | Low |
+| **gRPC** | Very Low | Tight | Low (needs circuit breaker) | Immediate | Medium |
+| **Event-Driven (Kafka)** | Medium (asynchronous) | Loose | High | Eventual | High |
+| **Event-Driven (RabbitMQ)** | Medium (asynchronous) | Loose | High | Eventual | Medium |
+| **Event-Driven (Google Pub/Sub)** | Medium (asynchronous) | Loose | High | Eventual | Low-Medium |
+| **Event-Driven (AWS SNS/SQS)** | Medium (asynchronous) | Loose | High | Eventual | Low-Medium |
+
+### When to Use Which?
+- **Use REST:** When you need immediate synchronous responses and the services are tightly related.
+- **Use gRPC:** For internal service-to-service communication where performance and low latency are critical (e.g., between microservices in the same data center).
+- **Use Event-Driven:** For decoupled services, event notifications, audit trails, and scenarios requiring eventual consistency. **Highly recommended** for robust, scalable systems.
+
+---
+
+## 4. Web & Network Concepts
 
 ### What is the difference between HTTP and HTTPS?
-- **HTTP (Hypertext Transfer Protocol):** The standard protocol for exchanging data over the internet. It is unencrypted, meaning any data sent can be intercepted and read.
-- **HTTPS (Hypertext Transfer Protocol Secure):** This is HTTP with an added layer of security. It uses **SSL/TLS** to encrypt the communication between the client (browser) and the server.
-- **Key Benefits of HTTPS:**
-    - **Encryption:** Protects data from being read by attackers.
-    - **Integrity:** Ensures data has not been tampered with during transit.
-    - **Authentication:** Verifies that you are communicating with the correct server.
-    - **SEO:** Google and other search engines rank HTTPS sites higher.
+- **HTTP (Hypertext Transfer Protocol):** The standard protocol for web data exchange. It is **unencrypted**.
+- **HTTPS (HTTP Secure):** This is HTTP with an added security layer. It uses **SSL/TLS** to encrypt the communication, ensuring confidentiality, integrity, and authentication.
 
 ### What is a Proxy Server?
-- A proxy server acts as an intermediary between a client and another server.
-- It receives requests from the client, forwards them to the destination server on the client's behalf, and then returns the response to the client.
-- **Common Uses:**
-    - **Caching:** To store frequently accessed content and reduce latency.
-    - **Filtering:** To block access to certain websites (e.g., in a corporate network).
-    - **Anonymity:** To hide the client's original IP address.
+- An intermediary server that sits between a client and another server.
+- **Common Uses:** Caching content, filtering requests, and hiding the client's IP address for anonymity.
 
 ### Explain Client-Server Architecture
-- A distributed application structure that partitions tasks between **servers** (providers of a resource or service) and **clients** (requesters of a service).
-- The client initiates a request, and the server processes the request and returns a response.
-- This model is the foundation of the web, where your browser is the client and the web server hosting a site is the server.
+- A distributed application structure that partitions tasks between **servers** (providers of a resource) and **clients** (requesters of a resource).
+- The client initiates a request, and the server processes it and returns a response. This is the foundational model of the web.
 
 ---
 
-## 4. XML Parsing
+## 5. XML Parsing
 
 ### What is a SAX parser?
 - **SAX** stands for **Simple API for XML**.
-- It is an **event-based** parser for XML documents.
-- **How it works:**
-    1.  It reads the XML document sequentially from top to bottom.
-    2.  It does **not** load the entire document into memory or create a parse tree (like a DOM parser does).
-    3.  As it encounters different parts of the document (e.g., the start of an element, the end of an element, character data), it triggers "events."
-    4.  The application provides "event handlers" (callback methods) that listen for these events and process the data as it streams in.
-- **When to use it:** SAX is very memory-efficient and fast, making it ideal for parsing very **large XML files** that would not fit into memory.
+- It is an **event-based** parser. It reads an XML document sequentially and triggers "events" (e.g., `startElement`, `endElement`) as it encounters different parts of the document.
+- It does **not** load the entire document into memory, making it very memory-efficient and ideal for parsing very large XML files.

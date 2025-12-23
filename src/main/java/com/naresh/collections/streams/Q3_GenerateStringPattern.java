@@ -23,4 +23,3 @@ public class Q3_GenerateStringPattern {
         System.out.println(result);
     }
 }
-SOLID principles are five design guidelines that help developers avoid 'code rot.' By ensuring that each class has a single responsibility, is extensible without modification, maintains substitutable inheritance, uses lean interfaces, and depends on abstractions rather than concrete details, we create software that is robust, easy to maintain, and simple to scale."

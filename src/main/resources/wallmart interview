@@ -1,0 +1,43 @@
+Define OOPS
+Where do you use Mutex and Semaphore (Difference)
+Cross join in DBMS
+Natural and inner join
+Checked and unchecked exception in java
+Garbage collection in java
+Explain Singleton pattern in multi threaded environment. Why double checking lock is required ?
+Implement an immutable class that has a hashMap as instance variable
+Internal working of a hashmap
+How hashcode and equals work. What is its significance. What are the the relative conditione between hashcode and equals eg. If 2 objects are equal there hashcode must be equals but vice versa may not be true.
+There are 3 threads that perform the same task. Main thread starts all these threads. Find out which thread gives fastest result.
+Explain all Java OOPS concepts with examples
+
+3.Given Employee and department tables. Department table has non-unique department names. Write a query to print department name and sum of salaries in that department only without including id columns. If 2 department names are same with different ids, then they should be different in the result
+Java Wrapper Class related question. What is importance of Wrapper class in Java ?
+Immutable class in Java and what is its significant in java ?
+Singleton class discussion and sample code.
+– Lazy and Early Initialization of Singleton
+– Double Checked locking sample code.
+– Holder pattern to create Singleton instance
+Java memory model changes in Java 8 – metaspace concept. What’s its benefit 
+What is Weak Reference – ?
+What are other technology I have worked and where.
+– Spring AOP – 
+Design pattern I have used and where. Also what are DP I know.
+Project which have done with good effort or some situation like this.
+Java provides some security mechanism to prevent attack via reflection- I could not answer properly. He was referring my blog, since I have written how to break singleton using Reflection.
+2. Hashing , probing , collision , hashing with chaining , cache memory with discussion , LRU cache with written code(on paper) , Hashtable , Hashmap implementation with code (on paper) .
+
+1) What is the major advantage of auto boxing?
+2) How to define custom annotation?
+3) Out of multiple threads if thread throws Run time exception what happens to other threads?
+4) Implement LRU cache without LinkedHashhMap
+7)Difference between IsInstance and Instanceof.
+8)Can you override methods of Arraylist? If so how?
+9)Difference between Hash Map and Tree Map
+10) Explain Concurrent hash map. (and few more which I am not able to recall)
+)Explain inner classes in JAVA. Where exactly inner classes were used while designing famous JAVA APIs.
+Kafka, how to handle failures and parallelism etc.
+***************************
+Candidates preferred from Tier 1 or Tier 2 Engineering Colleges in India or with stellar GitHub profile.
+*********************
+Software Developer, Passionate Programmer, Innovative, Fast-Paced, Result-Oriented Professional with 5.5 years of experience in Software Design, Development and Integration. Passionate about technology and learning enthusiast. Well-known for taking initiatives within the team and providing innovative solutions for real-world problems thereby

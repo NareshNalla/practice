@@ -1,51 +1,122 @@
-# Database, ORM, and Hibernate - Interview Notes
+# Database
+Duplicate Values in Multiple Columns:
+SELECT OrderID, ProductID, COUNT(*)
+FROM OrderDetails
+GROUP BY OrderID, ProductID
+HAVING COUNT(*)>1
 
-## 1. ORM & Hibernate Concepts
+************************************
+SQL query to find second highest salary?
 
-### What is ORM?
-- **ORM** stands for Object-Relational Mapping.
-- It's a programming technique for converting data between the object-oriented model in Java and the relational model in databases.
-- It automates the mapping of Java objects to database tables, allowing developers to work with Java objects directly instead of writing boilerplate SQL. Hibernate is a popular ORM framework.
+SELECT name, MAX(salary) AS salary
+FROM employee
+WHERE salary < (SELECT MAX(salary)
+FROM employee);
+SELECT * FROM employee
+WHERE salary= (SELECT DISTINCT(salary)
+FROM employee ORDER BY salary LIMIT 3,1);
 
-### How do you integrate Spring and Hibernate?
-- Spring provides excellent integration support for Hibernate through its ORM module, most commonly via **Spring Data JPA**.
-- **Configuration:** You define a `DataSource`, an `EntityManagerFactory`, and a `TransactionManager` in your Spring application context. Spring Boot simplifies this significantly with auto-configuration.
-- **Usage:** You define a `Repository` interface (e.g., `UserRepository extends JpaRepository<User, Long>`), and Spring automatically provides the implementation for standard CRUD (Create, Read, Update, Delete) operations.
+Generic query will be
 
-### What is a SessionFactory?
-- A `SessionFactory` is a central, thread-safe, and immutable object responsible for creating `Session` instances in Hibernate.
-- It is heavyweight and typically created only once per application during startup.
-- It holds configuration details, connection pool information, and second-level cache data.
+SELECT * FROM employee
+WHERE salary= (SELECT DISTINCT(salary)
+FROM employee ORDER BY salary LIMIT n-1,1);
 
-### What is Lazy Fetching?
-- **Lazy Fetching** is a performance optimization strategy that delays the loading of associated data until you explicitly access it.
-- By default in JPA/Hibernate:
-    - **`@OneToMany` & `@ManyToMany`** associations are **LAZY**.
-    - **`@ManyToOne` & `@OneToOne`** associations are **EAGER**.
-- **Benefit:** When you load a `User` object, its list of `Orders` is not loaded from the database immediately. This avoids unnecessary, potentially large queries if you only need the user's primary data. The `Orders` are only fetched when you call `user.getOrders()`.
+******************************************
+Joines:
+SELECT StudentCourse.COURSE_ID, Student.NAME, Student.AGE FROM Student
+INNER JOIN StudentCourse
+ON Student.ROLL_NO = StudentCourse.ROLL_NO;
 
-### Hibernate Annotations
-- **`@Entity`:** Marks a Java class as a persistent entity that can be mapped to a database table.
-- **`@Table(name="...")`:** Specifies the name of the database table the entity maps to.
-- **`@Id`:** Declares the primary key field for the entity.
-- **`@Column(name="...")`:** Specifies the mapping for a specific column.
-- **`@Autowired` (Spring):** Used for dependency injection, not a Hibernate annotation, but often used in the same context to inject repositories.
+SELECT Student.NAME,StudentCourse.COURSE_ID
+FROM Student
+LEFT JOIN StudentCourse ON StudentCourse.ROLL_NO = Student.ROLL_NO;
 
-### HBM (Hibernate Mapping) Files
-- This is the older, XML-based way of defining object-relational mappings before annotations became standard.
-- An `.hbm.xml` file explicitly links a Java class to a database table and defines how the class's fields map to the table's columns using tags like `<class>`, `<id>`, and `<property>`.
+SELECT Student.NAME,StudentCourse.COURSE_ID
+FROM Student
+RIGHT JOIN StudentCourse ON StudentCourse.ROLL_NO = Student.ROLL_NO;
 
----
+SELECT Student.NAME,StudentCourse.COURSE_ID
+FROM Student
+FULL JOIN StudentCourse ON StudentCourse.ROLL_NO = Student.ROLL_NO;
 
-## 2. SQL & PL/SQL
+cross join: Cross join allows us to join each and every row of both the tables. It is similar to the cartesian product that joins all the rows.
+SELECT Student.NAME, Student.AGE, StudentCourse.COURSE_ID
+FROM Student CROSS JOIN StudentCourse;
 
-### What is the structure of PL/SQL?
-- PL/SQL uses a **block structure**. A typical block consists of:
-    1.  **`DECLARE`:** (Optional) Where variables, cursors, and types are declared.
-    2.  **`BEGIN`:** (Mandatory) Where the executable logic resides.
-    3.  **`EXCEPTION`:** (Optional) Where errors that occur in the `BEGIN` block are handled.
-    4.  **`END;`**: (Mandatory) Marks the end of the block.
+selfjoin: Self-join allows us to join a table itself. It is useful when a user wants to compare the data (rows) within the same table.
+SELECT a.ROLL_NO , b.NAME
+FROM Student a, Student b
+WHERE a.ROLL_NO < b.ROLL_NO;
 
-### How are exceptions handled in Oracle (PL/SQL)?
-- Exceptions are handled in the `EXCEPTION` section of a PL/SQL block.
-- You can catch specific, named exceptions (e.g., `NO_DATA_FOUND`, `TOO_MANY_ROWS`) or use a general `WHEN OTHERS THEN` clause to catch all other errors.
+select n1.name, n2.name
+from Student n1 inner join Student n2
+on rollno n1 = rollno n2
+
+**************************
+SELECT
+name
+FROM
+cities
+ORDER BY
+name DESC;
+**************************
+selfjoin elimiate duplicates from row1 row 2 whre row1, row to are same colum.
+SELECT  DISTINCT t1.team , t2.team FROM Teams t1 ,Teams t2
+where (t1.id > t2.id);
+****************************
+SELECT gen_title, AVG(mov_time), COUNT(gen_title)
+FROM movie
+NATURAL JOIN  movie_genres
+NATURAL JOIN  genres
+GROUP BY gen_title;
+*****************************
+SELECT COUNT(mg.genre_id) AS movieCount, g.name
+FROM MOVIE_GENRE mg, GENRE g
+WHERE mg.genre_id = g.id
+GROUP BY mg.genre_id;
+  **************************
+What is index ?
+
+what is clusterd index?
+what is non-clustered index?
+
+***************************************
+DynamoDB:
+DynamoDB is a NoSQL database provided by AWS, and in the same way as MongoDB or Cassandra, it is very suitable to boost horizontal scalability and increase development speed.
+Fast and consistent.
+Provides access control.
+Enables Event Driven Programming
+Tables. Catalog
+Items. Group of attributes
+Attributes. Data elements
+Partition Key. Mandatory, Key-Value access pattern. Determines data distribution
+Sort Key. Optional. Model 1:N relationships. Enables rich query capabilities
+of Spring Data. This module supports:
+
+CRUD operations for DynamoDB entities.
+Lookup strategy from query method names (only supported from 5.1.0-SNAPSHOT).
+Integration with custom repositories.
+Spring annotations.
+REST support via spring-data-rest.
+@EnableDynamoDBRepositories(basePackages = "org.smartinrubio.springbootdynamodb.repository")
+@Value("${amazon.dynamodb.endpoint}")
+private String amazonDynamoDBEndpoint;
+@Value("${amazon.dynamodb.region}")
+private String amazonDynamoDBRegion;
+AmazonDynamoDBClientBuilder
+.standard()
+.withCredentials(amazonAWSCredentialsProvider())
+.withRegion(Regions.US_WEST_2)
+.build();
+Data
+@DynamoDBTable(tableName = "Hotels")
+public class Hotel {
+@DynamoDBHashKey
+@DynamoDBGeneratedUuid(DynamoDBAutoGenerateStrategy.CREATE)
+private String id;
+@DynamoDBAttribute
+private String name;
+@DynamoDBTypeConverted(converter = GeoTypeConverter.class)
+private Geo geo;
+****************************************

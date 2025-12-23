@@ -1,0 +1,48 @@
+Given a rooted undirected tree T consisting of N nodes with 1 as the root of the tree. Each node of the tree has a value associated with it, where the value of the ith node is A[i]. A node x is said to be special if the path from the root to node x contains all distinct values. Your task is to find the number of special nodes.
+
+Input:
+
+The first line contains an integer N denoting the number of nodes in the tree.
+
+Next line contains N space separated integers where the ith integer denotes A[i].
+
+Next N-1 lines consist of two space-separated integers u and v, denoting that there is an edge between node u to node v.
+
+Output:
+
+Print a single integer, denoting the number of special nodes in the tree.
+
+Constraints:
+
+Sample Input
+
+7
+1 7 2 3 7 2 5
+1 2
+1 3
+2 4
+2 5
+3 6
+3 7
+
+Sample Output
+
+5
+
+Explanation
+
+Path from node 1 to node 1 contains: [1]
+
+The path from node 1 to node 2 contains: [1, 7]
+
+The path from node 1 to node 3 contains: [1, 2]
+
+The path from node 1 to node 4 contains: [1, 7, 3]
+
+The path from node 1 to node 5 contains: [1, 7, 7]
+
+The path from node 1 to node 6 contains: [1, 2, 2]
+
+The path from node 1 to node 7 contains: [1, 2, 5]
+
+Hence, 1, 2, 3, 4 and 7 are special nodes.

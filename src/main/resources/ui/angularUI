@@ -1,0 +1,135 @@
+Angular:
+
+MVC & MVVM
+In MVC if we make any change in the the view it doesn’t gets updated in model. But in AngularJS, we have heard that there is something called 2-way binding and this 2-way binding enables MVVM design pattern
+
+MVVM basically includes 3 things:
+ MVVM(Model-View-ViewModel) architecture better than an MVC (Model-View-Controller) one. The MVVM model supports two-way data binding between View and ViewModel. This allows the automatic propagation to change within ViewModel’s state to the view. Typically, ViewModel uses the observer model to inform changes to the ViewModel model to model.
+ 
+*****************
+var and let are both used for variable declaration in javascript but the difference between them is that var is function scoped and let is block scoped.
+****************
+Promises and Observable
+responsible for handling asynchronous requests.
+Promise:
+can handle single response from the same response
+Not cancelable in nature.
+
+Not lazy it can be exucuted immidate after the creation.
+Observable:
+can handle multiple response from the same response.
+can cancelable in nature.
+using unsubscribe()
+Lazt in nature, dosent return anything untill you subscrive using subscribe method.
+.........
+wildcard route : "**" , last default error page.
+*******
+constructor- is class concept or event of typescript.
+binding not happen when loads, 
+component is not initialized, so DOM not accesable,
+initialization of class variables, dependency we can do.
+
+ngOnInit()
+life-cycle hook.
+fires only once in life a component.
+good from fetching data from external source.
+is angular event.
+binding with UI happen when loads, 
+component is initialized, so DOM rady to accessable,
+initialization of class variables, dependency we can do.
+******************
+WebWorks
+allow to run script operation in background thread.
+off load heavry work to a backroung thread.
+*******
+CodeLyzer - code quality
+*************************
+angular 8- 
+Ivy engine - components and templates to convert to html@javascritp.
+JIT -
+JIT downloads the compiler and compiles code exactly before Displaying in the browser.
+Loading in JIT is slower than the AOT because it needs to compile your application at runtime.
+JIT is much suitable in the case of Dev mode
+IOT - 
+AOT has already complied with the code while building your application, so it doesn’t have to compile at runtime.
+Loading in AOT is much quicker than the JIT because it already has compiled your code at build time.
+AOT is much suitable in the case of Production mode
+ng build OR ng serve
+
+*******************************
+Modules , COmponetes ,Templates,  Data- Binding , Directives , Services , Dependency Injection.
+***************************
+1 !== ‘1’ will return true since 1 is an integer and ‘1’ is a character and no data type conversion take place.
+Cache ,Cookies
+Cache: 	Cache is employed to store the web site content for the long run purpose.
+Cache’s website contents are stored in browser only.
+It expires manually.
+It consumes large space in terms of capacity.
+Cache stores the contents like html pages, images, Javascript, CSS etc.
+Cache does not send the response with requests.
+
+Cookies:
+While cookie is employed to store user choices.
+While cookie’s contents are stored in both server and browser.
+While it expires automatically.
+While it consumes less space in terms of capacity.
+While the types of cookies are: Transient and persistent cookies
+While cookie sends the response with requests.
+*********************
+1.  Name some guards supported in Angular ?
+2.  What are the basic parts of an Angular application?
+3. What are the different types of OAuth 2 Grants?
+4. Which grant type is used in Angular based web application?
+**********************
+Dependency injection:
+it is a mechanizm to inject services rather than creating with new keyword. decoupled services.
+**********
+Structural Directive:
+*NgIF , *NgFor, *NgSwitch
+Structural Directive:
+[ngStyle]
+****
+Angular Bindings:
+String Interpolation {{}}
+Property Binding []
+Event Binding ()  (click)=
+Two Way Data Binding [()] - property binding+event binding.
+******************
+template reference : #
+***********
+canactive? 
+it is used in routing and Authentication.
+*********
+observable ?
+is nothing but object streaming live data.
+it is from rxjs - acynchronous stream of data can be . we can heard and act op on the data.
+it can be http , timer, settimeout, javascript port
+*****************
+ @Input() allows a parent component to update data in the child component. Conversely, @Output() allows the child to send data to a parent component
+<app-item-detail [item]="currentItem"></app-item-detail>.
+The child component uses the @Output() property to raise an event to notify the parent of the change. To raise an event, an @Output() must have the type of EventEmitter, which is a class in @angular/core that you use to emit custom events.
+@Output() newItemEvent = new EventEmitter<string>();
+<button (click)="addNewItem(newItem.value)">Add to parent's list</button>
+************
+single instance for provider at app module and componet.
+******************
+Use pipes to transform strings, currency amounts, dates, and other data for display.
+********************
+Property binding moves a value in one direction, from a component's property into a target element property.
+*********************
+Angular's two-way binding syntax is a combination of square brackets and parentheses, [()]. The [()] syntax combines the brackets of property binding, [], with the parentheses of event binding, (), as follows.
+*****************
+View Encapusulation:
+***********************
+var arr = [ 'A', 'B', 'D', 'E' ];
+arr.insert(2, 'C');
+arr.splice(2, 0, "Lene");
+*****************
+The map() method creates a new array with the results of calling a function for every array element.
+var numbers = [4, 9, 16, 25];
+var x = numbers.map(Math.sqrt)
+document.getElementById("demo").innerHTML = x;
+*****************************************
+The splice() method adds/removes items to/from an array, and returns the removed item(s).
+**********************
+
