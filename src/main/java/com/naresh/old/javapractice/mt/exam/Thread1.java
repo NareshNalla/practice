@@ -1,4 +1,4 @@
-package com.naresh.old.javapractice.mt.exam
+package com.naresh.old.javapractice.mt.exam;
 public class Thread1 {
 	private static String msg = "HCL ";
 	static{

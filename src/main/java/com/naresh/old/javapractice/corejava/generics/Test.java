@@ -1,6 +1,7 @@
 package com.naresh.old.javapractice.corejava.generics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 /* What is the result of compiling and running the following program?*/
 public class Test {
@@ -8,7 +9,7 @@ public class Test {
 
         List<String> list1 = new ArrayList<String>();//line 1
 
-        List<Object> list2 = list1;//line 2
+        List<Object> list2 = Collections.singletonList(list1);//line 2
 
         list2.add(new Integer(12));//line 3
 

@@ -33,9 +33,12 @@ public class SortUsingJava8 {
     }
 
     // not working
-    public static String reverseWordsInString(String str) {
-	return String.join(" ", Pattern.compile(" +").splitAsStream(str).collect(LinkedList::new, LinkedList::addLast,
-		(a, b) -> a.addAll(0, b)));
+    public static String reverseWordsInString(String str) { // This method reverses the order of words in a string
+	return Pattern.compile(" +").splitAsStream(str) // Split the string by one or more spaces
+		.collect(Collectors.collectingAndThen(Collectors.toList(), list -> { // Collect into a list and then process
+		    java.util.Collections.reverse(list); // Reverse the order of elements in the list
+		    return String.join(" ", list); // Join the reversed list elements with a space
+		}));
     }
 
     public static String reverseWordCharacters(String str) {

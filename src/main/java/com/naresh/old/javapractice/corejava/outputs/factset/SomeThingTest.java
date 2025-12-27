@@ -12,8 +12,8 @@ public class SomeThingTest {
 		List<Integer> integers=Arrays.asList(1,2,3,4);
 		List<Double> doubles=Arrays.asList(1.1,2.2,3.3,4.4);
 		
-		addAll(nums,integers);
-		addAll(nums,doubles);
+//		addAll(nums,integers);
+//		addAll(nums,doubles);
 		
 	}
 

@@ -2,7 +2,7 @@ package com.naresh.old.javapractice.javaapi.collection;
 class Student implements Comparable<Student>{
 	int age;
 	String name;
-	Student(int age, String name){
+	Student(int age, String name, int marks){
 		this.name = name;
 		this.age = age;
 	}

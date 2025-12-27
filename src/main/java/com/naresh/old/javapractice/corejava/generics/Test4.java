@@ -34,7 +34,7 @@ class Foo implements Comparable<Foo> {
 
 	}
 
-	int compareTo(Foo f) {
+	public int compareTo(Foo f) { //public is mandatory
 
 		return this.code.compareTo(f.code);
 

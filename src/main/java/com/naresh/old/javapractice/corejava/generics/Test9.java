@@ -1,7 +1,6 @@
 package com.naresh.old.javapractice.corejava.generics;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Test9 {
 
@@ -10,14 +9,13 @@ public class Test9 {
 		
 
 		// insert code here
-
+    Map<List,Integer> map = new HashMap<>();
 		map.put(new ArrayList<Integer>(), 1);
 
 		map.put(new ArrayList<Integer>(), 12);
 
-		map.put(new LinkedList<Integer>(), new Integer(1));
+		map.put(new LinkedList<Integer>(), Integer.valueOf(1));
 
-		map.put(new LinkedList<Integer>(), new Long(1));
 
 	}
 

@@ -12,11 +12,11 @@ public class Test5 {
 
 		list.add("Hello");
 
-		Foo f = new Foo();
+		Foo1 f = new Foo1();
 
 		list.add(f); 
 
-		f = list.get(1);
+		f = (Foo1) list.get(1);
 
 		System.out.print(list.get(0) + "-" + f);
 
@@ -24,7 +24,7 @@ public class Test5 {
 
 }
 
-class Foo {
+class Foo1 {
 
 	public String toString() {
 

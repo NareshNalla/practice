@@ -18,7 +18,7 @@ MICROSERVICES ARCHITECTURE | DEPLOYMENT STRATEGIES
 @ConditionalOnProperty(name = "env", havingValue = "prod")
 This annotation lets configuration be included based on the presence and value of a Spring Environment property.
 ******************
-Logbacksupports ERROR, WARN, INFO, DEBUG, or TRACE as logging level. By default, logging level is set to INFO. It means that code>DEBUG and TRACE messages are not visible
+Logback supports ERROR, WARN, INFO, DEBUG, or TRACE as logging level. By default, logging level is set to INFO. It means that code>DEBUG and TRACE messages are not visible
 we can set the logging level in application.properties file. Also, we can pass the –debug or –trace arguments on the command line while starting the application.
 # In properties file
 debug=true

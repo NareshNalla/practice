@@ -1,8 +1,5 @@
 package com.naresh.old.javapractice.top20.bst;
 
-import com.alg.top20.bst.BSTUtils;
-import com.alg.top20.bst.MyInteger;
-import com.alg.top20.bst.TreeNode;
 
 public class KthSmallest {
 	// TC:O(n)

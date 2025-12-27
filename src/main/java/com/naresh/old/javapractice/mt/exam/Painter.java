@@ -13,6 +13,10 @@ package com.naresh.old.javapractice.mt.exam;
 		public void run() {
 			System.out.println("we are painting");
 		}
-}
+
+         public void start() {
+             System.out.println("painting started");
+         }
+     }
 
 	 //comiletime error

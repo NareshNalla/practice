@@ -18,5 +18,6 @@ public class Tester1 extends Thread {
 
 /*The thread can start running (executing run()) at any time before/within or after the loop. 
  * The possible output is 0-5 printings of "9" followed by 0-5 printings of "7". 
- * It is never possible to print "7"(s) followed by "9"(s)*/
+ * It is never possible to print "7"(s) followed by "9"(s)
+ *
  */

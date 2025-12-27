@@ -9,9 +9,9 @@ public class ComparatorEx {
 		public static void main (String[] args)
 	    {
 	        ArrayList<Student> ar = new ArrayList<Student>();
-	        ar.add(new Student(1,"alond"));
-	        ar.add(new Student(131, "alaond"));
-	        ar.add(new Student(121,  "jaipur"));
+	        ar.add(new Student(1,"alond", 8));
+	        ar.add(new Student(131, "alaond", 8));
+	        ar.add(new Student(121,  "jaipur", 8));
 	        
 	        Collections.sort(ar, new Sortbyname());
 	        

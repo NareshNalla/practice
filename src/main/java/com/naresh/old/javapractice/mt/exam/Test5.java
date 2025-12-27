@@ -8,7 +8,7 @@ public class Test5 extends Thread {
 		Test5 t = new Test5();
 		t.increment(count);
 		t.start();
-		Thread.sleep(1000);
+		//Thread.sleep(1000); //Unresolved compilation problem:
 		System.out.println(count);
 	}
 

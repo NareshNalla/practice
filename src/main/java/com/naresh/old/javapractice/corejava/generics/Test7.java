@@ -20,6 +20,11 @@ public class Test7 {
 		return null;
 
 	}
+    public static <E extends B> PriorityQueue<E> ringp(List<E> list) {
+
+        return null;
+
+    }
 
 	public static void main(String[] args) {
 
@@ -35,9 +40,10 @@ public class Test7 {
 
 		q1 = ring(list2); // line2
 
-		q2 = ring(list1); // line3
+        //q2 = ring(list1); // line3 // error ava: incompatible types: no instance(s) of type variable(s) E exist so that java.util.Queue<E> conforms to java.util.PriorityQueue<
+		q2 = ringp(list1); // line3
 
-		q2 = ring(list2); // line4
+		q2 = ringp(list2); // line4
 
 	}
 

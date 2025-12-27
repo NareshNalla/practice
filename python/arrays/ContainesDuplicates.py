@@ -13,3 +13,8 @@ if __name__ == "__main__":
     nums = [1,2,4,6]
     res = solution.containsDuplicate(nums)
     print(res)
+
+
+'''
+https://leetcode.com/problems/contains-duplicate/
+'''
