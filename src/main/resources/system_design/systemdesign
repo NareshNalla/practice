@@ -3,13 +3,13 @@ System design:
 messaging queue , httpserver, db, cdn , offlinestorage.
 process queue,UID.. timstamp, loadbalencer.
 symmetric/asymmetric encryption.
-symmetric: a key can be sued to encrypt/decrypt message.
+symmetric: a key can be issued to encrypt/decrypt message.
 asymmetric: public key, private key. private key with us to encrypt/decrypt messages.
 hash and mediatype to -metatadata- get info from db or CDN.
 ERLANG is the programming language used to code WhatsApp.
 XMPP (Extensible Messaging and Presence Protocol).DSL ensures network security and also helps in preventing private data transfer.
 Whatsapp uses HTML5 WebSockets which communication technology which facilitates two-way communication.
-Mnesia DB, handles the heavy-duty task of database managemen. YAWS. webserver.
+Mnesia DB, handles the heavy-duty task of database management. YAWS. webserver.
 FreeBSD :os
 Cassandra database Chat logs are a key for instant messaging applications.
 Multimedia messages including audio, image, video are saved in Amazon S3 bucket.
@@ -21,7 +21,7 @@ Encryption: RC4
 2. Type ahead System: Or auto suggestions 
 googlesearch/ search
 
-1) response time 2) relavent/contextual 3) number/sorted
+1) response time 2) relevant/contextual 3) number/sorted
 Trie-data structure: get results - TS Order(L) -l-length of prefix.
 space optimized.
 DOG 9,DOLL 11,DONT 21, DART 14, DIP 6

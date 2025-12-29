@@ -19,8 +19,10 @@
 -   **Triggers:** Avoid using `AfterProcessingTime` triggers for correctness-critical pipelines, as they are non-deterministic. Use them primarily for speculative UI updates where speed is more important than perfect accuracy.
 - Event Time is the time the event actually occurred at the source—for example, when a user clicked a button. Processing Time is the time the event is observed by our pipeline. These can be different because of network lag or system delays. Each piece of data must have a timestamp attached to it that represents when the event actually happened. This is the "source of truth."
 - A Watermark is Beam's mechanism for tracking progress in Event Time. It's a timestamp that says, 'I believe I have seen all the data with an event time before this point.' This is what allows the pipeline to know when a time-based window is complete and can be processed. A watermark is a timestamp that moves forward as the pipeline processes data.  When the watermark for a window passes the end of that window's time, it's a signal to the pipeline that the window is "closed" and the results can be calculated.
-
+ - **Water Mark-** 
+ - Watermarks are timestamps that define the point up to which the system can expect data. They allow the system to wait for late-arriving data but eventually proceed with aggregations or processing once the watermark threshold is passed.
 ---
+
 
 ## Part 2: Apache Beam Core & Java Internals
 
@@ -61,6 +63,15 @@
     -   `Combine`: Aggregates data (Sum/Count).
     -   `Flatten`: Merges multiple `PCollection`s of the same type.
     -   `Partition`: Splits one `PCollection` into multiple based on a function.
+
+-- `Combine.perKey()` performs efficient per-key aggregation using local pre-combining, reducing shuffle size compared to `GroupByKey()`.
+- Execution flow:
+  1. Local combine on each worker (partial aggregation)
+  2. Shuffle of reduced intermediate results
+  3. Final combine after grouping (global aggregation)
+
+  Flow: `Input → Local Combine → Shuffle → Final Combine`   
+This is why `Combine.perKey()` is much more efficient than `GroupByKey()`.
 
 #### D. Runner (The Engine)
 -    The `Runner` translates the Beam `Pipeline` into the API compatible with the distributed processing backend.

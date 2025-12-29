@@ -45,3 +45,7 @@ Cluster coordination: Leader Election, Broker Registration and managment.
 Topic and Partition Information.Consumer Group Management
 Broker and Topic Health Monitoring.
 starting 2.8.0 -> without zookeeper.
+
+These methods are used to commit offsets in Kafka consumers:
+commitSync(): Synchronously commits the latest offset returned by poll(). It will retry until it succeeds or encounters a non-retriable error.
+commitAsync(): Asynchronously commits offsets. It doesn't retry on failures, making it faster but less reliable than commitSync(). The choice between these methods depends on the balance between performance and reliability required by the application.
