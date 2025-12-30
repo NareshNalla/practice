@@ -4,6 +4,9 @@ how springboot run: based on jar file it loads.
 @Bean @Component 
 - if we write methodlevel @Bean that is from thirdparty class, we are creating object.
 - @Components are our own classes.
+
+:@Primary - Indicates this bean should be preferred when multiple candidates exist for autowiring a single-valued dependency.
+:@Qualifier - Used to disambiguate between multiple beans of the same type; apply the same qualifier on the bean definition and the injection point (e.g., @Qualifier("beanName")).
 ************************
 in rest - if input is XML, i sent id as String but resource accepts integers only. how we pass error.
 we use xsd document that handles. @Consumer @Producers will takecare.

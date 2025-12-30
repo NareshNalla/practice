@@ -18,3 +18,4 @@
 18. Explain RAG (Retrieval-Augmented Generation) architecture in detail.
 19. What is the role of Vector Stores in a RAG pipeline?
 20. Explain different types of prompting.
+21. smart grid 2.0 , criticality.

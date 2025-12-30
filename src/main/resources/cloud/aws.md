@@ -1,14 +1,10 @@
-# AWS Interview Preparation Guide (Tailored for Senior Java/Cloud Engineer)
-
-This guide is designed to bridge your extensive GCP experience to the AWS ecosystem, focusing on the architectural patterns and services most relevant to a senior backend role.
-
----
+# AWS
 
 ## 1. Foundational Concepts & IAM (Identity and Access Management)
 
 ### Q: "How does AWS handle permissions compared to GCP? Explain IAM Roles vs. Users."
 
-**The Smart, Concise Answer:**
+
 "In AWS, **IAM (Identity and Access Management)** is the central service for controlling access. An **IAM User** represents a person or service with long-term credentials. An **IAM Role** is an identity with specific permissions that can be *assumed* by a user, a service (like an EC2 instance or Lambda function), or an external identity. Roles are the preferred way to grant permissions to applications because they use temporary security credentials."
 
 **The Deeper, Interview-Level Explanation:**
@@ -23,7 +19,7 @@ This guide is designed to bridge your extensive GCP experience to the AWS ecosys
 
 ### Q: "Explain the core components of a VPC (Virtual Private Cloud)."
 
-**The Smart, Concise Answer:**
+
 "A **VPC** is a logically isolated section of the AWS cloud where you launch resources in a virtual network you define. It spans an entire **Region**. Within a VPC, you create **Subnets**, which are ranges of IP addresses that reside in a single **Availability Zone (AZ)**. You use **Route Tables** to control traffic leaving the subnets."
 
 **The Deeper, Interview-Level Explanation:**
@@ -41,7 +37,7 @@ This guide is designed to bridge your extensive GCP experience to the AWS ecosys
 
 ### Q: "Compare EC2, ECS, and Lambda. When would you choose one over the others?"
 
-**The Smart, Concise Answer:**
+
 "**EC2** provides raw virtual machines (IaaS) giving you full control over the OS and networking. **ECS (Elastic Container Service)** is a container orchestration service for running Docker containers at scale. **Lambda** is a serverless compute service (FaaS) where you run code without provisioning servers."
 
 **The Deeper, Interview-Level Explanation:**
@@ -61,7 +57,7 @@ This guide is designed to bridge your extensive GCP experience to the AWS ecosys
 
 ### Q: "What is the difference between S3 and EBS?"
 
-**The Smart, Concise Answer:**
+
 "**S3 (Simple Storage Service)** is object storage, designed for storing vast amounts of unstructured data (files, images, backups) accessible via HTTP. **EBS (Elastic Block Store)** is block storage, which acts like a physical hard drive attached to a specific EC2 instance."
 
 **The Deeper, Interview-Level Explanation:**
@@ -80,7 +76,7 @@ This guide is designed to bridge your extensive GCP experience to the AWS ecosys
 
 ### Q: "Compare RDS and DynamoDB."
 
-**The Smart, Concise Answer:**
+
 "**RDS (Relational Database Service)** is a managed service for traditional SQL databases like MySQL, PostgreSQL, or Oracle. **DynamoDB** is a fully managed, serverless NoSQL key-value store designed for single-digit millisecond latency at any scale."
 
 **The Deeper, Interview-Level Explanation:**
@@ -99,7 +95,7 @@ This guide is designed to bridge your extensive GCP experience to the AWS ecosys
 
 ### Q: "What is the difference between SQS and SNS?"
 
-**The Smart, Concise Answer:**
+
 "**SQS (Simple Queue Service)** is a message queue used to decouple components. It follows a **pull-based** model (consumers poll the queue). **SNS (Simple Notification Service)** is a pub/sub service. It follows a **push-based** model (messages are pushed to subscribers like Lambda, HTTP endpoints, or SQS queues)."
 
 **The Deeper, Interview-Level Explanation:**
@@ -117,7 +113,7 @@ This guide is designed to bridge your extensive GCP experience to the AWS ecosys
 
 ### Q: "What is CloudFormation?"
 
-**The Smart, Concise Answer:**
+
 "**CloudFormation** is AWS's native Infrastructure as Code service. It allows you to define your AWS infrastructure in JSON or YAML templates. You submit the template to CloudFormation, and it provisions and configures the resources for you in a predictable, repeatable way."
 
 **The Deeper, Interview-Level Explanation:**

@@ -1,7 +1,6 @@
 Kafka:
 Messaging
 SpringBoot offers powerful support for message-driven architecture using brokers like RabbitMQ, Apache Kafka, JMS ( JAVA MESSAGE SERVICE). Messaging enables asynchronous communication, event-driven processing, and microservice decoupling.
-
 1. RabbitMQ 
 2. Kafka 
 3. JMS Integration
@@ -9,12 +8,12 @@ SpringBoot offers powerful support for message-driven architecture using brokers
 
 KAFKA:
 Kafka is a distributed streaming platform ,and is a publish-subscribe open-source messaging system
-Kafka organizes data into categories called "topics" . Producers ( apps that send data) put messages into this topics, and Consumers ( apps that read data) receive them. Kafka
+Kafka organizes data into categories called "topics" . Producers ( apps that send data) put messages into these topics, and Consumers ( apps that read data) receive them. Kafka
 ensures that system is reliable and can keep working even if some parts fail.
 Key components:
 Producer: published messages to kafka topics
 Consumer: Subscribes to topics and processes the published messages.
-Consumer Group: consumers aare organized into consumer groups, each group processes a subset of partitions, allowing for parallel processing and load distribution.
+Consumer Group: Consumers are organized into consumer groups, each group processes a subset of partitions, allowing for parallel processing and load distribution.
 Broker: ( brokers 3): A kafka server that stores and manages topics.(Leader broker) it receive messages from publishers and assign offsets to them,commits the messages to store on disk. it also services consumers for responding with messages. participate in the replication and distribution of data.
 Zookeeper: Manages and coordinates Kafka brokers. centralized service maintaining configuration information, naming, providing distributes synchronization, and providing group services.  also it keep track of the status cluster nodes, Kafka topics and partitions. one consumer group can read from one partition( order ). zookeeper going to remove. 
 Topics: A category or feed name to which records are published.  logical channels. topics can be divided into partitions for scalability and parallelism,
