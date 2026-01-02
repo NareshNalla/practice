@@ -69,6 +69,23 @@ Essentially, it eliminates most of the boilerplate configuration and setup, so y
     *   The `destroy()` method if the bean implements the `DisposableBean` (`Interface`).
 
 ---
+### How does a spring application get started?
+
+A Spring application gets started by calling the main() method with @SpringBootApplication annotation in the SpringApplication class. This method takes a SpringApplicationBuilder object as a parameter, which is used to configure the application.
+
+Once the SpringApplication object is created, the run() method is called.
+Once the application context is initialized, the run() method starts the application's embedded web server.
+
+**Spring Boot Annotations**
+
+@SpringBootApplication
+@Configuration, @EnableAutoConfiguration, and @ComponentScan
+@RestController
+@RequestMapping
+@EnableAutoConfiguration(exclude = {//classname})
+@Bean annotations to define beans and their dependencies.
+@Controller : Marks the class as a request handler in the Spring MVC framework.
+@ResponseBody : Tells Spring to convert method return values (objects, data) directly into HTTP responses instead of rendering views.
 
 ## 4. Spring MVC & Web Architecture
 

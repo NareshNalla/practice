@@ -67,6 +67,7 @@ A quick reference for class diagrams:
 8.  Mediator Pattern
 9.  Interpreter Design Pattern
 10. Visitor Design Pattern
+11. Strategy Pattern
 
 ---
 
@@ -573,6 +574,28 @@ Better Alternatives ⭐
 - **Solution:** Create a `Visitor` interface with a `visit()` method for each concrete class in your structure. Each element class gets a single `accept(Visitor v)` method. This allows you to add new operations by creating new visitors without touching the element classes.
 - **JDK Example:** `javax.lang.model.element.ElementVisitor`.
 
+### 11. Strategy Pattern
+- **Definition:** Defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.
+- **Analogy:** Getting to the airport. You can take a bus, a taxi, or drive your own car. The goal (getting to the airport) is the same, but the strategy (transport mode) differs.
+- **Problem:** You have a class that does something specific in a lot of different ways (e.g., sorting, compression, payment calculation). You want to switch between these algorithms at runtime.
+- **Solution:** Define a common interface (`Strategy`) for all supported algorithms. Implement each algorithm in a separate class. The client holds a reference to a `Strategy` object and delegates the work to it.
+- **JDK Example:** `java.util.Collections.sort(List, Comparator)`. The `Comparator` is the strategy.
+- **Code Snippet:**
+  ```java
+  interface PaymentStrategy { void pay(int amount); }
+  class CreditCardStrategy implements PaymentStrategy {
+      public void pay(int amount) { System.out.println("Paid " + amount + " via Credit Card"); }
+  }
+  class PaypalStrategy implements PaymentStrategy {
+      public void pay(int amount) { System.out.println("Paid " + amount + " via PayPal"); }
+  }
+  class ShoppingCart {
+      public void checkout(int amount, PaymentStrategy strategy) {
+          strategy.pay(amount);
+      }
+  }
+  ```
+
 ---
 ## Key Pattern Comparisons
 
@@ -725,6 +748,15 @@ Add new operations without modifying object structure.
 
 **Drawback**
 Hard to add new element types.
+
+---
+
+### Strategy
+Encapsulate interchangeable algorithms.
+
+**Use Case**
+- Payment methods
+- Sorting algorithms
 
 ---
 

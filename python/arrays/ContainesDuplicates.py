@@ -10,7 +10,7 @@ class ContainesDuplicate:
 # Test cases
 if __name__ == "__main__":
     solution = ContainesDuplicate()
-    nums = [1,2,4,6]
+    nums = [1,2,4,6,2]
     res = solution.containsDuplicate(nums)
     print(res)
 

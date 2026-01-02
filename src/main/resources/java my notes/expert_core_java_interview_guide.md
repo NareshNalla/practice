@@ -174,6 +174,24 @@ The difference is their **concurrency strategy**.
 ## 3. Concurrency and Multithreading
 
 ### Core Threading Concepts
+- To create a thread in Java, either:
+    - Extend the `Thread` class and override the `run()` method, or
+    - Implement the `Runnable` interface and pass an instance to a `Thread` object.
+- **Basic syntax:**
+    ```java
+    // Extending Thread
+    class MyThread extends Thread {
+        public void run() {
+            System.out.println("Hello from MyThread");
+        }
+    }
+    new MyThread().start();
+
+    // Implementing Runnable
+    Runnable task = () -> System.out.println("Hello from Runnable");
+    new Thread(task).start();
+    ```
+- **Note:** you must extend or implement for Thread-based tasks.
 - **`Thread.yield()`:** A static method that is a hint to the thread scheduler. It suggests that the current thread is willing to yield its current use of a processor, allowing other threads to run. The scheduler is free to ignore this hint.
 - **`Thread.join()`:** An instance method that makes the current thread wait until the thread it is joining with completes its execution.
 
@@ -189,48 +207,103 @@ A situation where two or more threads are blocked forever, waiting for each othe
 - A `try-catch` block in a parent thread **cannot** catch an exception thrown in a child thread because each thread has its own execution stack.
 - To handle exceptions from a thread, you can use `Thread.setUncaughtExceptionHandler(handler)`.
 
-### Java Memory Model
-- **Heap Memory:** Stores all Java objects. It is shared among all threads.
-    - `-Xms`: Sets the initial heap size.
-    - `-Xmx`: Sets the maximum heap size.
-- **Metaspace:** (Java 8+) Replaced the old PermGen space. It stores class metadata (e.g., class structure, method data) in native memory. It auto-grows by default.
-- **Stack Memory:** Each thread has its own private stack. The stack stores local variables, method call frames, and partial results.
-- **Code Cache:** An area of memory used by the Just-In-Time (JIT) compiler to store compiled native code for frequently executed methods.
+### synchronized vs Lock
+- **synchronized** is a Java keyword for intrinsic locking (monitor lock) on objects or methods. It is simple, built-in, and automatically releases the lock when the block/method exits (even on exception).
+    - Pros: Simpler syntax, less error-prone, no need to manually release.
+    - Cons: No tryLock, no timeout, cannot interrupt a waiting thread, no fairness or advanced features.
+- **Lock (java.util.concurrent.locks.Lock)** is an interface (e.g., ReentrantLock) providing explicit lock management.
+    - Pros: tryLock (non-blocking), lockInterruptibly (can be interrupted), timed lock attempts, fairness policies, can implement advanced patterns (e.g., multiple conditions).
+    - Cons: Must manually unlock (risk of deadlock if not in finally), more verbose.
+- **When to use:**
+    - Use `synchronized` for simple, intrinsic locking needs.
+    - Use `Lock` when you need advanced features: timed, interruptible, or fair locking, or multiple condition variables.
 
-### Garbage Collection (GC)
-- **Process:** 1. **Marking** (finding all live objects), 2. **Sweeping/Deletion** (removing dead objects), and 3. **Compacting** (moving live objects together to reduce fragmentation).
-- **Generational GC Hypothesis:** Most objects die young.
-    - **Young Generation:** Where new objects are allocated (in "Eden" space). Minor GCs run frequently here. Objects that survive are moved to Survivor spaces (S0, S1).
-    - **Old (Tenured) Generation:** Objects that survive multiple GC cycles in the Young Generation are "promoted" to the Old Gen. Major GCs run here, which are slower.
-- **GC Algorithms:**
-    - **Serial:** Single-threaded, "Stop-The-World" (STW) collector. Freezes the application during GC.
-    - **Parallel:** Multi-threaded version of the serial collector. Still STW, but faster on multi-core machines.
-    - **CMS (Concurrent Mark Sweep):** Tries to do most of the marking and sweeping work concurrently with the application to minimize pause times. Can suffer from fragmentation.
-    - **G1 (Garbage-First):** The default GC in modern Java (8+). Divides the heap into regions and prioritizes collecting regions with the most garbage, aiming for more predictable pause times.
-    - **Shenandoah / ZGC:** The newest collectors, focused on achieving ultra-low pause times (sub-millisecond) on very large heaps.
-- **Additional**
-- `jstack <pid>` (thread dump)
-- `jcmd <pid> Thread.print` or `GC.class_histogram`  ex: `jcmd 1 Thread.print > /Users/nxn/Download/threadDump.txt`
+### volatile Keyword
+- **Purpose:** Ensures visibility of changes to variables across threads. When a variable is declared volatile, any write to it is immediately visible to all threads; reads always see the latest value.
+- **How it works:** Prevents caching of the variable in thread-local memory. All reads and writes go directly to main memory.
+- **When to use:** Use volatile for variables that are accessed by multiple threads and where atomicity is not required (e.g., a simple flag or state variable). It is suitable for cases where one thread writes and others read, but not for compound actions (like incrementing a counter).
+- **Limitations:** Does not guarantee atomicity for compound operations (e.g., count++ is not atomic even if count is volatile). For atomicity, use synchronized or classes from java.util.concurrent.atomic.
+- **Expert Note:** volatile is lighter than synchronized but only solves visibility, not atomicity. Use it for simple state flags, not for counters or collections.
+
+### CompletableFuture (Basics)
+- Asynchronous computation and callback API in Java 8+; enables non-blocking, future-based programming.
+- **Basic syntax:**
+    ```java
+    CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> 42);
+    future.thenAccept(result -> System.out.println(result));
+    // Wait for result (blocking):
+    Integer value = future.get();
+    ```
+
+### ExecutorService
+- Framework for managing and controlling thread pools and task execution; submit tasks, manage shutdown, and get Future results.
+- **Basic syntax:**
+    ```java
+    ExecutorService executor = Executors.newFixedThreadPool(4);
+    Future<Integer> future = executor.submit(() -> 42);
+    Integer value = future.get();
+    executor.shutdown();
+    ```
+- **Note:**  you simply create an ExecutorService instance and submit Runnable or Callable tasks to it.
+
+### Thread Pool Types
+- Fixed, cached, single-threaded, and scheduled pools; choose based on workload and concurrency needs.
+- **Basic syntax:**
+    ```java
+    ExecutorService fixed = Executors.newFixedThreadPool(4);
+    ExecutorService cached = Executors.newCachedThreadPool();
+    ExecutorService single = Executors.newSingleThreadExecutor();
+    ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(2);
+    ```
 
 ---
 
 ## 4. JVM and Memory Management
 
-### Memory Areas (Short)
-- **Heap:** Objects shared across threads. 
-- **Stack:** Per-thread frames and locals. 
-- **Metaspace:** Class metadata. 
+### Java Memory Model
+- **Heap Memory:** Stores all Java objects. Shared across all threads. Managed by the garbage collector. Used for dynamic memory allocation and objects with lifetimes beyond a single method call.
+    - `-Xms`: Sets the initial heap size.
+    - `-Xmx`: Sets the maximum heap size.
+- **Stack Memory:** Each thread has its own private stack, storing method call frames, local variables, and partial results. Managed in LIFO order, fast and automatically reclaimed when a method returns. No garbage collection needed for stack memory.
+- **Metaspace:** (Java 8+) Replaced PermGen. Stores class metadata (structure, method data) in native memory. Auto-grows by default.
+- **Code Cache:** Used by the JIT compiler to store compiled native code for frequently executed methods.
+
+### Q: Java Memory: Heap vs Stack?
+**Ans:**
+- **Heap:** Shared, long-lived objects, managed by GC, slower allocation/collection.
+- **Stack:** Thread-local, fast, for execution context and local data, reclaimed on method return.
+- **Expert Note:** Stack is for execution context and local data, heap is for shared, long-lived objects. Stack is thread-local and very fast; heap is global and managed by GC, but slower due to allocation and collection overhead.
+
+### Garbage Collection (GC)
+- **Process:** 1. Marking (finding all live objects), 2. Sweeping/Deletion (removing dead objects), 3. Compacting (reducing fragmentation).
+- **Generational GC Hypothesis:** Most objects die young.
+    - **Young Generation:** New objects allocated in "Eden" space. Minor GCs run frequently. Survivors move to S0/S1.
+    - **Old (Tenured) Generation:** Objects surviving multiple cycles are promoted. Major GCs run here, slower.
+- **GC Algorithms:**
+    - **Serial:** Single-threaded, Stop-The-World (STW).
+    - **Parallel:** Multi-threaded, still STW, faster on multi-core.
+    - **CMS (Concurrent Mark Sweep):** Concurrent marking/sweeping, minimizes pause, can fragment.
+    - **G1 (Garbage-First):** Default in Java 8+, divides heap into regions, prioritizes regions with most garbage, predictable pause times.
+    - **Shenandoah / ZGC:** Ultra-low pause collectors for very large heaps.
+
+### Memory Areas (Summary)
+- **Heap:** Objects shared across threads.
+- **Stack:** Per-thread frames and locals.
+- **Metaspace:** Class metadata.
 - **CodeCache:** JIT compiled code.
 
 ### Garbage Collection (Overview)
 - **Generational Model:** Young (Eden+Survivors) and old/tenured.
-- **Collectors:** Serial (single-threaded STW), Parallel (multithreaded STW, throughput-focused), G1 (regions, predictable pause goals — default), CMS (deprecated predecessor for low-pause), ZGC/Shenandoah (low-pause collectors for very large heaps).
+- **Collectors:** Serial, Parallel, G1 (default), CMS (deprecated), ZGC/Shenandoah (low-pause).
 
 ### Tuning Points
-- Trade-offs: throughput vs pause times. Use -Xms/-Xmx to size heap; G1 tuning for pause targets (-XX:MaxGCPauseMillis); monitor promotion/allocation rates to avoid excessive full GCs.
+- Throughput vs pause times. Use -Xms/-Xmx to size heap. G1 tuning for pause targets (-XX:MaxGCPauseMillis). Monitor promotion/allocation rates to avoid excessive full GCs.
 
 ### Quick GC Commands and Metrics
 - `jcmd GC.class_histogram <pid>`, `jcmd <pid> GC.run`, `jstat -gcutil`
+- `jstack <pid>` (thread dump)
+- `jcmd <pid> Thread.print` or `GC.class_histogram` (ex: `jcmd 1 Thread.print > /Users/nxn/Download/threadDump.txt`)
+
 
 ---
 
@@ -371,6 +444,3 @@ The choice between them is a trade-off between **ease of use vs. performance and
 
 ### Code Obfuscation
 - ProGuard and similar tools shrink/rename/obfuscate bytecode — raises bar for reverse engineering but is not a security feature by itself.
-
----
-
