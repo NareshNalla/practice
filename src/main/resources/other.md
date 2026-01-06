@@ -18,4 +18,21 @@ My top 5 favourite Spring boot questions:
 2. How do I create my own spring boot "starter".
 3. Explain step by step how will you write a unit test for a TODO app created with spring boot.
 4. I want to log the name of the method which gets executed when a route path of a particular controller gets called. How do I design such a solution without code repetition (Use AOP)
-5. What is Isolation and propagation in a database transaction? What is locking? Why is it needed? Explain a few locking mechanisms!
+5. What is Isolation and propagation in a database transaction? What is locking? Why is it needed? Explain a few locking mechanisms
+
+visa qa
+Internal implementation of arr[index] access in Simple SQL query and explanation of GROUP BY clause
+Greedy problem: Bricks with weights and costs — find the minimum bricks required for 100kg at least cost (brick fractions Find all the indices in an array where the element is greater than both its immediate neighbours (i.e., a[i] > a[i-1] and a[i] > a[i+1]).
+Given an array of distinct elements, repeatedly find the smallest peak (an element greater than its neighbours), remove it, and continue this process until the array becomes empty. Return the sequence of removed peaks.
+Given an n × m grid, find the number of cells such that all other elements in the same row and the same column are identical, except for the cell itself (it can be the same or different).
+Given Arrays A and B and queries of 2 types 1: update A (ind, va), 2. find no. of all pairs i, j where sum(A[i] + B[j] = x) [A.size() = 10^4, B.size() = 10^3, Query.size() = 10^4]
+
+Find all duplicate entries in a table.
+https://www.geeksforgeeks.org/interview-experiences/visa-interview-experience-for-new-graduate-software-engineer/
+
+
+
+
+
+
+
