@@ -192,8 +192,13 @@ The difference is their **concurrency strategy**.
     new Thread(task).start();
     ```
 - **Note:** you must extend or implement for Thread-based tasks.
-- **`Thread.yield()`:** A static method that is a hint to the thread scheduler. It suggests that the current thread is willing to yield its current use of a processor, allowing other threads to run. The scheduler is free to ignore this hint.
-- **`Thread.join()`:** An instance method that makes the current thread wait until the thread it is joining with completes its execution.
+- **`Thread.yield()`:** A static method that is a hint to the thread scheduler. It suggests that the current thread is willing to yield its current use of a processor, 
+    allowing other threads to run. The scheduler is free to ignore this hint.
+- **`Thread.join()`:** It allows one thread to wait for the completion of another . "An instance method that makes the current thread wait until the thread it is joining with completes its execution".
+- Use Case: Synchronizing the progress of multiple threads where one thread's work depends on the output of another.
+  **Thread Safety** achive with this : 1.  Immutability , 2. Synchronization
+- wait(): Called on an object; it releases the lock held by the thread. It must be called from a synchronized context and is used for inter-thread communication. 
+- sleep(): Called on a thread; it does not release any locks. It is used to introduce a timed delay in execution.
 
 ### Deadlocks
 A situation where two or more threads are blocked forever, waiting for each other.
@@ -220,7 +225,7 @@ A situation where two or more threads are blocked forever, waiting for each othe
 
 ### volatile Keyword
 - **Purpose:** Ensures visibility of changes to variables across threads. When a variable is declared volatile, any write to it is immediately visible to all threads; reads always see the latest value.
-- **How it works:** Prevents caching of the variable in thread-local memory. All reads and writes go directly to main memory.
+- **How it works:** Declaring a variable as volatile ensures that every read and write happens directly to and from the main memory, bypassing the CPU cache .  Prevents caching of the variable in thread-local memory. All reads and writes go directly to main memory.
 - **When to use:** Use volatile for variables that are accessed by multiple threads and where atomicity is not required (e.g., a simple flag or state variable). It is suitable for cases where one thread writes and others read, but not for compound actions (like incrementing a counter).
 - **Limitations:** Does not guarantee atomicity for compound operations (e.g., count++ is not atomic even if count is volatile). For atomicity, use synchronized or classes from java.util.concurrent.atomic.
 - **Expert Note:** volatile is lighter than synchronized but only solves visibility, not atomicity. Use it for simple state flags, not for counters or collections.
@@ -237,6 +242,9 @@ A situation where two or more threads are blocked forever, waiting for each othe
 
 ### ExecutorService
 - Framework for managing and controlling thread pools and task execution; submit tasks, manage shutdown, and get Future results.
+- Thread Pool Management: Handles the creation and management of threads automatically. 
+- Task Queuing: Holds tasks in a queue until a thread becomes available. 
+- Decoupling: Separates task submission (by the developer) from task execution (by the framework).
 - **Basic syntax:**
     ```java
     ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -255,6 +263,9 @@ A situation where two or more threads are blocked forever, waiting for each othe
     ExecutorService single = Executors.newSingleThreadExecutor();
     ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(2);
     ```
+**Context Switching:** 
+- The process where the OS kernel saves the state (context) of a running thread so it can be paused and later resumed
+- The scheduler saves the current thread's state, loads the state of the next thread, and resumes execution. This enables multitasking even on a single CPU core.
 
 ---
 
@@ -422,6 +433,8 @@ The choice between them is a trade-off between **ease of use vs. performance and
 *   **Virtual Threads (Project Loom):**
     *   **What:** Lightweight threads managed by the JVM, not the OS.
     *   **Why it matters:** This is a revolutionary feature for concurrency. You can have millions of virtual threads running concurrently. It allows you to write simple, synchronous-style blocking code (e.g., `InputStream.read()`) that scales massively, without resorting to complex asynchronous code (like `CompletableFuture` or reactive frameworks). It's "easy code that runs fast."
+    * Introduced in Project Loom, these are lightweight threads managed by the Java runtime rather than the OS.
+    * Traditional threads have a 1:1 mapping with OS threads (resource-heavy). Virtual threads allow millions of threads to map to a small number of OS threads, drastically reducing overhead.
 
 *   **Sequenced Collections:**
     *   **What:** A new set of interfaces that provide a unified API for collections with a defined encounter order (like `List` and `LinkedHashSet`).

@@ -10,41 +10,63 @@ KAFKA:
 Kafka is a distributed streaming platform ,and is a publish-subscribe open-source messaging system
 Kafka organizes data into categories called "topics" . Producers ( apps that send data) put messages into these topics, and Consumers ( apps that read data) receive them. Kafka
 ensures that system is reliable and can keep working even if some parts fail.
-Key components:
-Producer: published messages to kafka topics
-Consumer: Subscribes to topics and processes the published messages.
-Consumer Group: Consumers are organized into consumer groups, each group processes a subset of partitions, allowing for parallel processing and load distribution.
-Broker: ( brokers 3): A kafka server that stores and manages topics.(Leader broker) it receive messages from publishers and assign offsets to them,commits the messages to store on disk. it also services consumers for responding with messages. participate in the replication and distribution of data.
-Zookeeper: Manages and coordinates Kafka brokers. centralized service maintaining configuration information, naming, providing distributes synchronization, and providing group services.  also it keep track of the status cluster nodes, Kafka topics and partitions. one consumer group can read from one partition( order ). zookeeper going to remove. 
-Topics: A category or feed name to which records are published.  logical channels. topics can be divided into partitions for scalability and parallelism,
-Partitions: Topics are divided into partitions for scalability. which are the basic unit for parallelism. Partitions allow kafka to distribute and parallelize the processing of messages.
-Offsets: A offset is a unique identifier of a record with the partition. Kafka maintains this offset per partition per consumer group, each cg allowing each consumer group to read from a different position iun the partition this ensures Kafka to provide both Queue and pub-sub messaging models.
-Offset management: Offset represent the position of the consumer within a partition. CConsumers commits offsets to Kafka, tracking their progress. This ensures that they can resume processing from the last commited offset in case of failures or restarts. ( order , replica)
-Log compaction: Kafka supports log compaction, retaining only the latest message for each key in a partition. this is useful for scenarios where maintaining the latest state for a set of keys is critical.
-Kafka Connect: (TO & FROM) framework for integrating kafka with external systems. It simplifies the development of connectors for ingesting data from or delivering data to various sources and sinks.
-Kafka Streams:Stream processing library that allows developers to build real-time applications and microservices using kafka as the underlying data infrastructure.
+
+**Key components:**
+- Producer: published messages to kafka topics
+- Consumer: Subscribes to topics and processes the published messages.
+- Consumer Group: Consumers are organized into consumer groups, each group processes a subset of partitions, allowing for parallel processing and load distribution.
+- Broker: ( brokers 3): A kafka server that stores and manages topics. (Leader broker) it receive messages from publishers and assign offsets to them,commits the messages to store on disk. it also services consumers for responding with messages. participate in the replication and distribution of data.
+- Zookeeper: Manages and coordinates Kafka brokers. centralized service maintaining configuration information, naming, providing distributes synchronization, and providing group services.  also it keep track of the status cluster nodes, Kafka topics and partitions. one consumer group can read from one partition( order ). zookeeper going to remove. 
+- Topics: A category or feed name to which records are published.  logical channels. topics can be divided into partitions for scalability and parallelism,
+- Partitions: Topics are divided into partitions for scalability. which are the basic unit for parallelism. Partitions allow kafka to distribute and parallelize the processing of messages.
+- Offsets: A offset is a unique identifier of a record with the partition. Kafka maintains this offset per partition per consumer group, each consumer group to read from a different position in the partition this ensures Kafka to provide both Queue and pub-sub messaging models.
+- Offset management: Offset represent the position of the consumer within a partition. Consumers commits offsets to Kafka, tracking their progress. This ensures that they can resume processing from the last commited offset in case of failures or restarts. ( order , replica)
+- Log compaction: Kafka supports log compaction, retaining only the latest message for each key in a partition. this is useful for scenarios where maintaining the latest state for a set of keys is critical.
+- Kafka Connect: (TO & FROM) framework for integrating kafka with external systems. It simplifies the development of connectors for ingesting data from or delivering data to various sources and sinks.
+- Kafka Streams:Stream processing library that allows developers to build real-time applications and microservices using kafka as the underlying data infrastructure.
 
 offset commit done by consumers. partitions or disk spaces.
 cluster: 
-Topic Partitions replication: multiple replicas. One replica is designated as the leader, and others are followers
+
+- KafkaTopic Partitions replication: multiple replicas. One replica is designated as the leader, and others are followers
 
 Kafka supports 3 message delivery semantics:
-At most once: messages mau be lost but are never delivery
-At least once:  Messages are never lost but they redeliver.
-Exactly once: Each message is delivered exactly once and only one.this can be configure through producer and consumer settings
+- **At most once:** messages may be lost but are never delivery
+- **At least once:**  Messages are never lost but they redeliver.
+- **Exactly once:** Each message is delivered exactly once and only one. this can be configured through producer and consumer settings
 
-Architecture flow:
-Producer writes to Leader:
-Replica Synchronization:
-ISR ( In-Sync Replicas): represents replicas that are up-to-date with the leader.
-Consumer Reads from Leader:
-Leader taks: Fault Tolerance, scalability
-ZooKeeper Coordination:
-Cluster coordination: Leader Election, Broker Registration and managment.
-Topic and Partition Information.Consumer Group Management
-Broker and Topic Health Monitoring.
-starting 2.8.0 -> without zookeeper.
+**Architecture flow:**
+
+Producer writes to Leader: ->
+Replica Synchronization: ->
+ISR ( In-Sync Replicas): represents replicas that are up-to-date with the leader. ->
+Consumer Reads from Leader: ->
+Leader task: Fault Tolerance, scalability ->
+ZooKeeper Coordination: ->
+Cluster coordination: Leader Election, Broker Registration and management. ->
+Topic and Partition Information. Consumer Group Management ->
+Broker and Topic Health Monitoring. ->
+starting 2.8.0 -> without zookeeper. 
 
 These methods are used to commit offsets in Kafka consumers:
-commitSync(): Synchronously commits the latest offset returned by poll(). It will retry until it succeeds or encounters a non-retriable error.
-commitAsync(): Asynchronously commits offsets. It doesn't retry on failures, making it faster but less reliable than commitSync(). The choice between these methods depends on the balance between performance and reliability required by the application.
+**commitSync():** Synchronously commits the latest offset returned by poll(). It will retry until it succeeds or encounters a non-retriable error.
+**commitAsync():** Asynchronously commits offsets. It doesn't retry on failures, making it faster but less reliable than commitSync(). The choice between these methods depends on the balance between performance and reliability required by the application.
+
+**What is the significance of the acks parameter in Kafka producers?**
+The acks parameter in Kafka producers controls the number of acknowledgments the producer requires the leader to have received before considering a request complete. It affects the durability of records and can be set to: 0: No acknowledgment 1: Leader acknowledgment only all: Full ISR (In-Sync Replica) acknowledgment
+The Kafka consumer heartbeat thread is responsible for sending periodic heartbeats to the Kafka broker (specifically, to the group coordinator).
+
+
+How does Kafka handle message versioning?
+Kafka itself doesn't handle message versioning directly, but it provides mechanisms that allow users to implement versioning. One common approach is to include a version field in the message schema. For more complex versioning needs, many users leverage schema registries (like the Confluent Schema Registry) which can manage schema evolution and compatibility.
+The Kafka Schema Registry provides a serving layer for metadata. It provides a RESTful interface for storing and retrieving Avro schemas. It's used in conjunction with Kafka to ensure that producers and consumers use compatible schemas. This is particularly useful in evolving data models over time while maintaining backward and forward compatibility.
+
+The auto.offset.reset configuration in Kafka consumers determines what to do when there is no initial offset in Kafka or if the current offset no longer exists on the server. It can be set to:
+
+earliest: automatically reset the offset to the earliest offset
+latest: automatically reset the offset to the latest offset
+none: throw exception to the consumer if no previous offset is found This configuration is crucial for defining behavior when a consumer starts reading from a topic for the first time or when it has been offline for a long time
+
+
+
+

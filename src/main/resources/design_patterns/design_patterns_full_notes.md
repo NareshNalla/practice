@@ -121,7 +121,7 @@ enum ConfigManager {
 **Spring Mapping**: Default Spring beans are singletons.
 
 ### 2. Factory Method Pattern
-- **Definition:** Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
+- **Definition:** Defines an interface for creating an objects but lets subclasses decide which class to instantiate.
 - **Analogy:** A pizza restaurant (`PizzaStore`). The `orderPizza()` method is the factory method. A `NYPizzaStore` subclass creates a `NYStylePizza`.
 - **Problem:** A class cannot anticipate the class of objects it must create; it wants to delegate this to its subclasses.
 - **Solution:** A superclass provides an abstract "factory method." Subclasses override this method to return a specific product.
@@ -190,7 +190,7 @@ enum ConfigManager {
 
 ### 4. Builder Pattern
 - **Definition:** Separates the construction of a complex object from its representation, so that the same construction process can create different representations.
-- “I use Builder to avoid telescoping constructors and to create immutable objects safely.”
+- “I use Builder to avoid telescoping constructors and to create immutable objects safely. allowing step-by-step creation”
 - **Analogy:** Ordering a sandwich at Subway. You tell the "builder" step-by-step what you want, and at the end, you get the final `Sandwich` object.
 - **Problem:** An object has many optional constructor parameters (the "telescoping constructor" anti-pattern).
 - **Solution:** Create a static nested `Builder` class. The builder has methods for setting each parameter and a final `build()` method that returns the main object.
@@ -255,7 +255,7 @@ Better Alternatives ⭐
 ## Structural Design Patterns
 
 ### 1. Adapter Pattern
-- **Definition:** Converts the interface of a class into another interface clients expect.
+- **Definition:** Converts the interface of a class into another interface clients expect. to make incompatible classes work together.
 -  Match interfaces of difference classes : An Adapter allowes two incompatible interfaces to work together
 - **Analogy:** A travel power adapter that makes a US plug fit a European socket.
 - **Problem:** You want to use an existing class, but its interface doesn't match the one you need.
@@ -319,7 +319,8 @@ Better Alternatives ⭐
   ```
 
 ### 4. Decorator Pattern
-- **Definition:** Attaches additional responsibilities to an object dynamically. ( to prevent a flexible alternative to changing object functionality at runtime)
+- **Definition:** Attaches additional responsibilities to an object dynamically. ( to prevent a flexible alternative to changing object functionality at runtime).
+- "dynamically adds new responsibilities to objects without modifying their code"
 - **Analogy:** Putting toppings on a pizza. You start with a plain base (component) and "decorate" it with cheese, then pepperoni.
 - **Problem:** You want to add behavior to an object at runtime without affecting other objects of the same class.
 - **Solution:** Create a `Decorator` abstract class that implements the same interface as the object you want to decorate. The decorator holds a reference to the component and delegates calls to it, adding its own behavior before or after.
@@ -341,6 +342,7 @@ Better Alternatives ⭐
 
 ### 5. Facade Design Pattern ( P: fasad)
 - **Definition:** Provides a unified, simplified interface to a set of interfaces in a subsystem. ( or class)
+- Ptovides a simplified interfaces to a complex sub system.
 - reduces coupling between subsystems
 - **Analogy:** The ignition key of a car. You just turn one key to start a complex system.
 - **Problem:** A system is very complex, and you want to provide a simple way for clients to use it.
@@ -360,6 +362,7 @@ Better Alternatives ⭐
 
 ### 6. Flyweight Design Pattern
 - **Definition:** Use sharing to support large numbers of fine-grained objects efficiently.
+- "Minimizes memory use by sharing common object data instead of creating duplicates."
 - **Analogy:** The characters in a word processor. The letter 'a' has intrinsic state (its shape) and extrinsic state (its position). The shape is stored once (the flyweight).
 - **Problem:** You need to create a huge number of objects that share common state, and storing them all would consume too much memory.
 - **Solution:** Separate state into intrinsic (shared) and extrinsic (unique). Create a factory that caches and reuses flyweight objects containing the intrinsic state.
@@ -376,7 +379,7 @@ Better Alternatives ⭐
   ```
 
 ### 7. Proxy Design Pattern
-- **Definition:** Provides a surrogate or placeholder for another object to control access to it. ( an object represent the another object)
+- **Definition:** Provides a surrogate or placeholder for another object to control access to an object (it). ( an object represent the another object)
 - **Analogy:** A checkbook is a proxy for the money in your bank account.
 - **Problem:** You need to control access to an object, perhaps for security, lazy initialization, or because it's remote.
 - **Solution:** Create a `Proxy` object with the same interface as the real object. The client interacts with the proxy, which decides if and when to forward the request to the real object.
@@ -403,6 +406,7 @@ Better Alternatives ⭐
 
 ### 1. Memento Pattern
 - **Definition:** Without violating encapsulation, capture and externalize an object's internal state so that the object can be restored to this state later.
+- "Captures and restores an object's state without exposing its internals."
 - **Analogy:** A "save game" checkpoint.
 - **Problem:** You need to implement an "undo" or "rollback" feature.
 - **Solution:** Use three objects: **Originator** (the object with state), **Memento** (stores the state), and **Caretaker** (holds the memento).
@@ -463,6 +467,7 @@ Better Alternatives ⭐
 
 ### 4. Command Pattern
 - **Definition:** Encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.
+- "Encapsulates a request as an object to parameterize clients and support undo/redo."
 - **Analogy:** Ordering food at a restaurant. You give an order (Command) to the waiter (Invoker). The chef (Receiver) executes it.
 - **Problem:** You want to decouple the object that invokes an operation from the object that performs it.
 - **Solution:** Create a `Command` interface with an `execute()` method. Concrete commands encapsulate a "Receiver" object and the action. The "Invoker" holds a command and calls `execute()`.
@@ -498,7 +503,7 @@ Better Alternatives ⭐
   ```
 
 ### 6. Template Method Pattern
-- **Definition:** Defines the skeleton of an algorithm in a method, deferring some steps to subclasses.
+- **Definition:** Defines the skeleton of an algorithm in a method,(letting subclasses override specific steps.) deferring some steps to subclasses.
 - **Analogy:** Making a sandwich. The "template method" is the overall process (get bread, add fillings, serve). The specific fillings are implemented by subclasses.
 - **Problem:** You have several classes that follow the same algorithm but with minor variations.
 - **Solution:** Create an abstract base class with a `final` "template method" that calls a series of abstract or hook methods. Subclasses implement the abstract methods.

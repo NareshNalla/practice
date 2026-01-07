@@ -165,3 +165,10 @@ MVC vs. MVP: In MVC, the View often pulls data from the Model. In MVP, the Prese
     management.server.port=9091
     ```
 *   **Result:** Your main application will be available at `http://localhost:8080`, while the actuator endpoints will only be available at `http://localhost:9091/actuator`. This allows you to set up firewall rules to block external access to port 9091, securing your management endpoints.
+
+Spring Profiles are like different scenarios for the application depending on the environment.
+
+You define sets of configurations (like database URLs) for different situations (development, testing, production).
+Use the @Profile annotation to clarify which config belongs to where.
+Activate profiles with environment variables or command-line options.
+To use Spring Profiles, we simply need to define the spring.profiles.active property to specify which profile we want to use
