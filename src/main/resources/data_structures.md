@@ -1,0 +1,7 @@
+	1.	Stacks: A stack follows a Last-In-First-Out (LIFO) principle. You can only add or remove elements from the top of the stack. It’s commonly used in function calls, undo mechanisms, and parsing expressions.
+	2.	Queues: A queue follows a First-In-First-Out (FIFO) principle. Elements are added at the back and removed from the front. It’s often used in scheduling and breadth-first search algorithms.
+	3.	Linked Lists: These are collections of nodes where each node contains data and a reference to the next node. They can be singly linked (one direction) or doubly linked (two directions). They are great for dynamic data but have slower index access.
+	4.	Trees: Trees are hierarchical structures with nodes connected by edges. Common types include binary trees, binary search trees, AVL trees, and heaps. Trees are used in searching, sorting, and representing hierarchical data.
+	5.	Graphs: Graphs consist of nodes (vertices) and edges connecting them. They can be directed or undirected and are used in network analysis, social networks, and pathfinding algorithms.
+	6.	Hash Tables: Hash tables store key-value pairs and use a hash function to quickly access data. They provide fast lookup, insertion, and deletion operations.
+	7.	Heaps: Heaps are specialized tree-based structures that maintain a partial order. They are commonly used in priority queues and algorithms like heapsort.
