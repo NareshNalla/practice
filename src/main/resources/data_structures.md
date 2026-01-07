@@ -1,8 +1,8 @@
 
 	1.	Stacks: 
-A stack follows a Last-In-First-Out (LIFO) principle. You can only add or remove elements from the top of the stack. It’s commonly used in function calls, undo mechanisms, and parsing expressions.
+-A stack follows a Last-In-First-Out (LIFO) principle. You can only add or remove elements from the top of the stack. It’s commonly used in function calls, undo mechanisms, and parsing expressions.
 	2.	Queues: 
-A queue follows a First-In-First-Out (FIFO) principle. Elements are added at the back and removed from the front. It’s often used in scheduling and breadth-first search algorithms.
+- A queue follows a First-In-First-Out (FIFO) principle. Elements are added at the back and removed from the front. It’s often used in scheduling and breadth-first search algorithms.
 	3.	Linked Lists: 
 These are collections of nodes where each node contains data and a reference to the next node. They can be singly linked (one direction) or doubly linked (two directions). They are great for dynamic data but have slower index access.
 	4.	Trees: 
