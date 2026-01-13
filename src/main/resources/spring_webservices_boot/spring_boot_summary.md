@@ -7,7 +7,7 @@ Essentially, it eliminates most of the boilerplate configuration and setup, so y
 
 ### Key Advantages:
 
-**1. Auto-Configuration:** This is the core feature. Spring Boot automatically configures your application based on the JAR dependencies on your classpath. For example, if it sees `spring-boot-starter-web`, it auto-configures Tomcat and Spring MVC.
+*   **1. Auto-Configuration:** This is the core feature. Spring Boot automatically configures your application based on the JAR dependencies on your classpath. For example, if it sees `spring-boot-starter-web`, it auto-configures Tomcat and Spring MVC.
 
 *   **2. Starter Dependencies (Starters):** These are convenient dependency descriptors that bundle all necessary libraries for a specific feature. Instead of manually managing versions for dozens of JARs, you just include one "starter" like `spring-boot-starter-data-jpa`.
 
@@ -71,21 +71,21 @@ Essentially, it eliminates most of the boilerplate configuration and setup, so y
 ---
 ### How does a spring application get started?
 
-A Spring application gets started by calling the main() method with @SpringBootApplication annotation in the SpringApplication class. This method takes a SpringApplicationBuilder object as a parameter, which is used to configure the application.
+A Spring application gets started by calling the `main()` method with `@SpringBootApplication` annotation in the `SpringApplication` class. This method takes a `SpringApplicationBuilder` object as a parameter, which is used to configure the application.
 
-Once the SpringApplication object is created, the run() method is called.
-Once the application context is initialized, the run() method starts the application's embedded web server.
+Once the `SpringApplication` object is created, the `run()` method is called.
+Once the application context is initialized, the `run()` method starts the application's embedded web server.
 
 **Spring Boot Annotations**
 
-@SpringBootApplication
-@Configuration, @EnableAutoConfiguration, and @ComponentScan
-@RestController
-@RequestMapping
-@EnableAutoConfiguration(exclude = {//classname})
-@Bean annotations to define beans and their dependencies.
-@Controller : Marks the class as a request handler in the Spring MVC framework.
-@ResponseBody : Tells Spring to convert method return values (objects, data) directly into HTTP responses instead of rendering views.
+*   `@SpringBootApplication`
+*   `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`
+*   `@RestController`
+*   `@RequestMapping`
+*   `@EnableAutoConfiguration(exclude = {//classname})`
+*   `@Bean` annotations to define beans and their dependencies.
+*   `@Controller`: Marks the class as a request handler in the Spring MVC framework.
+*   `@ResponseBody`: Tells Spring to convert method return values (objects, data) directly into HTTP responses instead of rendering views.
 
 ## 4. Spring MVC & Web Architecture
 
@@ -95,31 +95,46 @@ Once the application context is initialized, the run() method starts the applica
 ### How does Spring MVC work?
 - The `DispatcherServlet` (`Class`) acts as the central "Front Controller". It receives a request, consults a `HandlerMapping` (`Interface`) to find the correct `@Controller`, which then processes the request and returns a view name. A `ViewResolver` (`Interface`) then maps this name to the actual View template to render the final response.
 
+### Request Context & Interceptors
+
+*   **`RequestContext`**: This holds the state of the current HTTP request. It allows you to access request-specific information (like headers, locale, or session data) anywhere in your application, often via `RequestContextHolder`.
+*   **`RequestContextAware`**: This is an interface (or concept) for beans that need to be aware of the current request context. Implementing this allows a bean to access the `RequestContext`.
+*   **Interceptors (`HandlerInterceptor`)**: These are like filters for Spring MVC. They allow you to execute code **before** a request reaches the controller (pre-handle) and **after** the controller finishes (post-handle). Common uses include logging, authentication checks, or modifying the model.
+*   **Handlers**: In Spring MVC, a "Handler" is essentially your Controller method. It's the component responsible for actually handling the incoming request and producing a result.
+
 ---
-How do you pass data from the controller to the view?
-For REST APIs, you typically return a Java object from a @RestController method. Spring, using libraries like Jackson, automatically serializes this object into a JSON response. The @ResponseBody annotation is key here.
-Servlet Lifecycle & Concepts
-Can you instantiate a servlet with a constructor? No. The servlet container (e.g., Tomcat) is responsible for creating servlet instances. It calls the public, no-arg constructor via reflection. Configuration is passed via the init() method.
-ServletContext vs. ServletConfig:
-ServletContext: An object created by the container for the entire web application. It's shared among all servlets. Used for application-scope parameters.
-ServletConfig: An object created by the container for a specific servlet. It's used to pass initialization parameters unique to that servlet.
-Session Tracking without Cookies: If cookies are disabled, you can use URL Rewriting. The session ID is appended to every URL. The response.encodeURL("test.jsp") method does this automatically.
-JSP (JavaServer Pages)
-How to include another JSP? Use the <jsp:include> action tag. This is a dynamic include that happens at request time.
-Can you include static content? Yes, using the <%@ include file="..." %> directive. This is a static include that happens at translation time (when the JSP is converted into a servlet).
+### How do you pass data from the controller to the view?
+For REST APIs, you typically return a Java object from a `@RestController` method. Spring, using libraries like Jackson, automatically serializes this object into a JSON response. The `@ResponseBody` annotation is key here.
+
+### Servlet Lifecycle & Concepts
+*   **Can you instantiate a servlet with a constructor?** No. The servlet container (e.g., Tomcat) is responsible for creating servlet instances. It calls the public, no-arg constructor via reflection. Configuration is passed via the `init()` method.
+*   **`ServletContext` vs. `ServletConfig`:**
+    *   **`ServletContext`:** An object created by the container for the *entire web application*. It's shared among all servlets. Used for application-scope parameters.
+    *   **`ServletConfig`:** An object created by the container for *a specific servlet*. It's used to pass initialization parameters unique to that servlet.
+*   **Session Tracking without Cookies:** If cookies are disabled, you can use **URL Rewriting**. The session ID is appended to every URL. The `response.encodeURL("test.jsp")` method does this automatically.
+
+### JSP (JavaServer Pages)
+*   **How to include another JSP?** Use the `<jsp:include>` action tag. This is a dynamic include that happens at request time.
+*   **Can you include static content?** Yes, using the `<%@ include file="..." %>` directive. This is a static include that happens at translation time (when the JSP is converted into a servlet).
+
 ---
-What is SOA (Service-Oriented Architecture)?
-SOA is an architectural style for building distributed systems where functionality is grouped into distinct, reusable units of business logic called services.
-Key Principles:
-Loose Coupling: Services are independent and don't need to know the technical details of other services.
-Standardized Contract: Services communicate through a well-defined, formal contract (often using WSDL for SOAP-based services).
-Discoverability: Services can be discovered through a central registry.
-Note: While often associated with SOAP and XML, the principles of SOA are still relevant. Microservices can be seen as a more modern, fine-grained evolution of the SOA style.
+### What is SOA (Service-Oriented Architecture)?
+SOA is an architectural style for building distributed systems where functionality is grouped into distinct, reusable units of business logic called **services**.
+
+**Key Principles:**
+*   **Loose Coupling:** Services are independent and don't need to know the technical details of other services.
+*   **Standardized Contract:** Services communicate through a well-defined, formal contract (often using WSDL for SOAP-based services).
+*   **Discoverability:** Services can be discovered through a central registry.
+
+*Note: While often associated with SOAP and XML, the principles of SOA are still relevant. Microservices can be seen as a more modern, fine-grained evolution of the SOA style.*
+
 ---
-What is MVP?
-MVP stands for Model-View-Presenter. It's a variation of MVC.
-Key Difference: In MVP, the Presenter is more involved than a Controller. It directly manipulates the View through an interface, and the View is typically more "dumb." The Presenter fetches data from the Model and tells the View exactly what to display. This creates a stronger separation and makes testing easier.
-MVC vs. MVP: In MVC, the View often pulls data from the Model. In MVP, the Presenter pushes data to the View.
+### What is MVP?
+**MVP** stands for **Model-View-Presenter**. It's a variation of MVC.
+
+*   **Key Difference:** In MVP, the **Presenter** is more involved than a Controller. It directly manipulates the View through an interface, and the View is typically more "dumb." The Presenter fetches data from the Model and tells the View exactly what to display. This creates a stronger separation and makes testing easier.
+*   **MVC vs. MVP:** In MVC, the View often pulls data from the Model. In MVP, the Presenter pushes data to the View.
+
 ---
 ## 5. Java EE & Enterprise Integration
 
@@ -166,9 +181,11 @@ MVC vs. MVP: In MVC, the View often pulls data from the Model. In MVP, the Prese
     ```
 *   **Result:** Your main application will be available at `http://localhost:8080`, while the actuator endpoints will only be available at `http://localhost:9091/actuator`. This allows you to set up firewall rules to block external access to port 9091, securing your management endpoints.
 
+### Spring Profiles
+
 Spring Profiles are like different scenarios for the application depending on the environment.
 
-You define sets of configurations (like database URLs) for different situations (development, testing, production).
-Use the @Profile annotation to clarify which config belongs to where.
-Activate profiles with environment variables or command-line options.
-To use Spring Profiles, we simply need to define the spring.profiles.active property to specify which profile we want to use
+*   You define sets of configurations (like database URLs) for different situations (development, testing, production).
+*   Use the `@Profile` annotation to clarify which config belongs to where.
+*   Activate profiles with environment variables or command-line options.
+*   To use Spring Profiles, we simply need to define the `spring.profiles.active` property to specify which profile we want to use.
