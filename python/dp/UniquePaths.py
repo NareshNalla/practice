@@ -44,13 +44,22 @@ if __name__ == "__main__":
     print(f"Unique Paths for {m1}x{n1}: {solution.uniquePaths(m1, n1)}") # Expected: 28
 
     # Test Case 2
-    m2, n2 = 3, 2
-    print(f"Unique Paths for {m2}x{n2}: {solution.uniquePaths(m2, n2)}") # Expected: 3
+
     
     # Test Case 3
     m3, n3 = 7, 3
     print(f"Unique Paths for {m3}x{n3}: {solution.uniquePaths(m3, n3)}") # Expected: 28
     
     # Test Case 4
+    m4, n4 = 3, 1
+    print(f"Unique Paths for {m4}x{n4}: {solution.uniquePaths(m4, n4)}") # Expected: 1
+    m2, n2 = 3, 2
+    print(f"Unique Paths for {m2}x{n2}: {solution.uniquePaths(m2, n2)}") # Expected: 3
     m4, n4 = 3, 3
     print(f"Unique Paths for {m4}x{n4}: {solution.uniquePaths(m4, n4)}") # Expected: 6
+    m4, n4 = 3, 4
+    print(f"Unique Paths for {m4}x{n4}: {solution.uniquePaths(m4, n4)}") # Expected: 1
+    m4, n4 = 3, 5
+    print(f"Unique Paths for {m4}x{n4}: {solution.uniquePaths(m4, n4)}") # Expected: 1
+    m4, n4 = 3, 6
+    print(f"Unique Paths for {m4}x{n4}: {solution.uniquePaths(m4, n4)}") # Expected: 1
