@@ -30,8 +30,14 @@ Given Arrays A and B and queries of 2 types 1: update A (ind, va), 2. find no. o
 Find all duplicate entries in a table.
 https://www.geeksforgeeks.org/interview-experiences/visa-interview-experience-for-new-graduate-software-engineer/
 
+Write Code prompt:
+write code for above, FAANG level and write main method to test , also add class level complexity.
+Optimized code.  no explanation. just add whenever needed add one line. python code perspective
 
 
+MD create prompt:
+could you please generate hint or steps for thinking and solving. very minimum. to revise and keep the solutions handy. speedup writing solving.
+for this problems 
 
 
 
