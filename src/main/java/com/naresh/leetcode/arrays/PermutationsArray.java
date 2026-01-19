@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
+/*
+print all permutations of an array
+[1,2,3]
+[[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 1, 0], [2, 0, 1]]
+ */
 public class PermutationsArray {
     public static void main(String[] args) {
         List<Integer> nums = Arrays.asList(0, 1, 2);

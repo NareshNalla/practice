@@ -10,7 +10,7 @@ public class StringEncode {
 			if(ch == str.charAt(x)){
 			count = count+1;
 			}else{
-				compressed = compressed +ch;
+				compressed = compressed + ch;
 				if(count != 1){
 					compressed = compressed +count;
 				}
