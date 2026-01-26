@@ -31,8 +31,8 @@ Find all duplicate entries in a table.
 https://www.geeksforgeeks.org/interview-experiences/visa-interview-experience-for-new-graduate-software-engineer/
 
 Write Code prompt:
-write code for above, FAANG level and write main method to test , also add class level complexity.
-Optimized code.  no explanation. just add whenever needed add one line. python code perspective
+write code for above, FAANG level and write main method to test , also add method level complexity and pattern used to solve.
+, inside methods steps to solve it. write best fanng and Optimized code.  no explanation. just add whenever needed add one line. python code perspective
 
 
 MD create prompt:

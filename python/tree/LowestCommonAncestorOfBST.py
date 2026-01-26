@@ -1,34 +1,22 @@
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+from TreeNode import TreeNode
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        """
-        Finds the Lowest Common Ancestor (LCA) of two nodes in a Binary Search Tree (BST).
-        
-        Time Complexity: O(h), where h is the height of the tree.
-        Space Complexity: O(h) for recursion stack (or O(1) if iterative).
-        """
-        # Base case: if root is None, we can't find LCA
+        # Step 1: Base case - if root is None, we can't find LCA
         if not root:
             return None
         
-        # If both p and q are smaller than root, LCA is in the left subtree
+        # Step 2: If both p and q are smaller than root, LCA must be in the left subtree
         if p.val < root.val and q.val < root.val:
             return self.lowestCommonAncestor(root.left, p, q)
         
-        # If both p and q are greater than root, LCA is in the right subtree
+        # Step 3: If both p and q are greater than root, LCA must be in the right subtree
         if p.val > root.val and q.val > root.val:
             return self.lowestCommonAncestor(root.right, p, q)
             
-        # If we reach here, it means:
-        # 1. One node is on the left and the other is on the right (split point)
-        # 2. OR one of the nodes IS the root itself
-        # In either case, the current root is the LCA.
+        # Step 4: Split point found
+        # If one is smaller and one is larger (or one is equal to root),
+        # then the current root is the split point, hence the LCA.
         return root
 
 
@@ -70,7 +58,6 @@ if __name__ == "__main__":
     p1 = root.left  # Node 2
     q1 = root.right # Node 8
     lca1 = solution.lowestCommonAncestor(root, p1, q1)
-    lca12 = solution.lowestCommonAncestor1(root, p1, q1)
     print(f"LCA of {p1.val} and {q1.val} is: {lca1.val}")
 
     # Test Case 2: LCA of 2 and 4
@@ -86,5 +73,3 @@ if __name__ == "__main__":
     q3 = root.left.right.right # Node 5
     lca3 = solution.lowestCommonAncestor(root, p3, q3)
     print(f"LCA of {p3.val} and {q3.val} is: {lca3.val}")
-
-    print(f"LCA2 of {p1.val} and {q1.val} is: {lca12.val}")
