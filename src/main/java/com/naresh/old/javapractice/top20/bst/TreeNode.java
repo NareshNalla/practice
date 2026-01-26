@@ -13,4 +13,7 @@ public class TreeNode {
 	public TreeNode(int dat) {
 		this.data = data;
 	}
+    public TreeNode(Integer data) {
+        this.data = data;
+    }
 }

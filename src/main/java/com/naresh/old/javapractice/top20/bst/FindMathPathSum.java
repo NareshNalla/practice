@@ -1,4 +1,4 @@
-package com.naresh.old.javapractice.top20.bt;
+package com.naresh.old.javapractice.top20.bst;
 
 public class FindMathPathSum {
 

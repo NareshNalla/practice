@@ -1,4 +1,4 @@
-package com.naresh.old.javapractice.top20.bt;
+package com.naresh.old.javapractice.top20.bst;
 
 import java.util.LinkedList;
 import java.util.Queue;
