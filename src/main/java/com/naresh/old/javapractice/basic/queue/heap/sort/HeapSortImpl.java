@@ -1,51 +1,90 @@
 package com.naresh.old.javapractice.basic.queue.heap.sort;
 
 public class HeapSortImpl {
-	static int total;
-	static void swap(Comparable[] arr, int a , int b){
-		Comparable temp = arr[a];
-		arr[a] = arr[b];
-		arr[b] = temp;
-	}
-	static void heapify(Comparable[] arr , int i){
-		int left = i * 2; //2k
-		int right = i * 2 + 1; // 2k+1
-		int grt = i;
-		if(left <= total && arr[left].compareTo(arr[grt]) >= 0)
-			grt = left;
-		if(right <= total && arr[right].compareTo(arr[grt]) >= 0)
-			grt = right;
-		if(grt != i){
-			swap(arr, i , grt);
-			heapify(arr, grt);
-		}
-	}
-	static void sort(Comparable[] arr){
-		total = arr.length -1;
-		for(int i=total/2; i >=0; i--){
-			heapify(arr, i);
-		}
-		for(int i=total; i > 0; i--){
-			swap(arr, 0,i);
-			total--;
-			heapify(arr, 0);
-		}
-	}
-	public static void main(String[] args) {
-		Integer[] arr= {10, 1, 15, 13, 50, 30, 90};
-		System.out.println("Heap before sort:");
-		for(int i=0;i<arr.length;i++)
-			System.out.println(arr[i]);
-		sort(arr);
-		System.out.println("Heap After sort:");
-		for(int i=0;i<arr.length;i++)
-			System.out.println(arr[i]);
-		
+	private Node[] heapArray;
+	private int maxSize; // size of array
+	private int currentSize; // number of items in array
+
+	public HeapSortImpl(int mx){
+		maxSize = mx;
+		currentSize = 0;
+		heapArray = new Node[maxSize];
 	}
 
-	/*O(logn) time hippify.. O9nlogn) - n elements
-	 * best for sort-time nlogn , space O(1)
-	 * 
-	 * */
-	
+	public Node remove() // delete item with max key
+	{ // (assumes non-empty list)
+		Node root = heapArray[0];
+		heapArray[0] = heapArray[--currentSize];
+		trickleDown(0);
+		return root;
+	} // end remove()
+
+	public void trickleDown(int index)
+	{
+		int largerChild;
+		Node top = heapArray[index]; // save root
+		while(index < currentSize/2) // not on bottom row
+		{
+			int leftChild = 2*index+1;
+			int rightChild = leftChild+1;
+			// find larger child // right ch exists?
+			if((rightChild < currentSize) && (heapArray[leftChild].iData <	heapArray[rightChild].iData))
+				largerChild = rightChild;
+			else
+				largerChild = leftChild;
+			// top >=largerChild?
+			if(top.iData >= heapArray[largerChild].iData)
+				break;
+			// shift child up
+			heapArray[index] = heapArray[largerChild];
+			index = largerChild; // go down
+		} // end while
+		heapArray[index] = top; // root to index
+	} // end trickleDown()
+
+	public void displayHeap()
+	{
+		int nBlanks = 32;
+		int itemsPerRow = 1;
+		int column = 0;
+		int j = 0; // current item
+		String dots = "...............................";
+		System.out.println(dots+dots); // dotted top line
+		while(currentSize > 0) // for each heap item
+		{
+			if(column == 0) // first item in row?
+				for(int k=0; k<nBlanks; k++) // preceding blanks
+					System.out.print(' ');
+			// display item
+			System.out.print(heapArray[j].iData);
+			if(++j == currentSize) // done?
+				break;
+			if(++column==itemsPerRow) // end of row?
+			{
+				nBlanks /= 2; // half the blanks
+				itemsPerRow *= 2; // twice the items
+				column = 0; // start over on
+				System.out.println(); // new row
+			}
+			else // next item on row
+				for(int k=0; k<nBlanks*2-2; k++)
+					System.out.print(' '); // interim blanks
+		} // end for
+		System.out.println("\n"+dots+dots); // dotted bottom line
+	} // end displayHeap()
+	public void displayArray()
+	{
+		for(int j=0; j<maxSize; j++)
+			System.out.print(heapArray[j].iData + " ");
+		System.out.println("");
+	}
+	public void insertAt(int index, Node newNode){ 
+		heapArray[index] = newNode; 
+		}
+	public void incrementSize(){ 
+		currentSize++; 
+		}
+
+
 }
+

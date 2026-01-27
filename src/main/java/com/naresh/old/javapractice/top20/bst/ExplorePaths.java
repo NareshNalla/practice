@@ -8,12 +8,12 @@ public class ExplorePaths {
 
 	//TC:O(n)
 	//SC:O(n)
-	public static List<String> explorePaths1(com.naresh.old.javapractice.top20.bst.bt.TreeNode root) {
+	public static List<String> explorePaths1(TreeNode root) {
 		List<String> paths = new LinkedList<String>();
 		auxPaths1(root, "", paths);
 		return paths;
 	}
-	private static void auxPaths1(com.naresh.old.javapractice.top20.bst.bt.TreeNode root, String path, List<String> paths) {
+	private static void auxPaths1(TreeNode root, String path, List<String> paths) {
 		if(root == null) return; 
 		if(root.left == null && root.right == null) {
 			paths.add(path + "]]]]]]]]]]]"
@@ -26,16 +26,16 @@ public class ExplorePaths {
 	}
 	
 	static class Entry {
-		com.naresh.old.javapractice.top20.bst.bt.TreeNode node;
+		TreeNode node;
 		String path;
-		Entry(com.naresh.old.javapractice.top20.bst.bt.TreeNode node, String path) {
+		Entry(TreeNode node, String path) {
 			this.node = node;
 			this.path = path;
 		}
 	}
 	// TC:O(n)
 	// SC:O(n)
-	public static List<String> explorePaths2(com.naresh.old.javapractice.top20.bst.bt.TreeNode root) {
+	public static List<String> explorePaths2(TreeNode root) {
 		Queue<Entry> q = new LinkedList<Entry>();
 		List<String> paths = new LinkedList<String>();
 
@@ -46,10 +46,10 @@ public class ExplorePaths {
 				paths.add(entry.path);
 				continue;
 			}
-			com.naresh.old.javapractice.top20.bst.bt.TreeNode lchild = entry.node.left;
+			TreeNode lchild = entry.node.left;
 			if (lchild != null)
 				q.add(new Entry(lchild, entry.path + "-" + lchild.data));
-			com.naresh.old.javapractice.top20.bst.bt.TreeNode rchild = entry.node.right;
+			TreeNode rchild = entry.node.right;
 			if (rchild != null)
 				q.add(new Entry(rchild, entry.path + "-" + rchild.data));
 		}

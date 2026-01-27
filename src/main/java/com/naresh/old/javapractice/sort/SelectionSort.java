@@ -3,7 +3,6 @@ package com.naresh.old.javapractice.sort;
 public class SelectionSort {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub	
 	int[] a= {2,4,3,7,5,1};
 	int[] result=	sort(a);
 	
