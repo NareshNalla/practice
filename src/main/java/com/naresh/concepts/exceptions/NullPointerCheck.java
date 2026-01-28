@@ -1,5 +1,1 @@
-package com.naresh.concepts.exceptions;
-
-public class NullPointerCheck {
-
-}
+// Moved to com.naresh.corejava.exceptions.NullPointerCheck

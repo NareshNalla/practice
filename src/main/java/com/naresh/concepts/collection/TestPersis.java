@@ -1,5 +1,1 @@
-package com.naresh.concepts.collection;
-
-public class TestPersis {
-
-}
+// Moved to com.naresh.corejava.collections.PersistenceTest

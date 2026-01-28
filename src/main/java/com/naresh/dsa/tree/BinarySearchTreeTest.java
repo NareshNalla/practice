@@ -2,7 +2,7 @@ package com.naresh.dsa.tree;
 
 public class BinarySearchTreeTest {
 	public static void main(String[] args) {
-		BinarySearchTreeImpl bst = new BinarySearchTreeImpl();
+		BinarySearchTree bst = new BinarySearchTree();
 		
 		bst.add(bst.root, bst.nodeCreate(10));
 		bst.add(bst.root, bst.nodeCreate(12));
