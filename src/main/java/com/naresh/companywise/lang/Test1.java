@@ -1,10 +1,1 @@
-package com.naresh.companywise.lang;
-
-public class Test1 {
- public static void main(String[] args) {
-	 String s = "Hello  ";
-	 s+="Adobe  ";
-	 s.trim(); 
-	 System.out.print(s);
-}
-}
+// Moved to com.naresh.interview.lang.StringImmutabilityTest

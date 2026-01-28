@@ -1,0 +1,33 @@
+Develop a pseudo front end application which would let the users order food items.
+..........
+[Requirement]
+
+1. Write the Web API to fetch the menu details from the link provided below.
+
+2. API Response: contains Menu items in JSON Array format
+Each object will have [name, price, description, category, vegflag, availabletime].
+
+3. Visually interactive responsive design listing all the menu items.
+
+4. Clicking on any category should scroll to that particular section in the menu listing E.g. (Clicking Chinese starter should scroll up to the Chinese starter section meanwhile keeping the rest of the menu scrollable).
+
+5. “availabletime” – Every Item has a Time Slot between which the item is available to order otherwise it has to be grayed out as shown in the illustration below.
+
+6. Cart updates with item name and quantity as you choose items from the menu listing and also the total amount should be displayed.
+
+7. There may be a null entry in API response, handle it with care!
+
+
+
+[Guide]
+
+Food Ordering API: https://thesmartq.firebaseio.com/menu.json
+
+— Ideal Frontend Stack:
+
+● Angular or React JS Framework.
+● Feel free to use any UI Framework.
+● JSON
+
+
+— PS: Application can be built with use of client-side scripting and need not require any backe

@@ -39,6 +39,7 @@ MD create prompt:
 could you please generate hint or steps for thinking and solving. very minimum. to revise and keep the solutions handy. speedup writing solving.
 for this problems , please also add what technique we used to solve
 
+Project Management Professional 
 
 
 
