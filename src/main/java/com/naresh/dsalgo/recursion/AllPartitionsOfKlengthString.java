@@ -1,6 +1,6 @@
 package com.naresh.dsalgo.recursion;
 
-public class AllPartitions {
+public class AllPartitionsOfKlengthString {
 
 	public static void allPartitions(String in) {
 		auxPartitions(in, "");

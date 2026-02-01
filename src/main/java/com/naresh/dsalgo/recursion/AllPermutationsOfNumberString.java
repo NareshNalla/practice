@@ -1,7 +1,7 @@
 package com.naresh.dsalgo.recursion;
 
 
-public class AllPermutations {
+public class AllPermutationsOfNumberString {
 
 	public static void allPerm1(String in) {
 		auxPerm1(in, "");

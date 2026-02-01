@@ -2,7 +2,7 @@ package com.naresh.dsalgo.recursion;
 
 import java.util.Arrays;
 
-public class AllCharSequences {
+public class AllCharSequencesOfKSize {
 
 	public static void allSeq(int n, char[] in) {
 		char[] out = new char[n];
@@ -19,7 +19,7 @@ public class AllCharSequences {
 		}
 	}
 	public static void main(String[] args) {
-		int n = 2; //Integer.parseInt(args[0]);
+		int n = 3; //Integer.parseInt(args[0]);
 		char[] in = {'1','2','3'};// args[1].toCharArray();
 		allSeq(n, in);
 	}

@@ -2,7 +2,7 @@ package com.naresh.dsalgo.arrays.problems;
 
 import java.util.*;
 
-public class GFG {
+public class SortbyFrequencyIncreasing {
   
     // Driver Code
     public static void main(String[] args)

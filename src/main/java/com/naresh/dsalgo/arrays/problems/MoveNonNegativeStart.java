@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Time Complexity: O(n)
  * Space Complexity: O(1)
  */
-public class MoveNonNegative {
+public class MoveNonNegativeStart {
     public static void main(String[] args) {
         int[] nums = {-1, -20, 30, 40, 50, -8};
         moveAllNegativeToStart(nums);
