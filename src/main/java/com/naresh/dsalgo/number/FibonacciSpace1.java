@@ -1,4 +1,4 @@
-package com.naresh.dsalgo.basics;
+package com.naresh.dsalgo.number;
 
 public class FibonacciSpace1 {
 	static int fib(int n)

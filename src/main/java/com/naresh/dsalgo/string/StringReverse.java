@@ -1,4 +1,4 @@
-package com.naresh.dsalgo.basics;
+package com.naresh.dsalgo.string;
 
 public class StringReverse {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.naresh.dsalgo.basics;
+package com.naresh.dsalgo.array;
 
 public class RemoveDuplicates {
 

@@ -1,4 +1,4 @@
-package com.naresh.dsalgo.basics;
+package com.naresh.dsalgo.number;
 
 public class IntegerPalindrom {
 	public static void main(String[] args) {

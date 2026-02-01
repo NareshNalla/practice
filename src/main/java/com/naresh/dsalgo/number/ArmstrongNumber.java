@@ -1,4 +1,4 @@
-package com.naresh.dsalgo.basics;
+package com.naresh.dsalgo.number;
 
 public class ArmstrongNumber {
 	public static void main(String[] args) {
