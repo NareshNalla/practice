@@ -1,1 +1,0 @@
-// Moved to com.naresh.corejava.generics.GenericTest7

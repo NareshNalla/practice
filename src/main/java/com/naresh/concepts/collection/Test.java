@@ -1,1 +1,0 @@
-// Moved to com.naresh.corejava.collections.CollectionTest

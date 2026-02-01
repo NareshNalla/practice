@@ -1,7 +1,0 @@
-abcde efgh ijk lmno pqrs tuv
-
-abcde efgh ijk lmno pqrs tuv
-
-abcde efgh
-
-ijk lmno pqrs 
