@@ -13,3 +13,8 @@ Graphs consist of nodes (vertices) and edges connecting them. They can be direct
 Hash tables store key-value pairs and use a hash function to quickly access data. They provide fast lookup, insertion, and deletion operations.
 	7.	Heaps: 
 Heaps are specialized tree-based structures that maintain a partial order. They are commonly used in priority queues and algorithms like heapsort.
+
+set for lookups
+Queue/stack for order
+Heap for Top k
+HashMap for Counting

@@ -41,5 +41,12 @@ for this problems , please also add what technique we used to solve
 
 Project Management Professional 
 
+If Amazon S3 used standard backups (Replication), it would go bankrupt.
+S3 guarantees 11 Nines of durability (99.999999999%). This means if you store 10,000 files, you might lose one file every 10 million years.
+How do they achieve this?
+The Junior Engineer answer is "Replication." Copy the file to Server A, Server B, and Server C. If one fails, read from the other.
+• The Problem: This requires 300% storage capacity. To store 1PB of user data, you have to buy 3PB of hard drives. At the scale of the internet, this is financially impossible.
+The Principal Engineer answer is "Erasure Coding."
+Borrowed from deep-space communication and CD-ROM technology, Erasure Coding (EC) changes the physics of storage.
 
 
