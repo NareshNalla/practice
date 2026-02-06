@@ -1,0 +1,3 @@
+Experience architecting, designing, and developing scalable chat Virtual Agent frameworks using Google Vertex AI, with proficiency in Vertex AI Agent Engine, Model Garden and Google Agent Development Kit (ADK).
+Hands-on experience in developing NLP and GenAI Models on Vertex AI
+Proficiency in training, fine-tuning, and deploying custom LLMs, transformer models, and Retrieval Augmented Generation (RAG) pipelines to AI Models.
