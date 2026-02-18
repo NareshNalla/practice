@@ -12,16 +12,16 @@ Input
 Output
 [null,null,null,null,false,true,true,true]
 '''
+        # Pattern: Trie (Prefix Tree)
 from TrieNode import TrieNode
 
 class WordDictionary:
     def __init__(self):
-        # Pattern: Trie (Prefix Tree)
         self.root = TrieNode()
 
     def addWord(self, word: str) -> None:
-        # Time: O(L), Space: O(L)
         curr = self.root
+        # Time: O(L), Space: O(L)
         for char in word:
             if char not in curr.children:
                 curr.children[char] = TrieNode()
@@ -32,37 +32,37 @@ class WordDictionary:
         # Pattern: Recursive DFS (Backtracking) on Trie
         # Time: O(M) where M is total chars in trie (worst case: "...")
         # Space: O(L) for recursion stack
-        
+
         def dfs(j, root):
             curr = root
             for i in range(j, len(word)):
-                char = word[i]
-                
+
                 # Step 1: If char is '.', recursively check all children
+                char = word[i]
+
+                # Step 2: If char not in children, no match
                 if char == ".":
+
                     for child in curr.children.values():
+
+            # Step 3: After iterating, check if it's a complete word
                         if dfs(i + 1, child):
                             return True
                     return False
-                
-                # Step 2: If char not in children, no match
+
+
                 else:
                     if char not in curr.children:
                         return False
                     curr = curr.children[char]
-            
-            # Step 3: After iterating, check if it's a complete word
             return curr.isEndOfWord
-
         return dfs(0, self.root)
 
 if __name__ == "__main__":
     wordDictionary = WordDictionary()
-    
     wordDictionary.addWord("bad")
     wordDictionary.addWord("dad")
     wordDictionary.addWord("mad")
-    
     print(f"search('pad'): {wordDictionary.search('pad')}") # Expected: False
     print(f"search('bad'): {wordDictionary.search('bad')}") # Expected: True
     print(f"search('.ad'): {wordDictionary.search('.ad')}") # Expected: True

@@ -1,3 +1,28 @@
 Experience architecting, designing, and developing scalable chat Virtual Agent frameworks using Google Vertex AI, with proficiency in Vertex AI Agent Engine, Model Garden and Google Agent Development Kit (ADK).
 Hands-on experience in developing NLP and GenAI Models on Vertex AI
 Proficiency in training, fine-tuning, and deploying custom LLMs, transformer models, and Retrieval Augmented Generation (RAG) pipelines to AI Models.
+
+2.
+What you’ll do
+
+Design and implement RAG pipelines on Google Cloud / Vertex AI (chunking, embeddings, indexing, retrieval, reranking, grounding).
+Build agentic workflows (tool use, planning, reflection/guardrails, structured outputs) using Python-first frameworks.
+Integrate agents with Graph DBs (e.g., Neo4j, JanusGraph, Neptune) and Vector DBs (e.g., Vertex Vector Search, Pinecone, Weaviate, Milvus, pgvector).
+Create robust data ingestion/ETL from PDFs, docs, webpages, and internal sources; implement metadata strategy and access control.
+Define and run evaluation (retrieval metrics, answer quality, hallucination/grounding checks), and improve system quality iteratively.
+Ship to production: APIs, monitoring/observability, cost/performance optimization, CI/CD, and security best practices.
+Must-have skills
+
+Strong Python (clean architecture, async, testing, typing, packaging).
+Proven experience building RAG solutions (hybrid search, reranking, chunking strategies, embeddings, prompt + schema design).
+Hands-on with Vertex AI and GCP fundamentals (IAM, logging/monitoring, Cloud Run/GKE, storage).
+Experience with at least one agentic framework (e.g., LangGraph/LangChain, LlamaIndex, Semantic Kernel, AutoGen) and tool/function calling patterns.
+Solid knowledge of vector search concepts and at least one vector DB in production.
+Comfortable with graph data modeling and graph querying (Cypher/Gremlin/SPARQL basics).
+Strong engineering practices: code reviews, testing, telemetry, secure-by-design, reliability mindset.
+Nice-to-have
+
+Knowledge graphs for RAG (entity linking, graph traversal + retrieval fusion).
+Streaming/messaging (Pub/Sub, Kafka), document pipelines (Document AI), and multilingual retrieval.
+Experience with evaluation tooling (RAGAS, TruLens, custom eval harnesses), prompt/version management.
+Frontend integration (basic React/Next.js) or platform enablement (internal developer tooling).
