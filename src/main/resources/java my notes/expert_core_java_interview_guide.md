@@ -16,8 +16,6 @@ An object is immutable if its state cannot be changed after it is created.
         -   Use a **shallow copy** for your defensive copy if the elements inside the mutable object are themselves immutable (e.g., a `List<String>`).
         -   Use a **deep copy** if the elements inside are also mutable (e.g., a `List<Person>`).
 
-**The Deeper, Interview-Level Answer:**
-The key is understanding *why* this is important and how to handle mutable fields.
 *   **Why it's Important:**
     1.  **Thread Safety:** Inherently thread-safe, simplifying concurrent programming.
     2.  **Predictability:** State is fixed, making code easier to debug.
@@ -72,9 +70,8 @@ The key is understanding *why* this is important and how to handle mutable field
     -   Use a **shallow copy** for your defensive copy if the elements inside the mutable object are themselves immutable (e.g., a `List<String>`).
     -   Use a **deep copy** if the elements inside are also mutable (e.g., a `List<Person>`), otherwise the class's state can still be changed.
     - Use `List.copyOf()` (Java 10+) for unmodifiable copies
-- **One-liner:** Immutable objects cannot be changed after construction (final class, private final fields, no setters).
-- **Why:** thread-safety, predictability, safe map keys.
-- **Gotcha:** mutable internal fields — use defensive copying.
+
+
 ### Composition vs. Inheritance
 
 **The Standard Answer:** Inheritance is an "is-a" relationship, and composition is a "has-a" relationship.
