@@ -74,20 +74,18 @@ An object is immutable if its state cannot be changed after it is created.
 
 ### Composition vs. Inheritance
 
-**The Standard Answer:** Inheritance is an "is-a" relationship, and composition is a "has-a" relationship.
+Inheritance is an "is-a" relationship, and composition is a "has-a" relationship.
 
-**The Deeper, Interview-Level Answer:**
 The modern consensus is to **"favor composition over inheritance."**
-*   **Problems with Inheritance:** It creates tight coupling (the "fragile base class" problem) and is rigid (Java only allows single inheritance).
-*   **Advantages of Composition:** It's flexible (you can change components at runtime) and leads to loosely coupled, clearer designs.
-*   **When is Inheritance Okay?** When there is a genuine "is-a" relationship and the subclass can be perfectly substituted for the superclass (Liskov Substitution Principle).
+
+Problems with Inheritance: It creates tight coupling (the "fragile base class" problem) and is rigid (Java only allows single inheritance).
+Advantages of Composition: It's flexible (you can change components at runtime) and leads to loosely coupled, clearer designs.
+When is Inheritance Okay? When there is a genuine "is-a" relationship and the subclass can be perfectly substituted for the superclass (Liskov Substitution Principle).
 
 ### final, finally, and finalize
 
-**The Smart, Concise Answer:**
-"`final` is a keyword to restrict modification. `finally` is a block for guaranteed cleanup in exception handling. And `finalize` is a deprecated method that should never be used in modern code."
+`final` is a keyword to restrict modification. `finally` is a block for guaranteed cleanup in exception handling. And `finalize` is a deprecated method that should never be used in modern code.
 
-**The Deeper, Interview-Level Answer:**
 
 | Keyword | Type | Purpose & Key Points |
 | :--- | :--- | :--- |
@@ -97,10 +95,9 @@ The modern consensus is to **"favor composition over inheritance."**
 
 ### Marker vs. Functional Interfaces
 
-**The Smart, Concise Answer:**
-"A **Marker Interface** is an empty interface with no methods, used to provide metadata to the JVM, like `Serializable`. A **Functional Interface** has exactly one abstract method and is used to enable Lambda Expressions, like `Runnable`."
+* "A **Marker Interface** is an empty interface with no methods, used to provide metadata to the JVM, like `Serializable`.
+* A **Functional Interface** has exactly one abstract method and is used to enable Lambda Expressions, like `Runnable`."
 
-**The Deeper, Interview-Level Answer:**
 
 | Feature | Marker Interface | Functional Interface |
 | :--- | :--- | :--- |
@@ -134,7 +131,7 @@ This contract is fundamental for the correct functioning of hash-based collectio
 
 **The Standard Answer:** `HashMap` uses `hashCode()` to find a bucket and stores entries in a linked list.
 
-**The Deeper, Interview-Level Answer:**
+
 An interviewer wants to see that you understand the process, edge cases, and Java 8 improvements.
 *   **Process:** `hashCode()` -> secondary hash -> index calculation -> find bucket.
 *   **Collision Handling:**
@@ -146,7 +143,7 @@ An interviewer wants to see that you understand the process, edge cases, and Jav
 
 **The Standard Answer:** Both are thread-safe, but `ConcurrentHashMap` is more performant.
 
-**The Deeper, Interview-Level Answer:**
+
 The difference is their **concurrency strategy**.
 *   **`Collections.synchronizedMap`:** Uses a **single map-wide lock**. Only one thread can read or write at any time, causing high contention.
 *   **`ConcurrentHashMap`:** Uses **fine-grained locking** (also called lock striping). It divides the map into segments, each with its own lock. Multiple threads can operate on different segments simultaneously, providing much higher throughput.
@@ -322,7 +319,7 @@ A situation where two or more threads are blocked forever, waiting for each othe
 - **Platform Class Loader:** (Java 9+) Loads internal platform classes.
 - **System/Application Class Loader:** Loads classes from the application classpath.
 
-**The Deeper, Interview-Level Answer:**
+
 The key principle is the **Delegation Model**.
 1.  A class loader first **delegates** the request to its parent.
 2.  It only tries to load the class itself if the parent chain **fails**.
@@ -337,7 +334,7 @@ The key principle is the **Delegation Model**.
 
 **The Standard Answer:** `Serializable` is a marker interface for automatic serialization, while `Externalizable` gives you manual control.
 
-**The Deeper, Interview-Level Answer:**
+
 The choice between them is a trade-off between **ease of use vs. performance and security**.
 *   **`Serializable` (The Easy Way):**
     -   **Pros:** Trivial to implement. Just add `implements Serializable`. The JVM handles everything using reflection.
@@ -346,7 +343,7 @@ The choice between them is a trade-off between **ease of use vs. performance and
         2.  **Brittleness:** The default serialized form is tightly coupled to the class's structure. Adding, removing, or reordering fields can break deserialization compatibility. While `serialVersionUID` helps manage this, it's still fragile.
         3.  **Security Risk:** A malicious actor can create a byte stream that exploits the deserialization process. Because no constructor is called, they can potentially create an object in an invalid state. This is the source of many Java security vulnerabilities (see "Deserialization of Untrusted Data").
 
-*   **`Externalizable` (The Control Freak's Way):**
+*   **`Externalizable` (The Control Freak's Way):
     -   **Pros:**
         1.  **Performance:** You have full control to write only the data you need in the most efficient format. You can use custom binary formats, compression, etc. This is often much faster and results in a smaller byte stream.
         2.  **Stability:** You define the serialized format. You can add new fields to your class without breaking compatibility with older versions, as long as your `readExternal` and `writeExternal` methods can handle the format.
