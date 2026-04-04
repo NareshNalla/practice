@@ -8,7 +8,7 @@ This document provides a more nuanced, in-depth look at key system design and in
 
 ### TCP vs. UDP
 
-**The Standard Answer:** TCP is a reliable, connection-oriented protocol, while UDP is an unreliable, connectionless protocol.
+- TCP is a reliable, connection-oriented protocol, while UDP is an unreliable, connectionless protocol.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -26,7 +26,7 @@ The real trade-off between TCP and UDP is **reliability vs. latency**.
 
 ### Load Balancer: Sticky Sessions
 
-**The Standard Answer:** Sticky sessions ensure a user is always sent to the same server.
+- Sticky sessions ensure a user is always sent to the same server.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -42,13 +42,13 @@ Sticky sessions are a **stateful solution to a stateless problem**, and that sho
     *   **In-Memory Cache (e.g., Redis, Memcached):** Extremely fast. The application servers would fetch session data from the cache using a session ID stored in a client-side cookie. This is the most common and scalable solution.
     *   **Database:** Slower, but can be used for sessions that require stronger persistence.
 
-By making the application servers stateless, any server can handle any user's request at any time. This leads to better load distribution, seamless scaling, and improved fault tolerance. In an interview, you should always advocate for a stateless architecture first and only use sticky sessions as a last resort for legacy systems.
+By making the application servers stateless, any server can handle any user's request at any time. This leads to better load distribution, seamless scaling, and improved fault tolerance. 
 
 ---
 
 ### Nginx: Static vs. Dynamic Content
 
-**The Standard Answer:** Nginx serves static files and reverse-proxies dynamic requests.
+- Nginx serves static files and reverse-proxies dynamic requests.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -66,7 +66,7 @@ This is why Nginx excels at serving static files (which is pure I/O) and handlin
 
 ### Security: SSL/TLS Termination
 
-**The Standard Answer:** SSL termination is decrypting HTTPS at the load balancer.
+- SSL termination is decrypting HTTPS at the load balancer.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -93,7 +93,7 @@ This gives you the best of both worlds: you still get the certificate management
 
 ### SQL vs. NoSQL
 
-**The Standard Answer:** SQL is for relational data with a fixed schema, and NoSQL is for non-relational data with a dynamic schema.
+- SQL is for relational data with a fixed schema, and NoSQL is for non-relational data with a dynamic schema.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -111,7 +111,7 @@ The core difference lies in their design philosophy and how they handle the **CA
 
 ### Database Indexing
 
-**The Standard Answer:** An index helps speed up queries.
+- An index helps speed up queries.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -134,7 +134,7 @@ An index speeds up **reads** at the cost of slower **writes** and increased **st
 
 ### Docker: `CMD` vs. `ENTRYPOINT`
 
-**The Standard Answer:** `CMD` is the default command, and `ENTRYPOINT` is the main executable.
+- `CMD` is the default command, and `ENTRYPOINT` is the main executable.
 
 **The Deeper, Interview-Level Answer:**
 
@@ -168,7 +168,7 @@ The key difference is how they interact with arguments passed from the `docker r
 
 ### AWS: VPC, Subnets, and Availability Zones
 
-**The Standard Answer:** A VPC is a virtual network, an AZ is a data center, and a subnet is a piece of a VPC.
+- A VPC is a virtual network, an AZ is a data center, and a subnet is a piece of a VPC.
 
 **The Deeper, Interview-Level Answer:**
 

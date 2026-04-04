@@ -2,7 +2,7 @@
 2. What is the difference between Traditional AI and Generative AI?
 3. How does Generative AI differ from Agentic AI?
 4. What is the Encoder-Decoder Model in AI?
-5. What are Autoencoders and how do they work?
+5. What are Auto-encoders and how do they work?
 6. What is a Variational Autoencoder (VAE)? How does it differ from a standard autoencoder?
 7. Explain the concept of Context Window in LLMs.
 8. What is Memory in LLMs and how is it implemented in agentic systems?
@@ -19,3 +19,10 @@
 19. What is the role of Vector Stores in a RAG pipeline?
 20. Explain different types of prompting.
 21. smart grid 2.0 , criticality.
+22. Explain the concept of overfitting in machine learning.
+23. How would you optimize a slow AI model?
+24. Design an AI system for natural language processing
+25. explain machine learning algorithms such as linear regression, logistic regression, and decision trees.
+26. natural language processing (NLP) techniques ?
+27. System design questions focused on designing scalable and efficient AI systems, considering factors like data volume, latency requirements, and fault tolerance
+28. Difference between Supervised and Unsupervised learning with examples.

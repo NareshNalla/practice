@@ -129,10 +129,10 @@ This contract is fundamental for the correct functioning of hash-based collectio
 
 ### `HashMap` Internals
 
-**The Standard Answer:** `HashMap` uses `hashCode()` to find a bucket and stores entries in a linked list.
+- `HashMap` uses `hashCode()` to find a bucket and stores entries in a linked list.
 
 
-An interviewer wants to see that you understand the process, edge cases, and Java 8 improvements.
+edge cases, and Java 8 improvements.
 *   **Process:** `hashCode()` -> secondary hash -> index calculation -> find bucket.
 *   **Collision Handling:**
     *   **Before Java 8:** Always a linked list. Worst-case lookup is O(n).
@@ -141,7 +141,7 @@ An interviewer wants to see that you understand the process, edge cases, and Jav
 
 ### ConcurrentHashMap vs. Collections.synchronizedMap
 
-**The Standard Answer:** Both are thread-safe, but `ConcurrentHashMap` is more performant.
+- Both are thread-safe, but `ConcurrentHashMap` is more performant.
 
 
 The difference is their **concurrency strategy**.
@@ -332,7 +332,7 @@ The key principle is the **Delegation Model**.
 
 ### Serialization: `Serializable` vs. `Externalizable`
 
-**The Standard Answer:** `Serializable` is a marker interface for automatic serialization, while `Externalizable` gives you manual control.
+- `Serializable` is a marker interface for automatic serialization, while `Externalizable` gives you manual control.
 
 
 The choice between them is a trade-off between **ease of use vs. performance and security**.
