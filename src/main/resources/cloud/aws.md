@@ -106,7 +106,7 @@
 
 ---
 
-## 8. Infrastructure as Code (CloudFormation, Terraform, CDK)
+## 8. Infrastructure as Code (CloudFormation, Terraform, CDK(AWS cloud development kit))
 
 **CloudFormation:** AWS-native IaC service using JSON/YAML templates.
 **Terraform:** Cloud-agnostic IaC tool.

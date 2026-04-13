@@ -8,8 +8,8 @@ SpringBoot offers powerful support for message-driven architecture using brokers
 
 KAFKA:
 Kafka is a distributed streaming platform ,and is a publish-subscribe open-source messaging system
-Kafka organizes data into categories called "topics" . Producers ( apps that send data) put messages into these topics, and Consumers ( apps that read data) receive them. Kafka
-ensures that system is reliable and can keep working even if some parts fail.
+Kafka organizes data into categories called "topics" . Producers ( apps that send data) put messages into these topics, and
+Consumers ( apps that read data) receive them. Kafka ensures that system is reliable and can keep working even if some parts fail.
 
 **Key components:**
 - Producer: published messages to kafka topics
@@ -25,8 +25,7 @@ ensures that system is reliable and can keep working even if some parts fail.
 - Kafka Connect: (TO & FROM) framework for integrating kafka with external systems. It simplifies the development of connectors for ingesting data from or delivering data to various sources and sinks.
 - Kafka Streams:Stream processing library that allows developers to build real-time applications and microservices using kafka as the underlying data infrastructure.
 
-offset commit done by consumers. partitions or disk spaces.
-cluster: 
+offset commit d
 
 - KafkaTopic Partitions replication: multiple replicas. One replica is designated as the leader, and others are followers
 
