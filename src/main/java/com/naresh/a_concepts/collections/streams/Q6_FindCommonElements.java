@@ -20,7 +20,7 @@ public class Q6_FindCommonElements {
         // 3. Collect the results into a new list.
         List<Integer> commonElements = listA.stream()
                 .filter(listB::contains)
-                .collect(Collectors.toList());
+                .toList();
 
         System.out.println("List A: " + listA);
         System.out.println("List B: " + listB);

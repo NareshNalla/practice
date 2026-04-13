@@ -3,6 +3,7 @@ package com.naresh.a_concepts.collections.streams;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -16,7 +17,7 @@ public class Q5_SeparateDuplicatesAndUniques {
 
         // Logic:
         // 1. Create a frequency map of the elements.
-        Map<Integer, Long> frequencyMap = list.stream()
+        Map<Integer, Long> frequencyMap = list.stream() //Function.identity()
                 .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
 
         // 2. Filter the map's entry set to find duplicates (count > 1).

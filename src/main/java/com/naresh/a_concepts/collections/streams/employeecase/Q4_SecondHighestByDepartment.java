@@ -1,4 +1,4 @@
-package com.naresh.a_concepts.collections.streams.model;
+package com.naresh.a_concepts.collections.streams.employeecase;
 
 import java.util.*;
 import java.util.stream.*;

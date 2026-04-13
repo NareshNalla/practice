@@ -1,4 +1,4 @@
-package com.naresh.a_concepts.collections.streams.model;
+package com.naresh.a_concepts.collections.streams.employeecase;
 
 public class Employee {
     private String name;
