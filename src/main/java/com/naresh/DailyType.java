@@ -25,9 +25,29 @@ public class DailyType {
 
         System.out.println(joined);
 
-        //java 16+
-        record Person(String name, int age){}
+        //record java 16+
+        record Person(String name, int age){
+            Person{
+                if(age>0) throw new IllegalArgumentException("age<0");
+            }
+        }
         var person = new Person("Naresh", 35);
-        System.out.println(person);
+        var person1 = new Person("Test", 0);
+        System.out.println(person.name()); //not getName()
+        System.out.println(person1);
+        //SEALED class and pattern matching
+        Shape shape = new Circle(5.0);
+        if (shape instanceof Circle cir) {//java 17
+            System.out.println(shape);
+        }
+        double area = switch(shape){ //exaustive - no default needed
+            case Circle cir -> Math.PI * cir.r() * cir.r();
+            case Rect rec -> rec.w * rec.h;
+        };
+
+
     }
+    sealed interface Shape permits Circle, Rect {}
+    record Circle(double r) implements Shape {}
+    record Rect(double w, double h) implements Shape {}
 }
