@@ -3,7 +3,7 @@ package com.naresh.a_dsalgo.number;
 public class ArmstrongNumber {
 	public static void main(String[] args) {
 		//int x = 153;
-		int x = 1531;
+		int x = 153;
 		System.out.println(isArmstong(x));
 	}
 

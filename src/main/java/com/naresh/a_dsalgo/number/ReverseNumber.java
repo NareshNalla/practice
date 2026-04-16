@@ -2,8 +2,14 @@ package com.naresh.a_dsalgo.number;
 
 public class ReverseNumber {
 	public static void main(String[] args) {
-		int num = 1201;
-		System.out.println(reversNum(num));
+		int num = 121;
+		System.out.println(" revers "+reversNum(num));
+        int reverse = reversNum(num);
+        if(reverse == num){
+            System.out.println(" palindrome True");
+        }else{
+            System.out.println("palindrome False");
+        }
 	}
 
 	private static int reversNum(int num) {

@@ -5,12 +5,10 @@ public class CountingSort {
 	public static void main(String[] args) {
 	   int[] a={3,2,1,5,4,1,2};
 	   sort(a);
-		for(int i:a){
-			System.out.print(i+" ");
-		}
+
 		String s="nareshnalla";
 		char[] r =    sortString(s);
-				System.out.print(r+" ");
+        System.out.println(r+" ");
 	}
 
 	private static  char[]   sortString(String a) {
