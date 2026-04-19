@@ -2,6 +2,7 @@ package com.naresh.a_dsalgo.arrays.problems;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class TwoSum {
     public static void main(String[] args) {
@@ -18,30 +19,42 @@ public class TwoSum {
     
     /**
      * Optimized Two Sum using a HashMap (value -> index).
-     * Thinking: for each number x, check if target-x was seen before. If so, we have a pair.
-     * Time: O(n), Space: O(n).
+     * Time Complexity: O(n)
+     * Space Complexity: O(n)
+     *
+     * @param nums   The input array of integers.
+     * @param target The target sum to find.
+     * @return An array of two indices that sum to the target.
+     * @throws NullPointerException     if nums is null.
+     * @throws IllegalArgumentException if no solution is found.
      */
-    public static int[] twoSum(int[] nums, int target) {
-        // Use a HashMap to achieve O(n) time: value -> index
-        Map<Integer, Integer> indexByValue = new HashMap<>();
+    public static int[] twoSum(final int[] nums, final int target) {
+        Objects.requireNonNull(nums, "Input array 'nums' cannot be null");
+
+        // Use local variable type inference (var) introduced in Java 10.
+        // Initialize HashMap with an appropriate initial capacity to minimize resizing.
+        // Default load factor is 0.75.
+        var indexByValue = new HashMap<Integer, Integer>((int) (nums.length / 0.75) + 1);
+
         for (int i = 0; i < nums.length; i++) {
             int complement = target - nums[i];
-            if (indexByValue.containsKey(complement)) {
-                return new int[]{indexByValue.get(complement), i};
+            // Single lookup using get() is more efficient than containsKey() followed by get().
+            Integer complementIndex = indexByValue.getOrDefault(complement, -1);
+            if (complementIndex != -1 && complementIndex != i) {
+                return new int[]{complementIndex, i};
             }
             indexByValue.put(nums[i], i);
         }
-        // If no solution, throw an exception to explicitly signal the problem
-        throw new IllegalArgumentException("No two sum solution for target: " + target);
+
+        throw new IllegalArgumentException(String.format("No two sum solution found for target: %d", target));
     }
 
     /**
      * Brute-force Two Sum
-     * Thinking: try every pair (i, j) with i < j and check if nums[i] + nums[j] == target.
      * Time: O(n^2), Space: O(1).
-     * Use this when n is small or to validate correctness of optimized solutions.
      */
     public static int[] twoSumBruteForce(int[] nums, int target) {
+        Objects.requireNonNull(nums, "Input array 'nums' cannot be null");
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
                 if (nums[i] + nums[j] == target) {

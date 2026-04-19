@@ -1,4 +1,4 @@
-package com.naresh.a_dsalgo.string;
+package com.naresh.a_dsalgo.strings.problems;
 
 public class InPlaceReverse {
 	public static void main(String[] args) {

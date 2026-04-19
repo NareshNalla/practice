@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Boot Syntax Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0d1117;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 10% 20%, rgba(0,212,255,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(124,58,237,0.05) 0%, transparent 50%);
+  }
+
+  header {
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(0,212,255,0.04) 0%, rgba(124,58,237,0.04) 100%);
+  }
+
+  header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  nav a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,212,255,0.06);
+  }
+
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  .section {
+    margin-bottom: 56px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-core    { background: rgba(0,212,255,0.15); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); }
+  .tag-web     { background: rgba(16,185,129,0.15); color: var(--accent3); border: 1px solid rgba(16,185,129,0.3); }
+  .tag-data    { background: rgba(245,158,11,0.15); color: var(--accent4); border: 1px solid rgba(245,158,11,0.3); }
+  .tag-security{ background: rgba(239,68,68,0.15); color: var(--accent5); border: 1px solid rgba(239,68,68,0.3); }
+  .tag-advanced{ background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+
+  .section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(0,212,255,0.4);
+    transform: translateY(-2px);
+  }
+
+  .card-head {
+    padding: 12px 16px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-head h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .card-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .card-body {
+    padding: 0;
+  }
+
+  pre {
+    background: var(--code-bg);
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.65;
+    overflow-x: auto;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .kw  { color: #ff79c6; }
+  .an  { color: #50fa7b; }   /* annotations */
+  .str { color: #f1fa8c; }
+  .cls { color: #8be9fd; }
+  .com { color: #6272a4; font-style: italic; }
+  .num { color: #bd93f9; }
+  .met { color: #ffb86c; }
+
+  /* Wide card */
+  .card.wide {
+    grid-column: 1 / -1;
+  }
+
+  .card.wide pre {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0;
+  }
+
+  .note {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(0,212,255,0.05);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(245,158,11,0.15);
+    color: var(--accent4);
+    border: 1px solid rgba(245,158,11,0.3);
+  }
+
+  @media (max-width: 768px) {
+    header, nav, main { padding-left: 20px; padding-right: 20px; }
+    header h1 { font-size: 1.9rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Spring Boot Syntax Guide</h1>
+  <p>// Annotations · Configuration · REST · Data · Security · Scheduling · Testing</p>
+</header>
+
+<nav>
+  <a href="#core">Core Annotations</a>
+  <a href="#web">REST / Web</a>
+  <a href="#data">Data / JPA</a>
+  <a href="#config">Configuration</a>
+  <a href="#scheduling">Scheduling</a>
+  <a href="#security">Security</a>
+  <a href="#validation">Validation</a>
+  <a href="#events">Events</a>
+  <a href="#testing">Testing</a>
+  <a href="#actuator">Actuator</a>
+  <a href="#webflux">WebFlux / Reactive</a>
+  <a href="#springai">Spring AI</a>
+</nav>
+
+<main>
+
+<!-- ===== CORE ===== -->
+<section class="section" id="core">
+  <div class="section-header">
+    <span class="section-tag tag-core">CORE</span>
+    <h2>Core Bootstrap Annotations</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>@SpringBootApplication</h3><span class="card-desc">entry point</span></div>
+      <div class="card-body"><pre><span class="an">@SpringBootApplication</span>  <span class="com">// = @Configuration + @EnableAutoConfiguration + @ComponentScan</span>
+<span class="kw">public class</span> <span class="cls">MyApp</span> {
+    <span class="kw">public static void</span> <span class="met">main</span>(String[] args) {
+        SpringApplication.<span class="met">run</span>(MyApp.<span class="kw">class</span>, args);
+    }
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Component Stereotypes</h3><span class="card-desc">bean declarations</span></div>
+      <div class="card-body"><pre><span class="an">@Component</span>   <span class="com">// generic bean</span>
+<span class="an">@Service</span>     <span class="com">// business logic layer</span>
+<span class="an">@Repository</span>  <span class="com">// data layer (+ exception translation)</span>
+<span class="an">@Controller</span>  <span class="com">// MVC controller</span>
+<span class="an">@RestController</span> <span class="com">// @Controller + @ResponseBody</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Bean &amp; @Configuration</h3><span class="card-desc">manual bean wiring</span></div>
+      <div class="card-body"><pre><span class="an">@Configuration</span>
+<span class="kw">public class</span> <span class="cls">AppConfig</span> {
+
+    <span class="an">@Bean</span>
+    <span class="kw">public</span> <span class="cls">ObjectMapper</span> <span class="met">objectMapper</span>() {
+        <span class="kw">return new</span> <span class="cls">ObjectMapper</span>();
+    }
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Dependency Injection</h3><span class="card-desc">wiring beans</span></div>
+      <div class="card-body"><pre><span class="com">// Constructor injection (preferred)</span>
+<span class="an">@Service</span>
+<span class="kw">public class</span> <span class="cls">OrderService</span> {
+    <span class="kw">private final</span> <span class="cls">OrderRepo</span> repo;
+    <span class="kw">public</span> <span class="met">OrderService</span>(<span class="cls">OrderRepo</span> repo) { <span class="kw">this</span>.repo = repo; }
+}
+
+<span class="com">// Field injection (avoid in prod)</span>
+<span class="an">@Autowired</span> <span class="kw">private</span> <span class="cls">MyService</span> svc;
+
+<span class="com">// Qualifier when multiple impls exist</span>
+<span class="an">@Qualifier</span>(<span class="str">"primaryDataSource"</span>) <span class="cls">DataSource</span> ds;</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Scope</h3><span class="card-desc">bean lifecycle</span></div>
+      <div class="card-body"><pre><span class="an">@Scope</span>(<span class="str">"singleton"</span>)   <span class="com">// default</span>
+<span class="an">@Scope</span>(<span class="str">"prototype"</span>)   <span class="com">// new instance per injection</span>
+<span class="an">@Scope</span>(<span class="str">"request"</span>)     <span class="com">// per HTTP request</span>
+<span class="an">@Scope</span>(<span class="str">"session"</span>)     <span class="com">// per HTTP session</span>
+
+<span class="an">@Lazy</span>  <span class="com">// initialize only when first needed</span>
+<span class="an">@Primary</span>  <span class="com">// preferred bean when multiple exist</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Lifecycle Hooks</h3><span class="card-desc">init / destroy</span></div>
+      <div class="card-body"><pre><span class="an">@PostConstruct</span>
+<span class="kw">public void</span> <span class="met">init</span>() { <span class="com">// runs after bean created</span> }
+
+<span class="an">@PreDestroy</span>
+<span class="kw">public void</span> <span class="met">cleanup</span>() { <span class="com">// runs before bean destroyed</span> }
+
+<span class="com">// Or via @Bean(initMethod, destroyMethod)</span>
+<span class="an">@Bean</span>(initMethod = <span class="str">"start"</span>, destroyMethod = <span class="str">"stop"</span>)
+<span class="kw">public</span> <span class="cls">MyService</span> <span class="met">myService</span>() { ... }</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== WEB / REST ===== -->
+<section class="section" id="web">
+  <div class="section-header">
+    <span class="section-tag tag-web">WEB</span>
+    <h2>REST Controller &amp; Mapping</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Request Mappings</h3><span class="card-desc">HTTP verbs</span></div>
+      <div class="card-body"><pre><span class="an">@RequestMapping</span>(<span class="str">"/api"</span>)        <span class="com">// class level prefix</span>
+<span class="an">@GetMapping</span>(<span class="str">"/users"</span>)
+<span class="an">@PostMapping</span>(<span class="str">"/users"</span>)
+<span class="an">@PutMapping</span>(<span class="str">"/users/{id}"</span>)
+<span class="an">@PatchMapping</span>(<span class="str">"/users/{id}"</span>)
+<span class="an">@DeleteMapping</span>(<span class="str">"/users/{id}"</span>)</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Parameter Extraction</h3><span class="card-desc">binding inputs</span></div>
+      <div class="card-body"><pre><span class="an">@PathVariable</span> Long id            <span class="com">// /users/{id}</span>
+<span class="an">@RequestParam</span> String name        <span class="com">// ?name=foo</span>
+<span class="an">@RequestParam</span>(required=<span class="kw">false</span>, defaultValue=<span class="str">"0"</span>) <span class="kw">int</span> page
+<span class="an">@RequestBody</span> <span class="cls">UserDto</span> dto         <span class="com">// JSON body → object</span>
+<span class="an">@RequestHeader</span>(<span class="str">"Authorization"</span>) String token
+<span class="an">@CookieValue</span>(<span class="str">"session"</span>) String sid</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>ResponseEntity</h3><span class="card-desc">control HTTP response</span></div>
+      <div class="card-body"><pre><span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="met">ok</span>(body);
+<span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="met">status</span>(<span class="num">201</span>).<span class="met">body</span>(created);
+<span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="met">noContent</span>().<span class="met">build</span>();
+<span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="met">notFound</span>().<span class="met">build</span>();
+<span class="kw">return</span> <span class="cls">ResponseEntity</span>
+    .<span class="met">created</span>(URI.<span class="met">create</span>(<span class="str">"/users/"</span> + id))
+    .<span class="met">body</span>(saved);</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Exception Handling</h3><span class="card-desc">global error handler</span></div>
+      <div class="card-body"><pre><span class="an">@RestControllerAdvice</span>
+<span class="kw">public class</span> <span class="cls">GlobalExceptionHandler</span> {
+
+    <span class="an">@ExceptionHandler</span>(<span class="cls">ResourceNotFoundException</span>.<span class="kw">class</span>)
+    <span class="an">@ResponseStatus</span>(<span class="cls">HttpStatus</span>.NOT_FOUND)
+    <span class="kw">public</span> <span class="cls">ErrorResponse</span> <span class="met">handleNotFound</span>(<span class="cls">Exception</span> ex) {
+        <span class="kw">return new</span> <span class="cls">ErrorResponse</span>(ex.<span class="met">getMessage</span>());
+    }
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>CORS</h3><span class="card-desc">cross-origin config</span></div>
+      <div class="card-body"><pre><span class="com">// Method level</span>
+<span class="an">@CrossOrigin</span>(origins = <span class="str">"http://localhost:3000"</span>)
+
+<span class="com">// Global in WebMvcConfigurer</span>
+registry.<span class="met">addMapping</span>(<span class="str">"/api/**"</span>)
+        .<span class="met">allowedOrigins</span>(<span class="str">"*"</span>)
+        .<span class="met">allowedMethods</span>(<span class="str">"GET"</span>, <span class="str">"POST"</span>)
+        .<span class="met">allowedHeaders</span>(<span class="str">"*"</span>);</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Filter / Interceptor</h3><span class="card-desc">request pipeline</span></div>
+      <div class="card-body"><pre><span class="com">// Filter</span>
+<span class="an">@Component</span>
+<span class="kw">public class</span> <span class="cls">LogFilter</span> <span class="kw">implements</span> <span class="cls">Filter</span> {
+    <span class="kw">public void</span> <span class="met">doFilter</span>(<span class="cls">ServletRequest</span> req,
+                         <span class="cls">ServletResponse</span> res,
+                         <span class="cls">FilterChain</span> chain) { ... }
+}
+
+<span class="com">// Interceptor</span>
+<span class="an">@Component</span>
+<span class="kw">public class</span> <span class="cls">AuthInterceptor</span> <span class="kw">implements</span> <span class="cls">HandlerInterceptor</span> {
+    <span class="kw">public boolean</span> <span class="met">preHandle</span>(<span class="cls">HttpServletRequest</span> req, ...) { ... }
+}</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== DATA ===== -->
+<section class="section" id="data">
+  <div class="section-header">
+    <span class="section-tag tag-data">DATA</span>
+    <h2>JPA / Data Access</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Entity Mapping</h3><span class="card-desc">JPA annotations</span></div>
+      <div class="card-body"><pre><span class="an">@Entity</span>
+<span class="an">@Table</span>(name = <span class="str">"users"</span>)
+<span class="kw">public class</span> <span class="cls">User</span> {
+    <span class="an">@Id</span>
+    <span class="an">@GeneratedValue</span>(strategy = <span class="cls">GenerationType</span>.IDENTITY)
+    <span class="kw">private</span> Long id;
+
+    <span class="an">@Column</span>(nullable = <span class="kw">false</span>, unique = <span class="kw">true</span>, length = <span class="num">100</span>)
+    <span class="kw">private</span> String email;
+
+    <span class="an">@CreatedDate</span> <span class="an">@UpdateTimestamp</span>
+    <span class="kw">private</span> LocalDateTime updatedAt;
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Relationships</h3><span class="card-desc">@OneToMany etc.</span></div>
+      <div class="card-body"><pre><span class="an">@OneToOne</span>(cascade = <span class="cls">CascadeType</span>.ALL)
+<span class="an">@JoinColumn</span>(name = <span class="str">"profile_id"</span>)
+<span class="kw">private</span> <span class="cls">Profile</span> profile;
+
+<span class="an">@OneToMany</span>(mappedBy = <span class="str">"user"</span>, fetch = <span class="cls">FetchType</span>.LAZY)
+<span class="kw">private</span> List&lt;<span class="cls">Order</span>&gt; orders;
+
+<span class="an">@ManyToOne</span>
+<span class="an">@JoinColumn</span>(name = <span class="str">"dept_id"</span>)
+<span class="kw">private</span> <span class="cls">Department</span> department;
+
+<span class="an">@ManyToMany</span>
+<span class="an">@JoinTable</span>(name = <span class="str">"user_roles"</span>,
+  joinColumns = <span class="an">@JoinColumn</span>(name=<span class="str">"user_id"</span>),
+  inverseJoinColumns = <span class="an">@JoinColumn</span>(name=<span class="str">"role_id"</span>))
+<span class="kw">private</span> Set&lt;<span class="cls">Role</span>&gt; roles;</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Repository Pattern</h3><span class="card-desc">Spring Data JPA</span></div>
+      <div class="card-body"><pre><span class="com">// Basic CRUD</span>
+<span class="kw">public interface</span> <span class="cls">UserRepo</span> <span class="kw">extends</span> <span class="cls">JpaRepository</span>&lt;<span class="cls">User</span>, Long&gt; {}
+
+<span class="com">// Derived query methods</span>
+List&lt;<span class="cls">User</span>&gt; <span class="met">findByEmailAndActive</span>(String email, <span class="kw">boolean</span> active);
+Optional&lt;<span class="cls">User</span>&gt; <span class="met">findByUsername</span>(String username);
+<span class="kw">long</span> <span class="met">countByDepartment</span>(<span class="cls">Department</span> dept);
+<span class="kw">void</span> <span class="met">deleteByEmail</span>(String email);</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Query</h3><span class="card-desc">JPQL / native</span></div>
+      <div class="card-body"><pre><span class="an">@Query</span>(<span class="str">"SELECT u FROM User u WHERE u.email = :email"</span>)
+<span class="cls">User</span> <span class="met">findByEmail</span>(<span class="an">@Param</span>(<span class="str">"email"</span>) String email);
+
+<span class="com">// Native SQL</span>
+<span class="an">@Query</span>(value = <span class="str">"SELECT * FROM users WHERE status = ?1"</span>,
+       nativeQuery = <span class="kw">true</span>)
+List&lt;<span class="cls">User</span>&gt; <span class="met">findByStatus</span>(String status);
+
+<span class="com">// Modifying</span>
+<span class="an">@Modifying</span> <span class="an">@Transactional</span>
+<span class="an">@Query</span>(<span class="str">"UPDATE User u SET u.active=false WHERE u.id=:id"</span>)
+<span class="kw">void</span> <span class="met">deactivate</span>(<span class="an">@Param</span>(<span class="str">"id"</span>) Long id);</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Transactional</h3><span class="card-desc">transaction management</span></div>
+      <div class="card-body"><pre><span class="an">@Transactional</span>  <span class="com">// defaults: propagation=REQUIRED, isolation=DEFAULT</span>
+<span class="an">@Transactional</span>(readOnly = <span class="kw">true</span>)  <span class="com">// for read-only methods</span>
+<span class="an">@Transactional</span>(propagation = <span class="cls">Propagation</span>.REQUIRES_NEW)
+<span class="an">@Transactional</span>(isolation = <span class="cls">Isolation</span>.SERIALIZABLE)
+<span class="an">@Transactional</span>(rollbackFor = <span class="cls">Exception</span>.<span class="kw">class</span>)
+<span class="an">@Transactional</span>(timeout = <span class="num">30</span>)</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Pagination &amp; Sorting</h3><span class="card-desc">Pageable</span></div>
+      <div class="card-body"><pre><span class="cls">Pageable</span> pageable = <span class="cls">PageRequest</span>.<span class="met">of</span>(<span class="num">0</span>, <span class="num">10</span>,
+    <span class="cls">Sort</span>.<span class="met">by</span>(<span class="str">"createdAt"</span>).<span class="met">descending</span>());
+
+<span class="cls">Page</span>&lt;<span class="cls">User</span>&gt; page = repo.<span class="met">findAll</span>(pageable);
+page.<span class="met">getContent</span>();     <span class="com">// list of items</span>
+page.<span class="met">getTotalElements</span>(); <span class="com">// total count</span>
+page.<span class="met">getTotalPages</span>();    <span class="com">// page count</span>
+page.<span class="met">hasNext</span>();         <span class="com">// more pages?</span></pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CONFIG ===== -->
+<section class="section" id="config">
+  <div class="section-header">
+    <span class="section-tag tag-core">CONFIG</span>
+    <h2>Configuration &amp; Properties</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>@Value</h3><span class="card-desc">inject properties</span></div>
+      <div class="card-body"><pre><span class="an">@Value</span>(<span class="str">"${app.name}"</span>)
+<span class="kw">private</span> String appName;
+
+<span class="an">@Value</span>(<span class="str">"${app.timeout:30}"</span>)   <span class="com">// default = 30</span>
+<span class="kw">private int</span> timeout;
+
+<span class="an">@Value</span>(<span class="str">"${app.admins}"</span>)        <span class="com">// comma-separated list</span>
+<span class="kw">private</span> List&lt;String&gt; admins;
+
+<span class="an">@Value</span>(<span class="str">"#{systemProperties['java.home']}"</span>)  <span class="com">// SpEL</span>
+<span class="kw">private</span> String javaHome;</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@ConfigurationProperties</h3><span class="card-desc">typed config binding</span></div>
+      <div class="card-body"><pre><span class="an">@ConfigurationProperties</span>(prefix = <span class="str">"app"</span>)
+<span class="an">@Component</span>
+<span class="kw">public class</span> <span class="cls">AppProperties</span> {
+    <span class="kw">private</span> String name;
+    <span class="kw">private int</span> timeout;
+    <span class="kw">private</span> <span class="cls">Database</span> database;
+    <span class="com">// getters + setters</span>
+}
+<span class="com">// application.yml:</span>
+<span class="com">// app.name=MyApp</span>
+<span class="com">// app.database.url=jdbc:...</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Profile</h3><span class="card-desc">environment-specific beans</span></div>
+      <div class="card-body"><pre><span class="an">@Profile</span>(<span class="str">"dev"</span>)     <span class="com">// only active in dev</span>
+<span class="an">@Profile</span>(<span class="str">"!prod"</span>)  <span class="com">// active when NOT prod</span>
+<span class="an">@Profile</span>({<span class="str">"dev"</span>, <span class="str">"test"</span>})  <span class="com">// either profile</span>
+
+<span class="com">// Activate via:</span>
+<span class="com">// application.properties: spring.profiles.active=dev</span>
+<span class="com">// CLI: --spring.profiles.active=prod</span>
+<span class="com">// Env var: SPRING_PROFILES_ACTIVE=prod</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Conditional</h3><span class="card-desc">conditional beans</span></div>
+      <div class="card-body"><pre><span class="an">@ConditionalOnProperty</span>(name=<span class="str">"feature.enabled"</span>, havingValue=<span class="str">"true"</span>)
+<span class="an">@ConditionalOnMissingBean</span>(<span class="cls">MyService</span>.<span class="kw">class</span>)
+<span class="an">@ConditionalOnClass</span>(name = <span class="str">"com.example.SomeClass"</span>)
+<span class="an">@ConditionalOnBean</span>(<span class="cls">DataSource</span>.<span class="kw">class</span>)
+<span class="an">@ConditionalOnWebApplication</span>
+<span class="an">@ConditionalOnExpression</span>(<span class="str">"'${env}'=='prod'"</span>)</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SCHEDULING ===== -->
+<section class="section" id="scheduling">
+  <div class="section-header">
+    <span class="section-tag tag-advanced">SCHEDULING</span>
+    <h2>Task Scheduling</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>@Scheduled</h3><span class="card-desc">cron / fixed rate</span></div>
+      <div class="card-body"><pre><span class="an">@EnableScheduling</span>  <span class="com">// on @SpringBootApplication or @Configuration</span>
+
+<span class="an">@Scheduled</span>(fixedRate = <span class="num">5000</span>)           <span class="com">// every 5s</span>
+<span class="an">@Scheduled</span>(fixedDelay = <span class="num">5000</span>)          <span class="com">// 5s after last completes</span>
+<span class="an">@Scheduled</span>(initialDelay = <span class="num">1000</span>, fixedRate = <span class="num">5000</span>)
+<span class="an">@Scheduled</span>(cron = <span class="str">"0 0 * * * *"</span>)       <span class="com">// every hour</span>
+<span class="an">@Scheduled</span>(cron = <span class="str">"0 0 9 * * MON-FRI"</span>) <span class="com">// 9am weekdays</span>
+<span class="kw">public void</span> <span class="met">task</span>() { ... }</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Cron Expression Format</h3><span class="card-desc">6-field Spring cron</span></div>
+      <div class="card-body"><pre><span class="com">// second minute hour day-of-month month day-of-week</span>
+<span class="str">"0 0 12 * * ?"</span>       <span class="com">// noon every day</span>
+<span class="str">"0 15 10 ? * 6L"</span>     <span class="com">// 10:15am last Fri of month</span>
+<span class="str">"0 0/5 * * * ?"</span>      <span class="com">// every 5 minutes</span>
+<span class="str">"0 0 0 1 1 ?"</span>        <span class="com">// midnight Jan 1st</span>
+<span class="str">"${cron.expression}"</span> <span class="com">// from properties</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Async</h3><span class="card-desc">async task execution</span></div>
+      <div class="card-body"><pre><span class="an">@EnableAsync</span>  <span class="com">// on config class</span>
+
+<span class="an">@Async</span>
+<span class="kw">public</span> CompletableFuture&lt;String&gt; <span class="met">fetchData</span>() {
+    <span class="kw">return</span> CompletableFuture.<span class="met">completedFuture</span>(<span class="str">"result"</span>);
+}
+
+<span class="an">@Async</span>(<span class="str">"myThreadPool"</span>)  <span class="com">// named executor</span>
+<span class="kw">public void</span> <span class="met">asyncTask</span>() { ... }
+
+<span class="com">// Define custom executor</span>
+<span class="an">@Bean</span>(<span class="str">"myThreadPool"</span>)
+<span class="kw">public</span> <span class="cls">Executor</span> <span class="met">taskExecutor</span>() {
+    <span class="kw">return new</span> <span class="cls">ThreadPoolTaskExecutor</span>();
+}</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SECURITY ===== -->
+<section class="section" id="security">
+  <div class="section-header">
+    <span class="section-tag tag-security">SECURITY</span>
+    <h2>Spring Security</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>SecurityFilterChain</h3><span class="card-desc">Spring Security 6+</span></div>
+      <div class="card-body"><pre><span class="an">@Bean</span>
+<span class="kw">public</span> <span class="cls">SecurityFilterChain</span> <span class="met">filterChain</span>(<span class="cls">HttpSecurity</span> http) <span class="kw">throws</span> <span class="cls">Exception</span> {
+    <span class="kw">return</span> http
+        .<span class="met">csrf</span>(<span class="cls">AbstractHttpConfigurer</span>::disable)
+        .<span class="met">authorizeHttpRequests</span>(auth -> auth
+            .<span class="met">requestMatchers</span>(<span class="str">"/public/**"</span>).<span class="met">permitAll</span>()
+            .<span class="met">requestMatchers</span>(<span class="str">"/admin/**"</span>).<span class="met">hasRole</span>(<span class="str">"ADMIN"</span>)
+            .<span class="met">anyRequest</span>().<span class="met">authenticated</span>())
+        .<span class="met">sessionManagement</span>(s -> s.<span class="met">sessionCreationPolicy</span>(<span class="cls">STATELESS</span>))
+        .<span class="met">build</span>();
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Method Security</h3><span class="card-desc">annotation-based authz</span></div>
+      <div class="card-body"><pre><span class="an">@EnableMethodSecurity</span>  <span class="com">// on config class</span>
+
+<span class="an">@PreAuthorize</span>(<span class="str">"hasRole('ADMIN')"</span>)
+<span class="an">@PostAuthorize</span>(<span class="str">"returnObject.owner == authentication.name"</span>)
+<span class="an">@PreFilter</span>(<span class="str">"filterObject.active == true"</span>)
+<span class="an">@PostFilter</span>(<span class="str">"filterObject.owner == authentication.name"</span>)
+<span class="an">@Secured</span>({<span class="str">"ROLE_ADMIN"</span>, <span class="str">"ROLE_MANAGER"</span>})
+<span class="an">@RolesAllowed</span>(<span class="str">"ADMIN"</span>)</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>UserDetails / PasswordEncoder</h3><span class="card-desc">auth setup</span></div>
+      <div class="card-body"><pre><span class="com">// PasswordEncoder bean</span>
+<span class="an">@Bean</span>
+<span class="kw">public</span> <span class="cls">PasswordEncoder</span> <span class="met">passwordEncoder</span>() {
+    <span class="kw">return new</span> <span class="cls">BCryptPasswordEncoder</span>();
+}
+
+<span class="com">// UserDetailsService</span>
+<span class="an">@Override</span>
+<span class="kw">public</span> <span class="cls">UserDetails</span> <span class="met">loadUserByUsername</span>(String username) {
+    <span class="cls">User</span> u = repo.<span class="met">findByUsername</span>(username)
+        .<span class="met">orElseThrow</span>(() -> <span class="kw">new</span> <span class="cls">UsernameNotFoundException</span>(<span class="str">"..."</span>));
+    <span class="kw">return</span> <span class="cls">User</span>.<span class="met">builder</span>().<span class="met">username</span>(u.<span class="met">getEmail</span>())
+        .<span class="met">password</span>(u.<span class="met">getPassword</span>()).<span class="met">roles</span>(<span class="str">"USER"</span>).<span class="met">build</span>();
+}</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== VALIDATION ===== -->
+<section class="section" id="validation">
+  <div class="section-header">
+    <span class="section-tag tag-web">VALIDATION</span>
+    <h2>Bean Validation</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Constraint Annotations</h3><span class="card-desc">javax/jakarta.validation</span></div>
+      <div class="card-body"><pre><span class="an">@NotNull</span>           <span class="com">// not null</span>
+<span class="an">@NotBlank</span>          <span class="com">// not null and not whitespace</span>
+<span class="an">@NotEmpty</span>          <span class="com">// not null and not empty</span>
+<span class="an">@Size</span>(min=<span class="num">2</span>, max=<span class="num">50</span>)
+<span class="an">@Min</span>(<span class="num">1</span>) <span class="an">@Max</span>(<span class="num">100</span>)
+<span class="an">@Email</span>
+<span class="an">@Pattern</span>(regexp = <span class="str">"^[A-Z].*"</span>)
+<span class="an">@Positive</span> <span class="an">@PositiveOrZero</span>
+<span class="an">@Future</span> <span class="an">@FutureOrPresent</span> <span class="an">@Past</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@Valid / @Validated</h3><span class="card-desc">trigger validation</span></div>
+      <div class="card-body"><pre><span class="com">// Controller method</span>
+<span class="an">@PostMapping</span>(<span class="str">"/users"</span>)
+<span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">User</span>&gt; <span class="met">create</span>(<span class="an">@Valid</span> <span class="an">@RequestBody</span> <span class="cls">UserDto</span> dto,
+                                       <span class="cls">BindingResult</span> result) {
+    <span class="kw">if</span> (result.<span class="met">hasErrors</span>()) { ... }
+}
+
+<span class="com">// Service layer with groups</span>
+<span class="an">@Validated</span>(<span class="cls">OnCreate</span>.<span class="kw">class</span>)
+<span class="kw">public</span> <span class="cls">User</span> <span class="met">create</span>(<span class="an">@Valid</span> <span class="cls">UserDto</span> dto) { ... }</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== EVENTS ===== -->
+<section class="section" id="events">
+  <div class="section-header">
+    <span class="section-tag tag-advanced">EVENTS</span>
+    <h2>Application Events</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Publish / Listen</h3><span class="card-desc">event-driven beans</span></div>
+      <div class="card-body"><pre><span class="com">// Custom event</span>
+<span class="kw">public class</span> <span class="cls">UserCreatedEvent</span> <span class="kw">extends</span> <span class="cls">ApplicationEvent</span> {
+    <span class="kw">public</span> <span class="met">UserCreatedEvent</span>(Object source) { <span class="kw">super</span>(source); }
+}
+
+<span class="com">// Publish</span>
+<span class="an">@Autowired</span> <span class="cls">ApplicationEventPublisher</span> publisher;
+publisher.<span class="met">publishEvent</span>(<span class="kw">new</span> <span class="cls">UserCreatedEvent</span>(<span class="kw">this</span>));
+
+<span class="com">// Listen</span>
+<span class="an">@EventListener</span>
+<span class="kw">public void</span> <span class="met">onUserCreated</span>(<span class="cls">UserCreatedEvent</span> event) { ... }
+
+<span class="an">@EventListener</span>
+<span class="an">@Async</span>
+<span class="kw">public void</span> <span class="met">asyncListener</span>(<span class="cls">UserCreatedEvent</span> event) { ... }</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Built-in App Events</h3><span class="card-desc">lifecycle events</span></div>
+      <div class="card-body"><pre><span class="an">@EventListener</span>(<span class="cls">ApplicationReadyEvent</span>.<span class="kw">class</span>)
+<span class="kw">public void</span> <span class="met">onReady</span>() { <span class="com">// app fully started</span> }
+
+<span class="an">@EventListener</span>(<span class="cls">ContextRefreshedEvent</span>.<span class="kw">class</span>)
+<span class="kw">public void</span> <span class="met">onRefresh</span>() { ... }
+
+<span class="an">@EventListener</span>(<span class="cls">ContextClosedEvent</span>.<span class="kw">class</span>)
+<span class="kw">public void</span> <span class="met">onShutdown</span>() { ... }
+
+<span class="com">// Or via CommandLineRunner / ApplicationRunner</span>
+<span class="an">@Bean</span>
+<span class="kw">public</span> <span class="cls">CommandLineRunner</span> <span class="met">init</span>() {
+    <span class="kw">return</span> args -> { <span class="com">/* startup logic */</span> };
+}</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== TESTING ===== -->
+<section class="section" id="testing">
+  <div class="section-header">
+    <span class="section-tag tag-advanced">TESTING</span>
+    <h2>Testing Annotations</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Test Slices</h3><span class="card-desc">focused context loading</span></div>
+      <div class="card-body"><pre><span class="an">@SpringBootTest</span>                     <span class="com">// full context</span>
+<span class="an">@WebMvcTest</span>(<span class="cls">UserController</span>.<span class="kw">class</span>)   <span class="com">// only MVC layer</span>
+<span class="an">@DataJpaTest</span>                        <span class="com">// only JPA/repo layer</span>
+<span class="an">@JsonTest</span>                           <span class="com">// only JSON serialization</span>
+<span class="an">@MockBean</span>                           <span class="com">// mock a Spring bean</span>
+<span class="an">@SpyBean</span>                            <span class="com">// spy on a real bean</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>MockMvc</h3><span class="card-desc">test REST endpoints</span></div>
+      <div class="card-body"><pre><span class="an">@WebMvcTest</span>(<span class="cls">UserController</span>.<span class="kw">class</span>)
+<span class="kw">class</span> <span class="cls">UserControllerTest</span> {
+    <span class="an">@Autowired</span> <span class="cls">MockMvc</span> mockMvc;
+    <span class="an">@MockBean</span> <span class="cls">UserService</span> service;
+
+    <span class="an">@Test</span>
+    <span class="kw">void</span> <span class="met">getUser</span>() <span class="kw">throws</span> <span class="cls">Exception</span> {
+        mockMvc.<span class="met">perform</span>(<span class="met">get</span>(<span class="str">"/users/1"</span>))
+               .<span class="met">andExpect</span>(<span class="met">status</span>().<span class="met">isOk</span>())
+               .<span class="met">andExpect</span>(<span class="met">jsonPath</span>(<span class="str">"$.name"</span>).<span class="met">value</span>(<span class="str">"Naresh"</span>));
+    }
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@DataJpaTest</h3><span class="card-desc">repository testing</span></div>
+      <div class="card-body"><pre><span class="an">@DataJpaTest</span>
+<span class="kw">class</span> <span class="cls">UserRepoTest</span> {
+    <span class="an">@Autowired</span> <span class="cls">UserRepo</span> repo;
+    <span class="an">@Autowired</span> <span class="cls">TestEntityManager</span> em;
+
+    <span class="an">@Test</span>
+    <span class="kw">void</span> <span class="met">findByEmail</span>() {
+        em.<span class="met">persist</span>(<span class="kw">new</span> <span class="cls">User</span>(<span class="str">"test@example.com"</span>));
+        <span class="cls">Optional</span>&lt;<span class="cls">User</span>&gt; result = repo.<span class="met">findByEmail</span>(<span class="str">"test@example.com"</span>);
+        assertThat(result).<span class="met">isPresent</span>();
+    }
+}</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== ACTUATOR ===== -->
+<section class="section" id="actuator">
+  <div class="section-header">
+    <span class="section-tag tag-core">ACTUATOR</span>
+    <h2>Actuator &amp; Observability</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Key Endpoints</h3><span class="card-desc">management endpoints</span></div>
+      <div class="card-body"><pre><span class="com"># application.properties</span>
+management.endpoints.web.exposure.include=*
+management.endpoint.health.show-details=always
+
+<span class="com">// Endpoints</span>
+GET /actuator/health      <span class="com">// app health</span>
+GET /actuator/info        <span class="com">// app info</span>
+GET /actuator/metrics     <span class="com">// metrics list</span>
+GET /actuator/env         <span class="com">// environment properties</span>
+GET /actuator/beans       <span class="com">// all beans</span>
+GET /actuator/mappings    <span class="com">// all routes</span>
+POST /actuator/loggers    <span class="com">// change log levels</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Custom Health Indicator</h3><span class="card-desc">extend health checks</span></div>
+      <div class="card-body"><pre><span class="an">@Component</span>
+<span class="kw">public class</span> <span class="cls">ExternalApiHealth</span> <span class="kw">implements</span> <span class="cls">HealthIndicator</span> {
+
+    <span class="an">@Override</span>
+    <span class="kw">public</span> <span class="cls">Health</span> <span class="met">health</span>() {
+        <span class="kw">boolean</span> up = <span class="met">checkExternalApi</span>();
+        <span class="kw">return</span> up
+            ? <span class="cls">Health</span>.<span class="met">up</span>().<span class="met">withDetail</span>(<span class="str">"api"</span>, <span class="str">"reachable"</span>).<span class="met">build</span>()
+            : <span class="cls">Health</span>.<span class="met">down</span>().<span class="met">withDetail</span>(<span class="str">"api"</span>, <span class="str">"unreachable"</span>).<span class="met">build</span>();
+    }
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Logging Config</h3><span class="card-desc">log levels</span></div>
+      <div class="card-body"><pre><span class="com"># application.properties</span>
+logging.level.root=WARN
+logging.level.com.myapp=DEBUG
+logging.level.org.springframework.web=INFO
+logging.level.org.hibernate.SQL=DEBUG       <span class="com">// show SQL</span>
+logging.level.org.hibernate.type=TRACE      <span class="com">// show params</span>
+
+<span class="com">// In code</span>
+<span class="kw">private static final</span> <span class="cls">Logger</span> log =
+    <span class="cls">LoggerFactory</span>.<span class="met">getLogger</span>(MyClass.<span class="kw">class</span>);
+<span class="com">// Or Lombok: @Slf4j → use log.info(...)</span></pre></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== WEBFLUX ===== -->
+<section class="section" id="webflux">
+  <div class="section-header">
+    <span class="section-tag tag-advanced">WEBFLUX</span>
+    <h2>Spring WebFlux / Reactive</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>Mono &amp; Flux Basics</h3><span class="card-desc">reactive types</span></div>
+      <div class="card-body"><pre><span class="com">// Mono = 0 or 1 item</span>
+<span class="cls">Mono</span>&lt;<span class="cls">String</span>&gt; mono = <span class="cls">Mono</span>.<span class="met">just</span>(<span class="str">"hello"</span>);
+<span class="cls">Mono</span>&lt;<span class="cls">User</span>&gt;   monoUser = <span class="cls">Mono</span>.<span class="met">empty</span>();
+<span class="cls">Mono</span>&lt;<span class="cls">User</span>&gt;   monoErr  = <span class="cls">Mono</span>.<span class="met">error</span>(<span class="kw">new</span> <span class="cls">RuntimeException</span>());
+
+<span class="com">// Flux = 0..N items</span>
+<span class="cls">Flux</span>&lt;<span class="cls">String</span>&gt; flux = <span class="cls">Flux</span>.<span class="met">just</span>(<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>);
+<span class="cls">Flux</span>&lt;<span class="cls">User</span>&gt;   users = <span class="cls">Flux</span>.<span class="met">fromIterable</span>(list);
+<span class="cls">Flux</span>&lt;<span class="cls">Long</span>&gt;   ticks = <span class="cls">Flux</span>.<span class="met">interval</span>(<span class="cls">Duration</span>.<span class="met">ofSeconds</span>(<span class="num">1</span>));</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Reactive Controller</h3><span class="card-desc">@RestController with Flux/Mono</span></div>
+      <div class="card-body"><pre><span class="an">@RestController</span>
+<span class="an">@RequestMapping</span>(<span class="str">"/api/users"</span>)
+<span class="kw">public class</span> <span class="cls">UserController</span> {
+
+    <span class="an">@GetMapping</span>(<span class="str">"/{id}"</span>)
+    <span class="kw">public</span> <span class="cls">Mono</span>&lt;<span class="cls">User</span>&gt; <span class="met">getById</span>(<span class="an">@PathVariable</span> Long id) {
+        <span class="kw">return</span> service.<span class="met">findById</span>(id);
+    }
+
+    <span class="an">@GetMapping</span>(produces = <span class="cls">MediaType</span>.TEXT_EVENT_STREAM_VALUE)
+    <span class="kw">public</span> <span class="cls">Flux</span>&lt;<span class="cls">User</span>&gt; <span class="met">streamAll</span>() {  <span class="com">// SSE stream</span>
+        <span class="kw">return</span> service.<span class="met">findAll</span>();
+    }
+
+    <span class="an">@PostMapping</span>
+    <span class="kw">public</span> <span class="cls">Mono</span>&lt;<span class="cls">ResponseEntity</span>&lt;<span class="cls">User</span>&gt;&gt; <span class="met">create</span>(<span class="an">@RequestBody</span> <span class="cls">Mono</span>&lt;<span class="cls">UserDto</span>&gt; dto) {
+        <span class="kw">return</span> dto.<span class="met">flatMap</span>(service::<span class="met">save</span>)
+                  .<span class="met">map</span>(u -> <span class="cls">ResponseEntity</span>.<span class="met">status</span>(<span class="num">201</span>).<span class="met">body</span>(u));
+    }
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Operators Cheatsheet</h3><span class="card-desc">most-used operators</span></div>
+      <div class="card-body"><pre><span class="com">// Transform</span>
+mono.<span class="met">map</span>(u -> u.<span class="met">getName</span>())           <span class="com">// sync transform</span>
+mono.<span class="met">flatMap</span>(u -> repo.<span class="met">save</span>(u))      <span class="com">// async transform → Mono</span>
+flux.<span class="met">flatMap</span>(u -> enrich(u))          <span class="com">// async, unordered</span>
+flux.<span class="met">concatMap</span>(u -> enrich(u))        <span class="com">// async, ordered</span>
+
+<span class="com">// Filter / Collect</span>
+flux.<span class="met">filter</span>(u -> u.<span class="met">isActive</span>())
+flux.<span class="met">take</span>(<span class="num">10</span>).<span class="met">skip</span>(<span class="num">5</span>)
+flux.<span class="met">collectList</span>()                    <span class="com">// Flux → Mono&lt;List&gt;</span>
+flux.<span class="met">count</span>()                          <span class="com">// Flux → Mono&lt;Long&gt;</span>
+
+<span class="com">// Error handling</span>
+mono.<span class="met">onErrorReturn</span>(defaultValue)
+mono.<span class="met">onErrorResume</span>(e -> fallback(e))
+mono.<span class="met">doOnError</span>(e -> log.<span class="met">error</span>(<span class="str">"{}"</span>, e))
+mono.<span class="met">retry</span>(<span class="num">3</span>)</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Reactive Repository</h3><span class="card-desc">R2DBC / MongoDB</span></div>
+      <div class="card-body"><pre><span class="com">// R2DBC (reactive relational DB)</span>
+<span class="kw">public interface</span> <span class="cls">UserRepo</span> <span class="kw">extends</span> <span class="cls">ReactiveCrudRepository</span>&lt;<span class="cls">User</span>, Long&gt; {
+    <span class="cls">Flux</span>&lt;<span class="cls">User</span>&gt;  <span class="met">findByDepartment</span>(String dept);
+    <span class="cls">Mono</span>&lt;<span class="cls">User</span>&gt;  <span class="met">findByEmail</span>(String email);
+    <span class="cls">Mono</span>&lt;<span class="cls">Long</span>&gt;  <span class="met">countByActive</span>(<span class="kw">boolean</span> active);
+}
+
+<span class="com">// MongoDB reactive</span>
+<span class="kw">public interface</span> <span class="cls">ProductRepo</span> <span class="kw">extends</span> <span class="cls">ReactiveMongoRepository</span>&lt;<span class="cls">Product</span>, String&gt; {}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>WebClient</h3><span class="card-desc">reactive HTTP client</span></div>
+      <div class="card-body"><pre><span class="cls">WebClient</span> client = <span class="cls">WebClient</span>.<span class="met">builder</span>()
+    .<span class="met">baseUrl</span>(<span class="str">"https://api.example.com"</span>)
+    .<span class="met">defaultHeader</span>(<span class="cls">HttpHeaders</span>.CONTENT_TYPE, <span class="str">"application/json"</span>)
+    .<span class="met">build</span>();
+
+<span class="com">// GET → Mono</span>
+<span class="cls">Mono</span>&lt;<span class="cls">User</span>&gt; user = client.<span class="met">get</span>()
+    .<span class="met">uri</span>(<span class="str">"/users/{id}"</span>, <span class="num">42</span>)
+    .<span class="met">retrieve</span>()
+    .<span class="met">bodyToMono</span>(<span class="cls">User</span>.<span class="kw">class</span>);
+
+<span class="com">// GET → Flux (streaming list)</span>
+<span class="cls">Flux</span>&lt;<span class="cls">User</span>&gt; users = client.<span class="met">get</span>()
+    .<span class="met">uri</span>(<span class="str">"/users"</span>)
+    .<span class="met">retrieve</span>()
+    .<span class="met">bodyToFlux</span>(<span class="cls">User</span>.<span class="kw">class</span>);
+
+<span class="com">// POST with body</span>
+<span class="cls">Mono</span>&lt;<span class="cls">User</span>&gt; created = client.<span class="met">post</span>()
+    .<span class="met">uri</span>(<span class="str">"/users"</span>)
+    .<span class="met">bodyValue</span>(dto)
+    .<span class="met">retrieve</span>()
+    .<span class="met">onStatus</span>(<span class="cls">HttpStatus</span>::is4xxClientError,
+               r -> <span class="cls">Mono</span>.<span class="met">error</span>(<span class="kw">new</span> <span class="cls">BadRequestException</span>()))
+    .<span class="met">bodyToMono</span>(<span class="cls">User</span>.<span class="kw">class</span>);</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Functional Router</h3><span class="card-desc">RouterFunction style</span></div>
+      <div class="card-body"><pre><span class="an">@Configuration</span>
+<span class="kw">public class</span> <span class="cls">RouterConfig</span> {
+
+    <span class="an">@Bean</span>
+    <span class="kw">public</span> <span class="cls">RouterFunction</span>&lt;<span class="cls">ServerResponse</span>&gt; <span class="met">routes</span>(<span class="cls">UserHandler</span> handler) {
+        <span class="kw">return</span> <span class="met">route</span>()
+            .<span class="met">GET</span>(<span class="str">"/users"</span>, handler::<span class="met">getAll</span>)
+            .<span class="met">GET</span>(<span class="str">"/users/{id}"</span>, handler::<span class="met">getById</span>)
+            .<span class="met">POST</span>(<span class="str">"/users"</span>, handler::<span class="met">create</span>)
+            .<span class="met">DELETE</span>(<span class="str">"/users/{id}"</span>, handler::<span class="met">delete</span>)
+            .<span class="met">build</span>();
+    }
+}
+
+<span class="com">// Handler method signature</span>
+<span class="kw">public</span> <span class="cls">Mono</span>&lt;<span class="cls">ServerResponse</span>&gt; <span class="met">getById</span>(<span class="cls">ServerRequest</span> req) {
+    String id = req.<span class="met">pathVariable</span>(<span class="str">"id"</span>);
+    <span class="kw">return</span> service.<span class="met">findById</span>(id)
+        .<span class="met">flatMap</span>(u -> <span class="cls">ServerResponse</span>.<span class="met">ok</span>().<span class="met">bodyValue</span>(u))
+        .<span class="met">switchIfEmpty</span>(<span class="cls">ServerResponse</span>.<span class="met">notFound</span>().<span class="met">build</span>());
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Combining Streams</h3><span class="card-desc">zip / merge / combine</span></div>
+      <div class="card-body"><pre><span class="com">// zip: combine 2 Monos into one</span>
+<span class="cls">Mono</span>.<span class="met">zip</span>(userMono, ordersMono)
+    .<span class="met">map</span>(t -> <span class="kw">new</span> <span class="cls">UserWithOrders</span>(t.<span class="met">getT1</span>(), t.<span class="met">getT2</span>()));
+
+<span class="com">// merge: interleave two Flux streams</span>
+<span class="cls">Flux</span>.<span class="met">merge</span>(flux1, flux2);
+
+<span class="com">// concat: sequential, flux1 then flux2</span>
+<span class="cls">Flux</span>.<span class="met">concat</span>(flux1, flux2);
+
+<span class="com">// switchIfEmpty: fallback when empty</span>
+mono.<span class="met">switchIfEmpty</span>(<span class="cls">Mono</span>.<span class="met">error</span>(<span class="kw">new</span> <span class="cls">NotFoundException</span>()));
+
+<span class="com">// defaultIfEmpty</span>
+mono.<span class="met">defaultIfEmpty</span>(defaultUser);</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Scheduler / Threading</h3><span class="card-desc">control execution thread</span></div>
+      <div class="card-body"><pre><span class="com">// subscribeOn: where to subscribe (source thread)</span>
+flux.<span class="met">subscribeOn</span>(<span class="cls">Schedulers</span>.<span class="met">boundedElastic</span>())  <span class="com">// for blocking I/O</span>
+flux.<span class="met">subscribeOn</span>(<span class="cls">Schedulers</span>.<span class="met">parallel</span>())         <span class="com">// CPU work</span>
+
+<span class="com">// publishOn: switch thread for downstream ops</span>
+flux.<span class="met">publishOn</span>(<span class="cls">Schedulers</span>.<span class="met">boundedElastic</span>())
+
+<span class="com">// Wrap blocking call safely</span>
+<span class="cls">Mono</span>.<span class="met">fromCallable</span>(() -> blockingRepo.<span class="met">findAll</span>())
+    .<span class="met">subscribeOn</span>(<span class="cls">Schedulers</span>.<span class="met">boundedElastic</span>())</pre></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SPRING AI ===== -->
+<section class="section" id="springai">
+  <div class="section-header">
+    <span class="section-tag tag-security">SPRING AI</span>
+    <h2>Spring AI Annotations &amp; APIs</h2>
+  </div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head"><h3>ChatClient (fluent API)</h3><span class="card-desc">primary AI interface</span></div>
+      <div class="card-body"><pre><span class="an">@Autowired</span> <span class="cls">ChatClient</span>.<span class="cls">Builder</span> builder;
+
+<span class="cls">ChatClient</span> chatClient = builder
+    .<span class="met">defaultSystem</span>(<span class="str">"You are a helpful assistant."</span>)
+    .<span class="met">build</span>();
+
+<span class="com">// Simple call</span>
+String answer = chatClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(<span class="str">"What is Spring AI?"</span>)
+    .<span class="met">call</span>()
+    .<span class="met">content</span>();
+
+<span class="com">// With system + user</span>
+String result = chatClient.<span class="met">prompt</span>()
+    .<span class="met">system</span>(<span class="str">"You are a Java expert."</span>)
+    .<span class="met">user</span>(u -> u.<span class="met">text</span>(<span class="str">"Explain {topic}"</span>).<span class="met">param</span>(<span class="str">"topic"</span>, <span class="str">"reactive"</span>))
+    .<span class="met">call</span>()
+    .<span class="met">content</span>();</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Streaming Response</h3><span class="card-desc">token-by-token streaming</span></div>
+      <div class="card-body"><pre><span class="com">// Streaming with Flux</span>
+<span class="cls">Flux</span>&lt;String&gt; stream = chatClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(<span class="str">"Explain Spring Boot in detail"</span>)
+    .<span class="met">stream</span>()
+    .<span class="met">content</span>();
+
+<span class="com">// SSE endpoint with streaming</span>
+<span class="an">@GetMapping</span>(value=<span class="str">"/chat"</span>, produces=<span class="cls">MediaType</span>.TEXT_EVENT_STREAM_VALUE)
+<span class="kw">public</span> <span class="cls">Flux</span>&lt;String&gt; <span class="met">chat</span>(<span class="an">@RequestParam</span> String q) {
+    <span class="kw">return</span> chatClient.<span class="met">prompt</span>().<span class="met">user</span>(q).<span class="met">stream</span>().<span class="met">content</span>();
+}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Structured Output</h3><span class="card-desc">JSON → POJO binding</span></div>
+      <div class="card-body"><pre><span class="com">// Map to a record/class</span>
+<span class="kw">record</span> <span class="cls">MovieReview</span>(String title, String summary, <span class="kw">int</span> rating) {}
+
+<span class="cls">MovieReview</span> review = chatClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(<span class="str">"Review Inception in JSON"</span>)
+    .<span class="met">call</span>()
+    .<span class="met">entity</span>(<span class="cls">MovieReview</span>.<span class="kw">class</span>);
+
+<span class="com">// Map to List</span>
+List&lt;<span class="cls">MovieReview</span>&gt; reviews = chatClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(<span class="str">"List top 5 sci-fi movies as JSON array"</span>)
+    .<span class="met">call</span>()
+    .<span class="met">entity</span>(<span class="kw">new</span> <span class="cls">ParameterizedTypeReference</span>&lt;&gt;() {});</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>@AiObservation / Model Options</h3><span class="card-desc">model config</span></div>
+      <div class="card-body"><pre><span class="com">// application.properties</span>
+spring.ai.openai.api-key=${OPENAI_API_KEY}
+spring.ai.openai.chat.options.model=gpt-4o
+spring.ai.openai.chat.options.temperature=0.7
+spring.ai.openai.chat.options.max-tokens=1000
+
+spring.ai.anthropic.api-key=${ANTHROPIC_API_KEY}
+spring.ai.anthropic.chat.options.model=claude-sonnet-4-20250514
+
+spring.ai.vertex.ai.gemini.project-id=${GCP_PROJECT}
+spring.ai.vertex.ai.gemini.chat.options.model=gemini-2.0-flash</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Prompt Templates</h3><span class="card-desc">PromptTemplate / @Value</span></div>
+      <div class="card-body"><pre><span class="com">// Inline template with variables</span>
+<span class="cls">PromptTemplate</span> pt = <span class="kw">new</span> <span class="cls">PromptTemplate</span>(
+    <span class="str">"Summarize the following text in {language}: {text}"</span>);
+
+<span class="cls">Prompt</span> prompt = pt.<span class="met">create</span>(<span class="cls">Map</span>.<span class="met">of</span>(
+    <span class="str">"language"</span>, <span class="str">"Telugu"</span>,
+    <span class="str">"text"</span>, inputText));
+
+<span class="com">// From classpath .st template file</span>
+<span class="an">@Value</span>(<span class="str">"classpath:/prompts/summarize.st"</span>)
+<span class="kw">private</span> <span class="cls">Resource</span> promptResource;
+
+<span class="cls">PromptTemplate</span> pt = <span class="kw">new</span> <span class="cls">PromptTemplate</span>(promptResource);
+<span class="cls">Prompt</span> prompt = pt.<span class="met">create</span>(<span class="cls">Map</span>.<span class="met">of</span>(<span class="str">"topic"</span>, topic));</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Function Calling / Tools</h3><span class="card-desc">AI tool use</span></div>
+      <div class="card-body"><pre><span class="com">// Define a tool function as a @Bean</span>
+<span class="an">@Bean</span>
+<span class="an">@Description</span>(<span class="str">"Get current weather for a city"</span>)
+<span class="kw">public</span> <span class="cls">Function</span>&lt;<span class="cls">WeatherRequest</span>, <span class="cls">WeatherResponse</span>&gt; <span class="met">getWeather</span>() {
+    <span class="kw">return</span> req -> weatherService.<span class="met">fetch</span>(req.<span class="met">city</span>());
+}
+
+<span class="com">// Register function in ChatClient call</span>
+String answer = chatClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(<span class="str">"What is the weather in Atlanta?"</span>)
+    .<span class="met">functions</span>(<span class="str">"getWeather"</span>)
+    .<span class="met">call</span>()
+    .<span class="met">content</span>();
+
+<span class="com">// Request/Response records</span>
+<span class="kw">record</span> <span class="cls">WeatherRequest</span>(String city) {}
+<span class="kw">record</span> <span class="cls">WeatherResponse</span>(String condition, <span class="kw">double</span> tempC) {}</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>RAG — VectorStore</h3><span class="card-desc">embeddings + similarity search</span></div>
+      <div class="card-body"><pre><span class="com">// Ingest documents</span>
+<span class="an">@Autowired</span> <span class="cls">VectorStore</span> vectorStore;
+<span class="an">@Autowired</span> <span class="cls">TokenTextSplitter</span> splitter;
+
+List&lt;<span class="cls">Document</span>&gt; docs = <span class="kw">new</span> <span class="cls">JsonReader</span>(resource).<span class="met">get</span>();
+List&lt;<span class="cls">Document</span>&gt; chunks = splitter.<span class="met">apply</span>(docs);
+vectorStore.<span class="met">add</span>(chunks);
+
+<span class="com">// Similarity search</span>
+List&lt;<span class="cls">Document</span>&gt; results = vectorStore
+    .<span class="met">similaritySearch</span>(<span class="cls">SearchRequest</span>.<span class="met">query</span>(query).<span class="met">withTopK</span>(<span class="num">5</span>));
+
+<span class="com">// VectorStore types (via properties)</span>
+<span class="com">// PgVector, Redis, Chroma, Pinecone, Weaviate, Qdrant</span>
+spring.ai.vectorstore.pgvector.index-type=HNSW
+spring.ai.vectorstore.pgvector.dimensions=<span class="num">1536</span></pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>QuestionAnswerAdvisor</h3><span class="card-desc">RAG advisor pattern</span></div>
+      <div class="card-body"><pre><span class="com">// Auto-retrieval + augmentation via Advisor</span>
+<span class="cls">ChatClient</span> ragClient = builder
+    .<span class="met">defaultAdvisors</span>(
+        <span class="kw">new</span> <span class="cls">QuestionAnswerAdvisor</span>(vectorStore,
+            <span class="cls">SearchRequest</span>.<span class="met">defaults</span>()),
+        <span class="kw">new</span> <span class="cls">MessageChatMemoryAdvisor</span>(chatMemory)
+    )
+    .<span class="met">build</span>();
+
+<span class="com">// Simple RAG call — context injected automatically</span>
+String answer = ragClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(question)
+    .<span class="met">call</span>()
+    .<span class="met">content</span>();</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Chat Memory</h3><span class="card-desc">multi-turn conversations</span></div>
+      <div class="card-body"><pre><span class="com">// In-memory (for dev)</span>
+<span class="cls">ChatMemory</span> memory = <span class="kw">new</span> <span class="cls">InMemoryChatMemory</span>();
+
+<span class="cls">ChatClient</span> statefulClient = builder
+    .<span class="met">defaultAdvisors</span>(<span class="kw">new</span> <span class="cls">MessageChatMemoryAdvisor</span>(memory))
+    .<span class="met">build</span>();
+
+<span class="com">// Use conversationId to isolate sessions</span>
+String reply = statefulClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(userMessage)
+    .<span class="met">advisors</span>(a -> a.<span class="met">param</span>(
+        <span class="cls">AbstractChatMemoryAdvisor</span>.CHAT_MEMORY_CONVERSATION_ID_KEY,
+        sessionId))
+    .<span class="met">call</span>()
+    .<span class="met">content</span>();</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Image &amp; Multimodal</h3><span class="card-desc">vision / image generation</span></div>
+      <div class="card-body"><pre><span class="com">// Image generation</span>
+<span class="an">@Autowired</span> <span class="cls">ImageModel</span> imageModel;
+
+<span class="cls">ImageResponse</span> resp = imageModel.<span class="met">call</span>(
+    <span class="kw">new</span> <span class="cls">ImagePrompt</span>(<span class="str">"A futuristic city in India"</span>,
+        <span class="cls">OpenAiImageOptions</span>.<span class="met">builder</span>()
+            .<span class="met">withModel</span>(<span class="str">"dall-e-3"</span>)
+            .<span class="met">withSize</span>(<span class="str">"1024x1024"</span>).<span class="met">build</span>()));
+String imageUrl = resp.<span class="met">getResult</span>().<span class="met">getOutput</span>().<span class="met">getUrl</span>();
+
+<span class="com">// Vision: pass image to chat</span>
+<span class="kw">var</span> media = <span class="kw">new</span> <span class="cls">Media</span>(<span class="cls">MimeTypeUtils</span>.IMAGE_PNG, imageResource);
+String desc = chatClient.<span class="met">prompt</span>()
+    .<span class="met">user</span>(u -> u.<span class="met">text</span>(<span class="str">"Describe this image"</span>).<span class="met">media</span>(media))
+    .<span class="met">call</span>().<span class="met">content</span>();</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>EmbeddingModel</h3><span class="card-desc">generate embeddings</span></div>
+      <div class="card-body"><pre><span class="an">@Autowired</span> <span class="cls">EmbeddingModel</span> embeddingModel;
+
+<span class="com">// Single embedding</span>
+<span class="kw">float</span>[] vector = embeddingModel
+    .<span class="met">embed</span>(<span class="str">"Spring AI is powerful"</span>);
+
+<span class="com">// Batch embeddings</span>
+<span class="cls">EmbeddingResponse</span> resp = embeddingModel.<span class="met">embedForResponse</span>(
+    List.<span class="met">of</span>(<span class="str">"text one"</span>, <span class="str">"text two"</span>));
+resp.<span class="met">getResults</span>().<span class="met">forEach</span>(r ->
+    System.out.<span class="met">println</span>(r.<span class="met">getOutput</span>().<span class="met">length</span>));</pre></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>MCP Client (Tool Servers)</h3><span class="card-desc">Model Context Protocol</span></div>
+      <div class="card-body"><pre><span class="com"># application.properties — MCP server config</span>
+spring.ai.mcp.client.toolcallback.enabled=<span class="kw">true</span>
+spring.ai.mcp.client.stdio.servers.myServer.command=npx
+spring.ai.mcp.client.stdio.servers.myServer.args=-y,@my/mcp-server
+
+<span class="com">// Auto-wired MCP tools into ChatClient</span>
+<span class="an">@Autowired</span> <span class="cls">List</span>&lt;<span class="cls">McpSyncClient</span>&gt; mcpClients;
+<span class="an">@Autowired</span> <span class="cls">ToolCallbackProvider</span> toolCallbacks;
+
+<span class="cls">ChatClient</span> mcpClient = builder
+    .<span class="met">defaultTools</span>(toolCallbacks)
+    .<span class="met">build</span>();</pre></div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+</body>
+</html>

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * A brute-force string compression implementation using Java Collections.
+ * A brute-force String Compresses,  a string using a List to store characters and counts.
  */
 public class StringCompressionCollections {
 
@@ -21,20 +21,11 @@ public class StringCompressionCollections {
         System.out.println("Compressed: " + compressed2); // Expected: ABCDE (since compressed is longer)
     }
 
-    /**
-     * Compresses a string using a List to store characters and counts.
-     * This is a brute-force approach demonstrating the use of collections.
-     *
-     * @param str The string to compress.
-     * @return The compressed string, or the original if compression is not smaller.
-     */
     public static String compressString(String str) {
         if (str == null || str.isEmpty()) {
             return str;
         }
 
-        // This list will store alternating characters and their integer counts.
-        // e.g., for "AAB", it will become ['A', 2, 'B', 1]
         List<Object> compressedList = new ArrayList<>();
 
         for (char c : str.toCharArray()) {

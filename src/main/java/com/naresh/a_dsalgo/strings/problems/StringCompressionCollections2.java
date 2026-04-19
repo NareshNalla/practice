@@ -29,9 +29,6 @@ public class StringCompressionCollections2 {
     /**
      * Compresses a string using an optimized stream pipeline.
      * This version avoids creating intermediate substrings for better performance.
-     *
-     * @param str The string to compress.
-     * @return The compressed string, or the original if compression is not smaller.
      */
     public static String compressString(String str) {
         if (str == null || str.isEmpty()) {
@@ -46,8 +43,7 @@ public class StringCompressionCollections2 {
                 .mapToObj(startIndex -> {
                     char ch = str.charAt(startIndex);
                     int endIndex = startIndex + 1;
-                    // More efficient: loop forward to find the end of the group
-                    // instead of creating a new substring/stream.
+                    // More efficient: loop forward to find the end of the group instead of creating a new substring/stream.
                     while (endIndex < str.length() && str.charAt(endIndex) == ch) {
                         endIndex++;
                     }

@@ -7,9 +7,10 @@ public class FindMaxLength {
 
     public static void main(String[] args) {
         String s = " happy diwali to all my friends andfamily";
-        System.out.println(Arrays.stream(s.split(" ")).max(Comparator.comparing(String::length)).get());
+        System.out.println(Arrays.stream(s.split(" ")).max(Comparator.comparingInt(String::length)).get());
         System.out.println(Arrays.stream(s.split(" "))
-                .filter(st -> (st.trim().length() != 0))
-                .min(Comparator.comparingInt(String::length)).get());
+                .filter(st -> (st.trim().length() != 0)) //space will come
+                .min(Comparator.comparingInt(String::length))
+                .get());
     }
 }

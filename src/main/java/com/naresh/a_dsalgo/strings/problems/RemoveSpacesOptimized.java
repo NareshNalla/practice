@@ -3,18 +3,12 @@ package com.naresh.a_dsalgo.strings.problems;
 public class RemoveSpacesOptimized {
 
     /**
-     * Removes all whitespace from a string without using replaceAll().
-     * This is the optimal solution in Java.
+     * without using replaceAll().
      *
-     * Time Complexity: O(n) - We must look at every character once.
-     * Space Complexity: O(n) - A new string/builder must be created as Java strings are immutable.
-     *
+     * Time Complexity: O(n) Space Complexity: O(n) -
      * Interview Takeaway: Always prefer Character.isWhitespace(c) over a manual
      * check like `c != ' '`. The library method is more robust as it correctly
      * handles all forms of whitespace (spaces, tabs, newlines, etc.).
-     *
-     * @param input The string to remove spaces from.
-     * @return A new string with all spaces removed.
      */
     public static String removeSpaces(String input) {
         if (input == null) {
