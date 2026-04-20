@@ -1,16 +1,22 @@
 package com.naresh.a_dsalgo.strings.problems;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Objects;
 
 public class FindMaxLength {
-
     public static void main(String[] args) {
         String s = " happy diwali to all my friends andfamily";
-        System.out.println(Arrays.stream(s.split(" ")).max(Comparator.comparingInt(String::length)).get());
-        System.out.println(Arrays.stream(s.split(" "))
-                .filter(st -> (st.trim().length() != 0)) //space will come
-                .min(Comparator.comparingInt(String::length))
-                .get());
+        printMinMaxWord(s);
+    }
+
+    public static void printMinMaxWord(String s) {
+        // Time: O(n), Space: O(w) where w is max word length
+        if (s == null || s.isBlank()) return;
+        String[] words = s.trim().split("\\s+");
+        String min = words[0], max = words[0];
+        for (String w : words) {
+            if (w.length() > max.length()) max = w;
+            if (w.length() < min.length()) min = w;
+        }
+        System.out.println("Max: " + max + "\nMin: " + min);
     }
 }

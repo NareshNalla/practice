@@ -30,10 +30,6 @@ public class TwoSum {
      */
     public static int[] twoSum(final int[] nums, final int target) {
         Objects.requireNonNull(nums, "Input array 'nums' cannot be null");
-
-        // Use local variable type inference (var) introduced in Java 10.
-        // Initialize HashMap with an appropriate initial capacity to minimize resizing.
-        // Default load factor is 0.75.
         var indexByValue = new HashMap<Integer, Integer>((int) (nums.length / 0.75) + 1);
 
         for (int i = 0; i < nums.length; i++) {

@@ -1,37 +1,28 @@
 package com.naresh.a_dsalgo.strings.problems;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
 public class AnagramCheck {
-    public static void main(String[] args) throws IOException {
-		/*Scanner sc = new Scanner(System.in);
-		System.out.println("please enter string:");
-		String str = sc.next();
-		System.out.println("please enter another string:");
-		String str2 = sc.next();*/
-        anagramFind("list1", "st1il");
+    public static void main(String[] args) {
+        System.out.println("Anagram: " + isAnagram("listen", "silent"));
     }
-
-    static void anagramFind(String str, String str2) {
-        if (str.length() == str2.length()) {
-
-            Set<Object> s = new HashSet<>();
-            Set<Object> s2 = new HashSet<>();
-            for (int i = 0; i < str.length(); i++) {
-                s.add(str.charAt(i));
-            }
-            for (int i = 0; i < str2.length(); i++) {
-                s2.add(str2.charAt(i));
-            }
-            if (s.size() == s2.size() && s.equals(s2)) {
-                System.out.println("yes! this is anagram");
-            } else
-                System.out.println("No! this is not anagram");
-            System.out.println("s:" + s);
-
-        } else
-            System.out.println("No! this is not anagram because of two different string size");
+    public static boolean isAnagram(String s1, String s2) {
+        // Time: O(n), Space: O(1)
+        if (s1 == null || s2 == null || s1.length() != s2.length()) return false;
+        int[] counts = new int[256];
+        for (int i = 0; i < s1.length(); i++) {
+            counts[s1.charAt(i)]++;
+            counts[s2.charAt(i)]--;
+        }
+        for (int count : counts)
+            if (count != 0) return false;
+        return true;
+    }
+    public static boolean isAnagramEarlyExit(String s1, String s2) {
+        // Time: O(n), Space: O(1)
+        if (s1 == null || s2 == null || s1.length() != s2.length()) return false;
+        int[] counts = new int[256];
+        for (char c : s1.toCharArray())
+            counts[c]++;
+        for (char c : s2.toCharArray())
+            if (--counts[c] < 0) return false;
+        return true;
     }
 }
