@@ -8,7 +8,7 @@ public class StackLinkedListTest {
 		sl.push("Ramu");
 		sl.push("Faheem");
 		sl.push("Naresh");
-		
+        //sl.pop();
 		System.out.println(sl.pop());
 	}
 }
