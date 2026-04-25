@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Heap Problems — LeetCode Java FAANG Practice</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a1a;padding:24px 16px;max-width:860px;margin:0 auto}
+  h1{font-size:22px;font-weight:600;margin-bottom:4px}
+  .sub{font-size:13px;color:#666;margin-bottom:18px}
+  .sub span{margin:0 4px;color:#ccc}
+  .filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+  .fb{padding:5px 13px;font-size:12px;border-radius:7px;border:1px solid #ddd;background:#fff;color:#555;cursor:pointer;transition:all .15s}
+  .fb:hover{background:#f0f0f0}
+  .fb.on{background:#dbeafe;border-color:#93c5fd;color:#1d4ed8}
+  .card{border:1px solid #e5e5e5;border-radius:12px;background:#fff;margin-bottom:10px;overflow:hidden}
+  .ch{padding:14px 16px;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+  .ch:hover{background:#fafafa}
+  .cnum{font-size:12px;color:#999;min-width:28px;padding-top:2px;font-weight:500}
+  .cm{flex:1}
+  .ctop{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:7px}
+  .ctitle{font-size:15px;font-weight:600;color:#111}
+  .tog{font-size:12px;color:#2563eb;margin-left:auto;white-space:nowrap}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .b{font-size:11px;padding:2px 8px;border-radius:5px;border:1px solid;font-weight:500}
+  .be{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+  .bm{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+  .bh{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
+  .bp{background:#f3f4f6;color:#4b5563;border-color:#d1d5db}
+  .bc{background:#ede9fe;color:#4c1d95;border-color:#c4b5fd}
+  .cdesc{font-size:13px;color:#555;line-height:1.55;margin-bottom:8px}
+  .cmeta{font-size:12px;color:#888}
+  .cmeta code{font-size:11px;color:#444;font-family:'SFMono-Regular',Consolas,monospace;background:#f3f4f6;padding:1px 5px;border-radius:4px}
+  .sol{border-top:1px solid #eee;padding:14px 16px}
+  .tip{background:#eff6ff;border-left:3px solid #3b82f6;padding:10px 13px;font-size:12px;color:#1e3a5f;line-height:1.65;margin-bottom:13px;border-radius:0 7px 7px 0}
+  .tiplabel{font-size:10px;font-weight:700;color:#1d4ed8;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px}
+  pre{background:#1e1e2e;border-radius:9px;padding:14px 16px;font-size:12.5px;font-family:'SFMono-Regular',Consolas,monospace;line-height:1.8;overflow-x:auto;white-space:pre;color:#cdd6f4}
+  .kw{color:#89b4fa}
+  .ty{color:#89dceb}
+  .cm-text{color:#6a9955;font-style:italic}
+  .str{color:#a6e3a1}
+  .num{color:#fab387}
+  .ask{margin-top:11px;font-size:12px;padding:5px 13px;border-radius:7px;border:1px solid #93c5fd;background:#eff6ff;color:#1d4ed8;cursor:pointer;font-weight:500}
+  .ask:hover{background:#dbeafe}
+</style>
+</head>
+<body>
+
+<h1>Heap problems — LeetCode Java practice</h1>
+<div class="sub">
+  FAANG-optimized solutions using Java 17+ features
+  <span>·</span> PriorityQueue
+  <span>·</span> Max-heap / Min-heap
+  <span>·</span> Two Heaps
+  <span>·</span> Top-K pattern
+</div>
+
+<div class="filters">
+  <button class="fb on" onclick="setf('all',this)">All problems</button>
+  <button class="fb" onclick="setf('top-k',this)">Top-K</button>
+  <button class="fb" onclick="setf('max-heap',this)">Max-heap</button>
+  <button class="fb" onclick="setf('two-heaps',this)">Two heaps</button>
+  <button class="fb" onclick="setf('merge',this)">K-way merge</button>
+  <button class="fb" onclick="setf('greedy',this)">Greedy + heap</button>
+</div>
+
+<div id="list"></div>
+
+<script>
+var open={}, filter='all';
+
+var data=[
+{n:"215",t:"Kth largest element in an array",d:"easy",p:"top-k",co:["Amazon","Facebook","Google"],
+desc:"Find the kth largest element in an unsorted array without fully sorting it.",time:"O(n log k)",space:"O(k)",
+tip:"Keep a min-heap of size k. Root is always the kth largest seen so far. Natural PriorityQueue order — no comparator needed. If new element pushed in exceeds k, poll the minimum (root).",
+code:`<span class="kw">public int</span> findKthLargest(<span class="kw">int</span>[] nums, <span class="kw">int</span> k) {
+    <span class="cm-text">// Min-heap: smallest of the top-k sits at root</span>
+    PriorityQueue&lt;<span class="ty">Integer</span>&gt; minHeap = <span class="kw">new</span> PriorityQueue&lt;&gt;();
+
+    <span class="kw">for</span> (<span class="kw">int</span> n : nums) {
+        minHeap.offer(n);          <span class="cm-text">// add every element</span>
+        <span class="kw">if</span> (minHeap.size() &gt; k)    <span class="cm-text">// heap exceeds size k</span>
+            minHeap.poll();        <span class="cm-text">// evict the smallest — the root</span>
+    }
+    <span class="cm-text">// After full pass: root = kth largest overall</span>
+    <span class="kw">return</span> minHeap.peek();
+}`},
+
+{n:"1046",t:"Last stone weight",d:"easy",p:"max-heap",co:["Amazon","Apple"],
+desc:"Smash the two heaviest stones each round. Return the weight of the last stone, or 0 if none remain.",time:"O(n log n)",space:"O(n)",
+tip:"Classic max-heap. Use Collections.reverseOrder() to flip PriorityQueue into a max-heap. Poll twice per round — push the difference back only if nonzero. Equal stones both disappear.",
+code:`<span class="kw">public int</span> lastStoneWeight(<span class="kw">int</span>[] stones) {
+    <span class="cm-text">// reverseOrder() flips PriorityQueue into a max-heap</span>
+    PriorityQueue&lt;<span class="ty">Integer</span>&gt; pq =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;(Collections.reverseOrder());
+
+    <span class="kw">for</span> (<span class="kw">int</span> s : stones) pq.offer(s);  <span class="cm-text">// load all stones</span>
+
+    <span class="kw">while</span> (pq.size() &gt; <span class="num">1</span>) {
+        <span class="kw">int</span> y = pq.poll();  <span class="cm-text">// heaviest stone</span>
+        <span class="kw">int</span> x = pq.poll();  <span class="cm-text">// second heaviest stone</span>
+        <span class="cm-text">// equal stones vanish; push remainder only if different</span>
+        <span class="kw">if</span> (x != y) pq.offer(y - x);
+    }
+    <span class="cm-text">// empty = all stones destroyed; else return last stone</span>
+    <span class="kw">return</span> pq.isEmpty() ? <span class="num">0</span> : pq.poll();
+}`},
+
+{n:"973",t:"K closest points to origin",d:"easy",p:"top-k",co:["Amazon","Facebook","Google"],
+desc:"Return the k closest points to (0,0). Euclidean distance. Output order does not matter.",time:"O(n log k)",space:"O(k)",
+tip:"Max-heap of size k sorted by squared distance — skip sqrt, it is unnecessary for comparisons. The farthest point sits at root so eviction is O(log k). Remaining k points are the answer.",
+code:`<span class="kw">public int</span>[][] kClosest(<span class="kw">int</span>[][] points, <span class="kw">int</span> k) {
+    <span class="cm-text">// Max-heap: farthest point at root — easy to drop</span>
+    PriorityQueue&lt;<span class="kw">int</span>[]&gt; maxHeap = <span class="kw">new</span> PriorityQueue&lt;&gt;(
+        (a, b) -&gt; (b[<span class="num">0</span>]*b[<span class="num">0</span>]+b[<span class="num">1</span>]*b[<span class="num">1</span>]) - (a[<span class="num">0</span>]*a[<span class="num">0</span>]+a[<span class="num">1</span>]*a[<span class="num">1</span>])
+    );
+    <span class="kw">for</span> (<span class="kw">int</span>[] p : points) {
+        maxHeap.offer(p);
+        <span class="kw">if</span> (maxHeap.size() &gt; k)   <span class="cm-text">// over budget: drop farthest</span>
+            maxHeap.poll();
+    }
+    <span class="cm-text">// Remaining k entries are the closest points</span>
+    <span class="kw">return</span> maxHeap.toArray(<span class="kw">new int</span>[k][]);
+}`},
+
+{n:"703",t:"Kth largest element in a stream",d:"easy",p:"top-k",co:["Amazon","Google"],
+desc:"Design a class that finds the kth largest element after each new number added to a live stream.",time:"O(log k) per add",space:"O(k)",
+tip:"Min-heap of exactly size k. Root = kth largest at all times. add() = offer + conditional poll + return peek. Pre-load constructor nums via add() to reuse the same capping logic.",
+code:`<span class="kw">class</span> KthLargest {
+    <span class="kw">private final</span> PriorityQueue&lt;<span class="ty">Integer</span>&gt; minHeap;
+    <span class="kw">private final int</span> k;
+
+    <span class="kw">public</span> KthLargest(<span class="kw">int</span> k, <span class="kw">int</span>[] nums) {
+        <span class="kw">this</span>.k = k;
+        <span class="kw">this</span>.minHeap = <span class="kw">new</span> PriorityQueue&lt;&gt;(); <span class="cm-text">// natural min order</span>
+        <span class="kw">for</span> (<span class="kw">int</span> n : nums) add(n);  <span class="cm-text">// pre-load reuses add() logic</span>
+    }
+
+    <span class="kw">public int</span> add(<span class="kw">int</span> val) {
+        minHeap.offer(val);
+        <span class="kw">if</span> (minHeap.size() &gt; k)    <span class="cm-text">// shrink back to exactly k</span>
+            minHeap.poll();        <span class="cm-text">// removes the current smallest</span>
+        <span class="kw">return</span> minHeap.peek();     <span class="cm-text">// root = kth largest</span>
+    }
+}`},
+
+{n:"347",t:"Top K frequent elements",d:"medium",p:"top-k",co:["Amazon","Facebook","Bloomberg"],
+desc:"Return the k most frequent elements in any order.",time:"O(n log k)",space:"O(n)",
+tip:"Build a frequency map first using Map.merge(), then min-heap of size k sorted by frequency value. Least-frequent sits at root — easy to evict. Bucket sort achieves O(n) if the interviewer asks for it.",
+code:`<span class="kw">public int</span>[] topKFrequent(<span class="kw">int</span>[] nums, <span class="kw">int</span> k) {
+    <span class="cm-text">// Step 1: count each number's frequency</span>
+    Map&lt;<span class="ty">Integer</span>,<span class="ty">Integer</span>&gt; freq = <span class="kw">new</span> HashMap&lt;&gt;();
+    <span class="kw">for</span> (<span class="kw">int</span> n : nums) freq.merge(n, <span class="num">1</span>, Integer::sum);
+
+    <span class="cm-text">// Step 2: min-heap by frequency value, capped at k</span>
+    <span class="cm-text">// least-frequent entry sits at root — dropped first</span>
+    PriorityQueue&lt;Map.Entry&lt;<span class="ty">Integer</span>,<span class="ty">Integer</span>&gt;&gt; pq =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;(Comparator.comparingInt(Map.Entry::getValue));
+
+    <span class="kw">for</span> (var e : freq.entrySet()) {
+        pq.offer(e);
+        <span class="kw">if</span> (pq.size() &gt; k) pq.poll();  <span class="cm-text">// drop lowest-frequency</span>
+    }
+    <span class="cm-text">// Step 3: extract just the keys from surviving top-k entries</span>
+    <span class="kw">return</span> pq.stream().mapToInt(Map.Entry::getKey).toArray();
+}`},
+
+{n:"295",t:"Find median from data stream",d:"hard",p:"two-heaps",co:["Amazon","Google","Microsoft"],
+desc:"Support addNum() and findMedian() on a live stream. The median is the middle value of all numbers so far.",time:"O(log n) add · O(1) median",space:"O(n)",
+tip:"Two-heap pattern. Max-heap = lower half. Min-heap = upper half. Keep sizes balanced — differ by at most 1. Odd total: the bigger heap's root IS the median. Even total: average both roots.",
+code:`<span class="kw">class</span> MedianFinder {
+    <span class="cm-text">// lo = max-heap  →  holds the SMALLER half</span>
+    PriorityQueue&lt;<span class="ty">Integer</span>&gt; lo =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;(Collections.reverseOrder());
+    <span class="cm-text">// hi = min-heap  →  holds the LARGER half</span>
+    PriorityQueue&lt;<span class="ty">Integer</span>&gt; hi = <span class="kw">new</span> PriorityQueue&lt;&gt;();
+
+    <span class="kw">public void</span> addNum(<span class="kw">int</span> num) {
+        lo.offer(num);              <span class="cm-text">// always insert into lo first</span>
+        hi.offer(lo.poll());        <span class="cm-text">// push lo's max up → keeps hi valid</span>
+        <span class="cm-text">// rebalance: lo size must be &gt;= hi size</span>
+        <span class="kw">if</span> (hi.size() &gt; lo.size())
+            lo.offer(hi.poll());
+    }
+
+    <span class="kw">public double</span> findMedian() {
+        <span class="cm-text">// odd total  → lo has one extra; its root = median</span>
+        <span class="cm-text">// even total → average the two roots</span>
+        <span class="kw">return</span> lo.size() &gt; hi.size()
+            ? lo.peek()
+            : (lo.peek() + hi.peek()) / <span class="num">2.0</span>;
+    }
+}`},
+
+{n:"23",t:"Merge K sorted lists",d:"hard",p:"merge",co:["Amazon","Google","Facebook"],
+desc:"Merge k sorted linked lists into one sorted linked list and return its head.",time:"O(n log k)",space:"O(k)",
+tip:"Min-heap on ListNode sorted by val. Seed with all k heads. Each round: poll the globally smallest node, append to result, push its .next back into heap. O(log k) per node insertion.",
+code:`<span class="kw">public</span> ListNode mergeKLists(ListNode[] lists) {
+    <span class="cm-text">// min-heap surfaces the globally smallest node each round</span>
+    PriorityQueue&lt;ListNode&gt; pq =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;(Comparator.comparingInt(n -&gt; n.val));
+
+    <span class="cm-text">// seed heap with the head of every non-null list</span>
+    <span class="kw">for</span> (ListNode node : lists)
+        <span class="kw">if</span> (node != <span class="kw">null</span>) pq.offer(node);
+
+    <span class="cm-text">// dummy sentinel avoids special-casing the result head</span>
+    ListNode dummy = <span class="kw">new</span> ListNode(<span class="num">0</span>), cur = dummy;
+
+    <span class="kw">while</span> (!pq.isEmpty()) {
+        cur.next = pq.poll();       <span class="cm-text">// attach the minimum node</span>
+        cur = cur.next;
+        <span class="kw">if</span> (cur.next != <span class="kw">null</span>)      <span class="cm-text">// advance that list into heap</span>
+            pq.offer(cur.next);
+    }
+    <span class="kw">return</span> dummy.next;
+}`},
+
+{n:"621",t:"Task scheduler",d:"medium",p:"greedy",co:["Facebook","Amazon","Google"],
+desc:"Given tasks with cooldown n between same task types, return the minimum number of intervals to finish all tasks.",time:"O(n log n)",space:"O(1)",
+tip:"Max-heap on task frequency — always schedule the most frequent task first. Cooldown queue stores [remaining count, readyAt time]. Re-add to heap once the cooldown expires. Count idle slots automatically.",
+code:`<span class="kw">public int</span> leastInterval(<span class="kw">char</span>[] tasks, <span class="kw">int</span> n) {
+    <span class="kw">int</span>[] freq = <span class="kw">new int</span>[<span class="num">26</span>];
+    <span class="kw">for</span> (<span class="kw">char</span> t : tasks) freq[t-<span class="str">'A'</span>]++;  <span class="cm-text">// count each task type</span>
+
+    <span class="cm-text">// max-heap: most-frequent task always scheduled first</span>
+    PriorityQueue&lt;<span class="ty">Integer</span>&gt; pq =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;(Collections.reverseOrder());
+    <span class="kw">for</span> (<span class="kw">int</span> f : freq) <span class="kw">if</span> (f &gt; <span class="num">0</span>) pq.offer(f);
+
+    <span class="kw">int</span> time = <span class="num">0</span>;
+    <span class="cm-text">// cooldown queue: [remaining count, time it becomes ready]</span>
+    Queue&lt;<span class="kw">int</span>[]&gt; wait = <span class="kw">new</span> LinkedList&lt;&gt;();
+
+    <span class="kw">while</span> (!pq.isEmpty() || !wait.isEmpty()) {
+        <span class="cm-text">// release tasks whose cooldown timer has expired</span>
+        <span class="kw">if</span> (!wait.isEmpty() &amp;&amp; wait.peek()[<span class="num">1</span>] == time)
+            pq.offer(wait.poll()[<span class="num">0</span>]);
+        <span class="kw">if</span> (!pq.isEmpty()) {
+            <span class="kw">int</span> f = pq.poll() - <span class="num">1</span>;     <span class="cm-text">// execute the top task</span>
+            <span class="kw">if</span> (f &gt; <span class="num">0</span>)                  <span class="cm-text">// still has remaining runs</span>
+                wait.offer(<span class="kw">new int</span>[]{f, time + n + <span class="num">1</span>});
+        }
+        time++;  <span class="cm-text">// one interval consumed — task or idle slot</span>
+    }
+    <span class="kw">return</span> time;
+}`},
+
+{n:"767",t:"Reorganize string",d:"medium",p:"greedy",co:["Google","Amazon"],
+desc:"Rearrange characters so no two adjacent characters are the same. Return empty string if impossible.",time:"O(n log k)",space:"O(k)",
+tip:"Max-heap on char frequency. Pull two at a time, append both, decrement, re-offer if count remains. Impossible when any single char frequency exceeds (n+1)/2.",
+code:`<span class="kw">public</span> String reorganizeString(String s) {
+    <span class="kw">int</span>[] freq = <span class="kw">new int</span>[<span class="num">26</span>];
+    <span class="kw">for</span> (<span class="kw">char</span> c : s.toCharArray()) freq[c-<span class="str">'a'</span>]++;
+
+    <span class="cm-text">// max-heap on [charIndex, count] — most frequent at top</span>
+    PriorityQueue&lt;<span class="kw">int</span>[]&gt; pq =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;((a, b) -&gt; b[<span class="num">1</span>] - a[<span class="num">1</span>]);
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">26</span>; i++)
+        <span class="kw">if</span> (freq[i] &gt; <span class="num">0</span>) pq.offer(<span class="kw">new int</span>[]{i, freq[i]});
+
+    StringBuilder sb = <span class="kw">new</span> StringBuilder();
+    <span class="kw">while</span> (pq.size() &gt; <span class="num">1</span>) {
+        <span class="kw">int</span>[] a = pq.poll();  <span class="cm-text">// most frequent char</span>
+        <span class="kw">int</span>[] b = pq.poll();  <span class="cm-text">// second most frequent char</span>
+        sb.append((<span class="kw">char</span>)(<span class="str">'a'</span> + a[<span class="num">0</span>]));
+        sb.append((<span class="kw">char</span>)(<span class="str">'a'</span> + b[<span class="num">0</span>]));
+        <span class="kw">if</span> (--a[<span class="num">1</span>] &gt; <span class="num">0</span>) pq.offer(a);  <span class="cm-text">// re-add if count remains</span>
+        <span class="kw">if</span> (--b[<span class="num">1</span>] &gt; <span class="num">0</span>) pq.offer(b);
+    }
+    <span class="kw">if</span> (!pq.isEmpty()) {
+        <span class="cm-text">// impossible: one char type left with count > 1</span>
+        <span class="kw">if</span> (pq.peek()[<span class="num">1</span>] &gt; <span class="num">1</span>) <span class="kw">return</span> <span class="str">""</span>;
+        sb.append((<span class="kw">char</span>)(<span class="str">'a'</span> + pq.poll()[<span class="num">0</span>]));
+    }
+    <span class="kw">return</span> sb.toString();
+}`},
+
+{n:"632",t:"Smallest range covering K lists",d:"hard",p:"merge",co:["Google","Amazon"],
+desc:"Find the smallest range [a,b] that includes at least one element from each of k sorted lists.",time:"O(n log k)",space:"O(k)",
+tip:"Min-heap seeded with the first element of each list. Track the global max of all currently active elements. Current range = [heap.min, globalMax]. Advance the list that owned the minimum. Stop when any list is exhausted.",
+code:`<span class="kw">public int</span>[] smallestRange(List&lt;List&lt;<span class="ty">Integer</span>&gt;&gt; nums) {
+    <span class="cm-text">// heap entry: [value, listIndex, elementIndex]</span>
+    PriorityQueue&lt;<span class="kw">int</span>[]&gt; pq =
+        <span class="kw">new</span> PriorityQueue&lt;&gt;(Comparator.comparingInt(a -&gt; a[<span class="num">0</span>]));
+
+    <span class="kw">int</span> max = Integer.MIN_VALUE;
+    <span class="cm-text">// seed heap with the first element of every list</span>
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; nums.size(); i++) {
+        pq.offer(<span class="kw">new int</span>[]{nums.get(i).get(<span class="num">0</span>), i, <span class="num">0</span>});
+        max = Math.max(max, nums.get(i).get(<span class="num">0</span>));  <span class="cm-text">// track global max</span>
+    }
+
+    <span class="kw">int</span>[] best = {<span class="num">0</span>, Integer.MAX_VALUE};
+    <span class="kw">while</span> (!pq.isEmpty()) {
+        <span class="kw">int</span>[] cur = pq.poll();   <span class="cm-text">// current global minimum</span>
+        <span class="cm-text">// [cur[0]..max] covers at least one element per list</span>
+        <span class="kw">if</span> (max - cur[<span class="num">0</span>] &lt; best[<span class="num">1</span>] - best[<span class="num">0</span>])
+            best = <span class="kw">new int</span>[]{cur[<span class="num">0</span>], max};
+        <span class="cm-text">// if this list is exhausted we can't cover all lists</span>
+        <span class="kw">if</span> (cur[<span class="num">2</span>] + <span class="num">1</span> == nums.get(cur[<span class="num">1</span>]).size()) <span class="kw">break</span>;
+        <span class="kw">int</span> next = nums.get(cur[<span class="num">1</span>]).get(cur[<span class="num">2</span>] + <span class="num">1</span>);
+        pq.offer(<span class="kw">new int</span>[]{next, cur[<span class="num">1</span>], cur[<span class="num">2</span>] + <span class="num">1</span>});  <span class="cm-text">// advance list</span>
+        max = Math.max(max, next);  <span class="cm-text">// update global max</span>
+    }
+    <span class="kw">return</span> best;
+}`}
+];
+
+function setf(tag,btn){
+  filter=tag;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+function tog(id){open[id]=!open[id];render();}
+
+function render(){
+  var list=filter==='all'?data:data.filter(p=>p.p===filter);
+  document.getElementById('list').innerHTML=list.map(p=>{
+    var isOpen=!!open[p.n];
+    return `<div class="card">
+      <div class="ch" onclick="tog('${p.n}')">
+        <div class="cnum">${p.n}.</div>
+        <div class="cm">
+          <div class="ctop">
+            <span class="ctitle">${p.t}</span>
+            <span class="tog">${isOpen?'Hide solution':'Show solution'}</span>
+          </div>
+          <div class="badges">
+            <span class="b b${p.d[0]}">${p.d}</span>
+            <span class="b bp">${p.p.replace('-',' ')}</span>
+            ${p.co.map(c=>`<span class="b bc">${c}</span>`).join('')}
+          </div>
+          <div class="cdesc">${p.desc}</div>
+          <div class="cmeta">Time: <code>${p.time}</code>&nbsp;&nbsp;Space: <code>${p.space}</code></div>
+        </div>
+      </div>
+      ${isOpen?`<div class="sol">
+        <div class="tip"><div class="tiplabel">FAANG tip</div>${p.tip}</div>
+        <pre>${p.code}</pre>
+        <button class="ask" onclick="alert('Open Claude and ask: ${p.t} solution walkthrough')">Ask Claude ↗</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+render();
+</script>
+</body>
+</html>

@@ -1,12 +1,12 @@
 package com.naresh.a_dsalgo.linkedlist.implementation;
 
 public class SinglyLinkedList<T> {
-	NodeLL head;
+	NodeSLL head;
 	public SinglyLinkedList(){
 		head = null;
 	}
 	public void add(Object value){
-		NodeLL newNode= new NodeLL(value,null);
+		NodeSLL newNode= new NodeSLL(value,null);
 		if(head == null){
 			head=newNode;
 		}else{
@@ -19,7 +19,7 @@ public class SinglyLinkedList<T> {
 		
 	}
 	public void display(){
-		NodeLL n=head;
+		NodeSLL n=head;
 		while(n != null){
 			System.out.println((T)n.value);
 			n = n.next;

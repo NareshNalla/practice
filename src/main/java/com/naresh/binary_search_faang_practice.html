@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Search — FAANG Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1d2436;
+    --bg4: #242b3d;
+    --border: #2a3348;
+    --border2: #3a4560;
+    --text: #e8eaf0;
+    --text2: #8b95b0;
+    --text3: #5a6480;
+    --blue: #4f8ef7;
+    --blue-bg: #1a2540;
+    --blue-border: #2d4070;
+    --green: #3ecf8e;
+    --green-bg: #0e2820;
+    --green-border: #1d4a38;
+    --amber: #f59e0b;
+    --amber-bg: #231a0a;
+    --amber-border: #4a3510;
+    --red: #f87171;
+    --red-bg: #2a1010;
+    --red-border: #4a2020;
+    --purple: #a78bfa;
+    --purple-bg: #1e1535;
+    --purple-border: #3d2b6a;
+    --teal: #2dd4bf;
+    --easy: #3ecf8e;
+    --medium: #f59e0b;
+    --hard: #f87171;
+    --radius: 10px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Sora', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--blue-bg); border: 1px solid var(--blue-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .header-title { font-size: 17px; font-weight: 700; color: var(--text); }
+  .header-sub { font-size: 12px; color: var(--text3); margin-top: 1px; }
+  .header-stats { display: flex; gap: 20px; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 18px; font-weight: 700; color: var(--blue); font-family: var(--mono); }
+  .stat-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; }
+
+  /* ── LAYOUT ─────────────────────────────────────────── */
+  .layout { display: flex; min-height: calc(100vh - 65px); }
+
+  /* ── SIDEBAR ─────────────────────────────────────────── */
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    overflow-y: auto;
+    position: sticky;
+    top: 65px;
+    height: calc(100vh - 65px);
+  }
+  .sidebar-section { padding: 0 16px; margin-bottom: 6px; }
+  .sidebar-label {
+    font-size: 10px; font-weight: 600; color: var(--text3);
+    text-transform: uppercase; letter-spacing: .08em;
+    padding: 0 8px; margin-bottom: 6px;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 7px;
+    cursor: pointer; transition: background .15s;
+    font-size: 13px; color: var(--text2);
+    border: 1px solid transparent;
+  }
+  .sidebar-item:hover { background: var(--bg3); color: var(--text); }
+  .sidebar-item.active {
+    background: var(--blue-bg); color: var(--blue);
+    border-color: var(--blue-border);
+  }
+  .sidebar-diff {
+    margin-left: auto;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 6px; border-radius: 4px;
+  }
+  .sidebar-diff.easy { background: var(--green-bg); color: var(--easy); }
+  .sidebar-diff.medium { background: var(--amber-bg); color: var(--medium); }
+  .sidebar-diff.hard { background: var(--red-bg); color: var(--hard); }
+  .sidebar-num {
+    width: 22px; height: 22px; border-radius: 5px;
+    background: var(--bg4); color: var(--text3);
+    font-size: 11px; font-weight: 600; font-family: var(--mono);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .sidebar-item.active .sidebar-num { background: var(--blue-border); color: var(--blue); }
+  .cat-divider {
+    height: 1px; background: var(--border);
+    margin: 12px 16px;
+  }
+
+  /* ── MAIN ─────────────────────────────────────────── */
+  .main { flex: 1; padding: 28px 32px; overflow-y: auto; max-width: 860px; }
+
+  /* ── PROBLEM CARD ─────────────────────────────────────────── */
+  .problem-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: none;
+  }
+  .problem-card.visible { display: block; animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .card-num {
+    width: 32px; height: 32px; border-radius: 7px;
+    background: var(--bg4); border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; font-family: var(--mono);
+    color: var(--text2); flex-shrink: 0;
+  }
+  .card-meta { flex: 1; }
+  .card-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .card-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .diff-badge {
+    font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 20px;
+    letter-spacing: .03em;
+  }
+  .diff-badge.easy { background: var(--green-bg); color: var(--easy); border: 1px solid var(--green-border); }
+  .diff-badge.medium { background: var(--amber-bg); color: var(--medium); border: 1px solid var(--amber-border); }
+  .diff-badge.hard { background: var(--red-bg); color: var(--hard); border: 1px solid var(--red-border); }
+  .lc-link {
+    font-size: 11px; color: var(--text3); font-family: var(--mono);
+    background: var(--bg4); padding: 3px 8px; border-radius: 5px;
+    border: 1px solid var(--border);
+  }
+  .pattern-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ptag {
+    font-size: 11px; padding: 2px 8px; border-radius: 4px;
+    background: var(--purple-bg); color: var(--purple);
+    border: 1px solid var(--purple-border); font-weight: 500;
+  }
+
+  /* ── SECTIONS ─────────────────────────────────────────── */
+  .card-body { padding: 0; }
+
+  .section {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .section-icon {
+    width: 26px; height: 26px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+  }
+  .section-icon.approach { background: var(--blue-bg); border: 1px solid var(--blue-border); }
+  .section-icon.tip { background: var(--green-bg); border: 1px solid var(--green-border); }
+  .section-icon.faang { background: var(--amber-bg); border: 1px solid var(--amber-border); }
+  .section-icon.solution { background: var(--bg4); border: 1px solid var(--border2); }
+
+  .section-title {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--text3);
+  }
+
+  .approach-text {
+    font-size: 14px; color: var(--text2); line-height: 1.75;
+  }
+  .approach-text strong { color: var(--text); font-weight: 600; }
+
+  /* inline code */
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--teal);
+  }
+
+  /* tip box */
+  .tip-box {
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .tip-box code { background: rgba(62,207,142,.08); border-color: var(--green-border); color: var(--green); }
+
+  .faang-box {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .faang-box strong { color: var(--amber); }
+
+  /* ── SOLUTION TOGGLE ─────────────────────────────────────────── */
+  .solution-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; user-select: none;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    transition: background .15s;
+  }
+  .solution-toggle:hover { background: var(--bg3); }
+  .solution-toggle-left { display: flex; align-items: center; gap: 10px; }
+  .toggle-label { font-size: 13px; font-weight: 600; color: var(--text2); }
+  .complexity-row { display: flex; gap: 8px; }
+  .complexity-chip {
+    font-size: 11px; font-weight: 500; font-family: var(--mono);
+    padding: 3px 9px; border-radius: 5px;
+  }
+  .complexity-chip.time { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+  .complexity-chip.space { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .chevron {
+    width: 22px; height: 22px; border-radius: 5px;
+    background: var(--bg4); border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--text3);
+    transition: transform .2s;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  .solution-body {
+    display: none;
+    padding: 0 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .solution-body.open { display: block; animation: fadeIn .15s ease; }
+
+  /* code block */
+  .code-block {
+    background: #0a0d14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-top: 14px;
+    position: relative;
+  }
+  .code-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg4);
+  }
+  .code-lang { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .copy-btn {
+    font-size: 11px; color: var(--text3); background: none; border: none;
+    cursor: pointer; padding: 2px 8px; border-radius: 4px;
+    font-family: var(--sans); transition: color .15s, background .15s;
+  }
+  .copy-btn:hover { background: var(--border); color: var(--text); }
+  pre {
+    padding: 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: #c9d1d9;
+    white-space: pre;
+    tab-size: 4;
+  }
+
+  /* ── SYNTAX COLOURS ─────────────────────────────────────────── */
+  .kw  { color: #ff7b72; }   /* keywords: public, return, if... */
+  .tp  { color: #79c0ff; }   /* types: int, boolean, char... */
+  .fn  { color: #d2a8ff; }   /* function names */
+  .str { color: #a5d6ff; }   /* strings */
+  .cm  { color: #8b949e; font-style: italic; } /* comments */
+  .nm  { color: #f8c555; }   /* numbers */
+  .op  { color: #e3b341; }   /* operators */
+  .var { color: #c9d1d9; }   /* default var */
+
+  /* ── EMPTY STATE ─────────────────────────────────────────── */
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 60vh; gap: 12px; color: var(--text3);
+  }
+  .empty-state-icon { font-size: 40px; opacity: .4; }
+  .empty-state-text { font-size: 14px; }
+
+  /* ── PROGRESS BAR ─────────────────────────────────────────── */
+  .progress-wrap { padding: 4px 16px 16px; }
+  .progress-bar-bg {
+    height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; background: var(--blue); border-radius: 2px;
+    transition: width .4s ease;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-icon">🔍</div>
+    <div>
+      <div class="header-title">Binary Search</div>
+      <div class="header-sub">FAANG Practice — Platform Engineer Level</div>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="stat"><div class="stat-num">12</div><div class="stat-lbl">Problems</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--easy)">5</div><div class="stat-lbl">Easy</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--medium)">5</div><div class="stat-lbl">Medium</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--hard)">2</div><div class="stat-lbl">Hard</div></div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Classic</div>
+      <div class="sidebar-item active" onclick="show(1,this)" id="si-1">
+        <div class="sidebar-num">1</div>
+        Binary Search
+        <span class="sidebar-diff easy">Easy</span>
+      </div>
+      <div class="sidebar-item" onclick="show(2,this)" id="si-2">
+        <div class="sidebar-num">2</div>
+        First Bad Version
+        <span class="sidebar-diff easy">Easy</span>
+      </div>
+      <div class="sidebar-item" onclick="show(3,this)" id="si-3">
+        <div class="sidebar-num">3</div>
+        Sqrt(x)
+        <span class="sidebar-diff easy">Easy</span>
+      </div>
+    </div>
+    <div class="cat-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Rotated Array</div>
+      <div class="sidebar-item" onclick="show(4,this)" id="si-4">
+        <div class="sidebar-num">4</div>
+        Search Rotated
+        <span class="sidebar-diff medium">Med</span>
+      </div>
+      <div class="sidebar-item" onclick="show(5,this)" id="si-5">
+        <div class="sidebar-num">5</div>
+        Find Minimum
+        <span class="sidebar-diff medium">Med</span>
+      </div>
+      <div class="sidebar-item" onclick="show(6,this)" id="si-6">
+        <div class="sidebar-num">6</div>
+        Search Rotated II
+        <span class="sidebar-diff medium">Med</span>
+      </div>
+    </div>
+    <div class="cat-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Answer Space</div>
+      <div class="sidebar-item" onclick="show(7,this)" id="si-7">
+        <div class="sidebar-num">7</div>
+        Koko Bananas
+        <span class="sidebar-diff medium">Med</span>
+      </div>
+      <div class="sidebar-item" onclick="show(8,this)" id="si-8">
+        <div class="sidebar-num">8</div>
+        Ship Packages
+        <span class="sidebar-diff medium">Med</span>
+      </div>
+    </div>
+    <div class="cat-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Search Space</div>
+      <div class="sidebar-item" onclick="show(9,this)" id="si-9">
+        <div class="sidebar-num">9</div>
+        Find Peak Element
+        <span class="sidebar-diff easy">Easy</span>
+      </div>
+      <div class="sidebar-item" onclick="show(10,this)" id="si-10">
+        <div class="sidebar-num">10</div>
+        Search 2D Matrix
+        <span class="sidebar-diff easy">Easy</span>
+      </div>
+      <div class="sidebar-item" onclick="show(11,this)" id="si-11">
+        <div class="sidebar-num">11</div>
+        K Closest Elements
+        <span class="sidebar-diff medium">Med</span>
+      </div>
+    </div>
+    <div class="cat-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard / FAANG</div>
+      <div class="sidebar-item" onclick="show(12,this)" id="si-12">
+        <div class="sidebar-num">12</div>
+        Median Two Arrays
+        <span class="sidebar-diff hard">Hard</span>
+      </div>
+    </div>
+
+    <div class="cat-divider"></div>
+    <div class="sidebar-section">
+      <div class="progress-wrap">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;font-weight:600">Progress</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill" style="width:8%"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:5px;" id="progress-label">1 / 12 viewed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- ── CARD 1 ── -->
+    <div class="problem-card visible" id="card-1">
+      <div class="card-header">
+        <div class="card-num">01</div>
+        <div class="card-meta">
+          <div class="card-title-row">
+            <span class="card-title">Binary Search</span>
+            <span class="diff-badge easy">Easy</span>
+            <span class="lc-link">LC #704</span>
+          </div>
+          <div class="pattern-tags">
+            <span class="ptag">Classic Template</span>
+            <span class="ptag">Foundation</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section">
+          <div class="section-header">
+            <div class="section-icon approach">🧭</div>
+            <span class="section-title">Approach</span>
+          </div>
+          <div class="approach-text">
+            Use <strong>three pointers</strong>: <code>left</code>, <code>right</code>, <code>mid</code>. 
+            Set <code>left = 0</code>, <code>right = n-1</code>. While <code>left &lt;= right</code>, compute <code>mid</code> and compare <code>nums[mid]</code> to target. 
+            If equal → return. If target is larger → move <code>left = mid + 1</code>. If smaller → move <code>right = mid - 1</code>.
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-header">
+            <div class="section-icon tip">💡</div>
+            <span class="section-title">Tip</span>
+          </div>
+          <div class="tip-box">
+            Always compute mid as <code>left + (right - left) / 2</code> — <strong>not</strong> <code>(left + right) / 2</code>. 
+            The second form overflows Java's <code>int</code> when indices exceed ~2.1B. 
+            The <code>&lt;=</code> in the while loop (not <code>&lt;</code>) ensures the single-element window is checked.
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-header">
+            <div class="section-icon faang">⚡</div>
+            <span class="section-title">FAANG Tip</span>
+          </div>
+          <div class="faang-box">
+            <strong>Classic opener.</strong> Every binary search variant descends from this template. 
+            Edge cases to nail: empty array → <code>return -1</code>, single element (target present/absent), 
+            target smaller than all elements, larger than all elements. 
+            Interviewers use this to calibrate whether you know <code>mid+1</code> vs <code>mid</code> pointer movement cold.
+          </div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(1)">
+        <div class="solution-toggle-left">
+          <span class="section-icon solution">📄</span>
+          <span class="toggle-label">Solution</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="complexity-row">
+            <span class="complexity-chip time">Time: O(log n)</span>
+            <span class="complexity-chip space">Space: O(1)</span>
+          </div>
+          <div class="chevron" id="chev-1">▾</div>
+        </div>
+      </div>
+      <div class="solution-body" id="sol-1">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-lang">Java</span>
+            <button class="copy-btn" onclick="copyCode(1)">Copy</button>
+          </div>
+<pre id="code-1"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">search</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> target) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> nums.length <span class="op">-</span> <span class="nm">1</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;  <span class="cm">// overflow-safe</span>
+        <span class="kw">if</span> (nums[mid] <span class="op">==</span> target)      <span class="kw">return</span> mid;
+        <span class="kw">else if</span> (nums[mid] <span class="op">&lt;</span> target)  left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+        <span class="kw">else</span>                           right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+    }
+    <span class="kw">return</span> <span class="op">-</span><span class="nm">1</span>;
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 2 ── -->
+    <div class="problem-card" id="card-2">
+      <div class="card-header">
+        <div class="card-num">02</div>
+        <div class="card-meta">
+          <div class="card-title-row">
+            <span class="card-title">First Bad Version</span>
+            <span class="diff-badge easy">Easy</span>
+            <span class="lc-link">LC #278</span>
+          </div>
+          <div class="pattern-tags">
+            <span class="ptag">Left Boundary</span>
+            <span class="ptag">Predicate Search</span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section">
+          <div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">
+            Find the <strong>first position where a boolean predicate becomes true</strong>. Use <code>left &lt; right</code> (not <code>&lt;=</code>). When <code>isBadVersion(mid)</code> is true, set <code>right = mid</code> — mid could be the answer, don't exclude it. When false, set <code>left = mid + 1</code>. Loop converges when <code>left == right</code>.
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">
+            When you find a satisfying <code>mid</code>, use <code>right = mid</code> (not <code>mid - 1</code>) to keep it as a candidate. 
+            The <code>left &lt; right</code> condition guarantees termination — when they meet, that's your answer. Return <code>left</code> (equals <code>right</code> at this point).
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box">
+            <strong>Template for "find first X".</strong> This pattern covers: first bad version, first 1 in sorted 0/1 array, leftmost position &gt;= target. 
+            Edge cases: <code>n = 1</code> (always bad version 1), all versions bad (answer is 1), only last version bad (answer is n).
+          </div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(2)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="complexity-row">
+            <span class="complexity-chip time">Time: O(log n)</span>
+            <span class="complexity-chip space">Space: O(1)</span>
+          </div>
+          <div class="chevron" id="chev-2">▾</div>
+        </div>
+      </div>
+      <div class="solution-body" id="sol-2">
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(2)">Copy</button></div>
+<pre id="code-2"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">firstBadVersion</span>(<span class="tp">int</span> n) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">1</span>, right <span class="op">=</span> n;
+    <span class="kw">while</span> (left <span class="op">&lt;</span> right) {          <span class="cm">// Note: < not <=</span>
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (<span class="fn">isBadVersion</span>(mid)) right <span class="op">=</span> mid;    <span class="cm">// could be answer</span>
+        <span class="kw">else</span>                   left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+    }
+    <span class="kw">return</span> left;                   <span class="cm">// left == right == answer</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 3 ── -->
+    <div class="problem-card" id="card-3">
+      <div class="card-header">
+        <div class="card-num">03</div>
+        <div class="card-meta">
+          <div class="card-title-row">
+            <span class="card-title">Sqrt(x)</span>
+            <span class="diff-badge easy">Easy</span>
+            <span class="lc-link">LC #69</span>
+          </div>
+          <div class="pattern-tags"><span class="ptag">Right Boundary</span><span class="ptag">Math</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Binary search over the answer space <code>[1, x]</code>. Track the last valid <code>mid</code> where <code>mid*mid &lt;= x</code> as the candidate answer. If <code>mid*mid == x</code> return immediately. If <code>mid*mid &lt; x</code> save mid as candidate and search right. If <code>mid*mid &gt; x</code> search left.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Use <code>(long) mid * mid</code> cast to avoid <code>int</code> overflow when <code>x</code> is close to <code>Integer.MAX_VALUE</code>. The answer is always the floor — last position where <code>mid² ≤ x</code>.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Answer-space search.</strong> You're not searching the input — you're searching the answer range. Edge cases: <code>x = 0</code> → return 0, <code>x = 1</code> → return 1. Watch for the long cast — missing it is a common bug.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(3)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log x)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-3">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-3">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(3)">Copy</button></div>
+<pre id="code-3"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">mySqrt</span>(<span class="tp">int</span> x) {
+    <span class="kw">if</span> (x <span class="op">&lt;</span> <span class="nm">2</span>) <span class="kw">return</span> x;
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">1</span>, right <span class="op">=</span> x <span class="op">/</span> <span class="nm">2</span>, ans <span class="op">=</span> <span class="nm">0</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="tp">long</span> sq <span class="op">=</span> (<span class="tp">long</span>) mid <span class="op">*</span> mid;   <span class="cm">// avoid overflow</span>
+        <span class="kw">if</span>      (sq <span class="op">==</span> x) <span class="kw">return</span> mid;
+        <span class="kw">else if</span> (sq <span class="op">&lt;</span>  x) { ans <span class="op">=</span> mid; left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>; }
+        <span class="kw">else</span>               right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+    }
+    <span class="kw">return</span> ans;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 4 ── -->
+    <div class="problem-card" id="card-4">
+      <div class="card-header">
+        <div class="card-num">04</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Search in Rotated Sorted Array</span><span class="diff-badge medium">Medium</span><span class="lc-link">LC #33</span></div>
+          <div class="pattern-tags"><span class="ptag">Rotated Array</span><span class="ptag">Two Halves</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">One half is always sorted. <strong>Identify which half</strong> by comparing <code>nums[left]</code> with <code>nums[mid]</code>. If left half is sorted and target falls in it → search left. Otherwise search right. Apply same logic symmetrically for right half sorted.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Check <code>nums[left] &lt;= nums[mid]</code> to identify the sorted half. Then ask: does target fall in <code>[nums[left], nums[mid])</code>? If yes → go left. If no → go right. Draw this on paper — it becomes muscle memory fast.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Google/Meta favourite.</strong> The key insight: in a rotated array, at least one half is always sorted — use that as your anchor. Edge cases: array not rotated at all (normal BS), single element, target at rotation point, two-element arrays.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(4)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log n)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-4">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-4">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(4)">Copy</button></div>
+<pre id="code-4"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">search</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> target) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> nums.length <span class="op">-</span> <span class="nm">1</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (nums[mid] <span class="op">==</span> target) <span class="kw">return</span> mid;
+
+        <span class="kw">if</span> (nums[left] <span class="op">&lt;=</span> nums[mid]) {            <span class="cm">// left half sorted</span>
+            <span class="kw">if</span> (nums[left] <span class="op">&lt;=</span> target <span class="op">&amp;&amp;</span> target <span class="op">&lt;</span> nums[mid])
+                right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+            <span class="kw">else</span>
+                left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+        } <span class="kw">else</span> {                                    <span class="cm">// right half sorted</span>
+            <span class="kw">if</span> (nums[mid] <span class="op">&lt;</span> target <span class="op">&amp;&amp;</span> target <span class="op">&lt;=</span> nums[right])
+                left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+            <span class="kw">else</span>
+                right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+        }
+    }
+    <span class="kw">return</span> <span class="op">-</span><span class="nm">1</span>;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 5 ── -->
+    <div class="problem-card" id="card-5">
+      <div class="card-header">
+        <div class="card-num">05</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Find Minimum in Rotated Sorted Array</span><span class="diff-badge medium">Medium</span><span class="lc-link">LC #153</span></div>
+          <div class="pattern-tags"><span class="ptag">Rotated Array</span><span class="ptag">Minimum</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Compare <code>nums[mid]</code> with <code>nums[right]</code> (not left). If <code>nums[mid] &gt; nums[right]</code>, the minimum is in the right half → move <code>left = mid + 1</code>. Otherwise minimum is in left half including mid → move <code>right = mid</code>. Loop until <code>left == right</code>.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Always compare with <code>nums[right]</code> here — comparing with <code>nums[left]</code> is trickier. The minimum is always on the "unsorted" side. Use <code>left &lt; right</code> loop condition — converges to the minimum index.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Pair with LC #33.</strong> Together they cover all rotated array variants. Distinguish this from LC #154 (duplicates allowed) — that requires handling <code>nums[mid] == nums[right]</code> by shrinking right. Edge case: array not rotated → first element is minimum.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(5)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log n)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-5">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-5">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(5)">Copy</button></div>
+<pre id="code-5"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">findMin</span>(<span class="tp">int</span>[] nums) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> nums.length <span class="op">-</span> <span class="nm">1</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (nums[mid] <span class="op">&gt;</span> nums[right])
+            left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;   <span class="cm">// min is in right half</span>
+        <span class="kw">else</span>
+            right <span class="op">=</span> mid;        <span class="cm">// mid could be min</span>
+    }
+    <span class="kw">return</span> nums[left];
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 6 ── -->
+    <div class="problem-card" id="card-6">
+      <div class="card-header">
+        <div class="card-num">06</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Search in Rotated Array II (Duplicates)</span><span class="diff-badge medium">Medium</span><span class="lc-link">LC #81</span></div>
+          <div class="pattern-tags"><span class="ptag">Rotated Array</span><span class="ptag">Duplicates</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Same as LC #33 but add one extra case: when <code>nums[left] == nums[mid] == nums[right]</code>, you <strong>cannot determine</strong> which half is sorted. Safe move: shrink both ends (<code>left++; right--</code>). All other cases identical to LC #33.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">The ambiguity case <code>nums[left] == nums[mid]</code> forces linear fallback. That's why worst case degrades to <code>O(n)</code> — e.g. array <code>[1,1,1,1,1,2,1]</code>. Average is still <code>O(log n)</code>.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Follow-up to LC #33.</strong> Interviewers often ask: "What if there are duplicates?" Know this answer cold. The key insight is that duplicates break the ability to determine the sorted half — so you safely shrink both ends and pay O(n) worst case.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(6)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(n) worst</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-6">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-6">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(6)">Copy</button></div>
+<pre id="code-6"><span class="kw">public</span> <span class="tp">boolean</span> <span class="fn">search</span>(<span class="tp">int</span>[] nums, <span class="tp">int</span> target) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> nums.length <span class="op">-</span> <span class="nm">1</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (nums[mid] <span class="op">==</span> target) <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="cm">// ambiguous — shrink both ends safely</span>
+        <span class="kw">if</span> (nums[left] <span class="op">==</span> nums[mid] <span class="op">&amp;&amp;</span> nums[mid] <span class="op">==</span> nums[right]) {
+            left<span class="op">++</span>; right<span class="op">--</span>;
+        } <span class="kw">else if</span> (nums[left] <span class="op">&lt;=</span> nums[mid]) {
+            <span class="kw">if</span> (nums[left] <span class="op">&lt;=</span> target <span class="op">&amp;&amp;</span> target <span class="op">&lt;</span> nums[mid])
+                right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+            <span class="kw">else</span> left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+        } <span class="kw">else</span> {
+            <span class="kw">if</span> (nums[mid] <span class="op">&lt;</span> target <span class="op">&amp;&amp;</span> target <span class="op">&lt;=</span> nums[right])
+                left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+            <span class="kw">else</span> right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+        }
+    }
+    <span class="kw">return</span> <span class="kw">false</span>;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 7 ── -->
+    <div class="problem-card" id="card-7">
+      <div class="card-header">
+        <div class="card-num">07</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Koko Eating Bananas</span><span class="diff-badge medium">Medium</span><span class="lc-link">LC #875</span></div>
+          <div class="pattern-tags"><span class="ptag">Answer Space BS</span><span class="ptag">Feasibility</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Binary search on the <strong>answer (speed k)</strong> from <code>[1, max(piles)]</code>. For each candidate <code>mid</code>, check if Koko can finish in <code>h</code> hours using a helper. If feasible, try slower (search left). If not feasible, must go faster (search right).</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Ceiling division trick: <code>hours += (pile + k - 1) / k</code> — avoids floating point. The answer space upper bound is <code>max(piles)</code> because at that speed every pile finishes in exactly 1 hour.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Template for "minimise the maximum".</strong> Once you see this pattern, it covers: Ship Packages (LC #1011), Split Array (LC #410), Minimum Days to Make Bouquets (LC #1482). The structure is always: define answer space → binary search → write a greedy feasibility checker.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(7)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(n log m)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-7">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-7">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(7)">Copy</button></div>
+<pre id="code-7"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">minEatingSpeed</span>(<span class="tp">int</span>[] piles, <span class="tp">int</span> h) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">1</span>;
+    <span class="tp">int</span> right <span class="op">=</span> Arrays.<span class="fn">stream</span>(piles).<span class="fn">max</span>().<span class="fn">getAsInt</span>();
+    <span class="kw">while</span> (left <span class="op">&lt;</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (<span class="fn">canFinish</span>(piles, mid, h)) right <span class="op">=</span> mid;
+        <span class="kw">else</span>                           left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+    }
+    <span class="kw">return</span> left;
+}
+<span class="kw">private</span> <span class="tp">boolean</span> <span class="fn">canFinish</span>(<span class="tp">int</span>[] piles, <span class="tp">int</span> k, <span class="tp">int</span> h) {
+    <span class="tp">int</span> hours <span class="op">=</span> <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> p : piles)
+        hours <span class="op">+=</span> (p <span class="op">+</span> k <span class="op">-</span> <span class="nm">1</span>) <span class="op">/</span> k;  <span class="cm">// ceiling division</span>
+    <span class="kw">return</span> hours <span class="op">&lt;=</span> h;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 8 ── -->
+    <div class="problem-card" id="card-8">
+      <div class="card-header">
+        <div class="card-num">08</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Capacity to Ship Packages</span><span class="diff-badge medium">Medium</span><span class="lc-link">LC #1011</span></div>
+          <div class="pattern-tags"><span class="ptag">Answer Space BS</span><span class="ptag">Greedy Check</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Binary search on capacity <code>[max(weights), sum(weights)]</code>. Min = heaviest item (can't skip it). Max = ship everything at once. For each candidate capacity, greedily simulate shipping days. If days ≤ D → feasible, try lower capacity.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Left bound = <code>max(weights)</code> not 1 — you must be able to carry the heaviest package. Right bound = <code>sum(weights)</code> — one trip carries everything. Same structural template as Koko, different feasibility check.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Identical structure to Koko.</strong> Once you've solved Koko, this is ~5 minutes. The pattern: set left/right bounds thoughtfully, binary search, write canShip greedy. Amazon asks this frequently — recognise the "minimise max capacity" framing immediately.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(8)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(n log W)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-8">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-8">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(8)">Copy</button></div>
+<pre id="code-8"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">shipWithinDays</span>(<span class="tp">int</span>[] weights, <span class="tp">int</span> days) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> w : weights) {
+        left  <span class="op">=</span> Math.<span class="fn">max</span>(left, w);   <span class="cm">// must carry heaviest</span>
+        right <span class="op">+=</span> w;                   <span class="cm">// worst case: one trip</span>
+    }
+    <span class="kw">while</span> (left <span class="op">&lt;</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (<span class="fn">canShip</span>(weights, days, mid)) right <span class="op">=</span> mid;
+        <span class="kw">else</span>                             left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+    }
+    <span class="kw">return</span> left;
+}
+<span class="kw">private</span> <span class="tp">boolean</span> <span class="fn">canShip</span>(<span class="tp">int</span>[] weights, <span class="tp">int</span> days, <span class="tp">int</span> cap) {
+    <span class="tp">int</span> d <span class="op">=</span> <span class="nm">1</span>, cur <span class="op">=</span> <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> w : weights) {
+        <span class="kw">if</span> (cur <span class="op">+</span> w <span class="op">&gt;</span> cap) { d<span class="op">++</span>; cur <span class="op">=</span> <span class="nm">0</span>; }
+        cur <span class="op">+=</span> w;
+    }
+    <span class="kw">return</span> d <span class="op">&lt;=</span> days;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 9 ── -->
+    <div class="problem-card" id="card-9">
+      <div class="card-header">
+        <div class="card-num">09</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Find Peak Element</span><span class="diff-badge easy">Easy</span><span class="lc-link">LC #162</span></div>
+          <div class="pattern-tags"><span class="ptag">Peak / Local Max</span><span class="ptag">Slope Logic</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">No sorted array needed. Compare <code>nums[mid]</code> vs <code>nums[mid+1]</code>. If ascending slope (<code>nums[mid] &lt; nums[mid+1]</code>) → peak is on the right → <code>left = mid + 1</code>. If descending slope → peak is on the left including mid → <code>right = mid</code>.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Mental model: <code>nums[-1] = nums[n] = -∞</code>. A peak must exist by this boundary assumption. If you're on an upslope, there's a peak ahead. Use <code>left &lt; right</code> loop — terminates at a single peak index.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Classic search without sorted array.</strong> Key insight: if <code>nums[mid] &lt; nums[mid+1]</code>, a peak MUST exist to the right — the boundary guarantee <code>nums[n] = -∞</code> means the rising function must eventually fall. Edge cases: single element (it's the peak), all ascending, all descending.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(9)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log n)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-9">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-9">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(9)">Copy</button></div>
+<pre id="code-9"><span class="kw">public</span> <span class="tp">int</span> <span class="fn">findPeakElement</span>(<span class="tp">int</span>[] nums) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> nums.length <span class="op">-</span> <span class="nm">1</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (nums[mid] <span class="op">&gt;</span> nums[mid <span class="op">+</span> <span class="nm">1</span>])
+            right <span class="op">=</span> mid;        <span class="cm">// peak is left (incl. mid)</span>
+        <span class="kw">else</span>
+            left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;   <span class="cm">// peak is right</span>
+    }
+    <span class="kw">return</span> left;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 10 ── -->
+    <div class="problem-card" id="card-10">
+      <div class="card-header">
+        <div class="card-num">10</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Search a 2D Matrix</span><span class="diff-badge easy">Easy</span><span class="lc-link">LC #74</span></div>
+          <div class="pattern-tags"><span class="ptag">2D Matrix</span><span class="ptag">Index Mapping</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Treat the m×n matrix as a flat sorted array of length m*n. Binary search on <code>[0, m*n-1]</code>. Map <code>mid</code> back to 2D: <code>row = mid / n</code>, <code>col = mid % n</code>. Standard binary search from there.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Index mapping: <code>matrix[mid / cols][mid % cols]</code> — this is the key insight. Works because each row starts where the previous row ends (guaranteed by problem constraints). Clean, elegant, no nested loops.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Shows index arithmetic mastery.</strong> Interviewers love this — it demonstrates you can think beyond 1D arrays. Note: LC #240 (Search a 2D Matrix II) is different — rows and columns sorted but rows not contiguous, requires a different O(m+n) approach starting from top-right.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(10)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log mn)</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-10">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-10">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(10)">Copy</button></div>
+<pre id="code-10"><span class="kw">public</span> <span class="tp">boolean</span> <span class="fn">searchMatrix</span>(<span class="tp">int</span>[][] matrix, <span class="tp">int</span> target) {
+    <span class="tp">int</span> m <span class="op">=</span> matrix.length, n <span class="op">=</span> matrix[<span class="nm">0</span>].length;
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> m <span class="op">*</span> n <span class="op">-</span> <span class="nm">1</span>;
+    <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="tp">int</span> val <span class="op">=</span> matrix[mid <span class="op">/</span> n][mid <span class="op">%</span> n];  <span class="cm">// key mapping</span>
+        <span class="kw">if</span>      (val <span class="op">==</span> target) <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="kw">else if</span> (val <span class="op">&lt;</span>  target) left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+        <span class="kw">else</span>                    right <span class="op">=</span> mid <span class="op">-</span> <span class="nm">1</span>;
+    }
+    <span class="kw">return</span> <span class="kw">false</span>;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 11 ── -->
+    <div class="problem-card" id="card-11">
+      <div class="card-header">
+        <div class="card-num">11</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Find K Closest Elements</span><span class="diff-badge medium">Medium</span><span class="lc-link">LC #658</span></div>
+          <div class="pattern-tags"><span class="ptag">Window Search</span><span class="ptag">K Closest</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Binary search for the <strong>left start of the k-element window</strong>. Search space is <code>[0, n-k]</code>. Compare distances: <code>x - arr[mid]</code> vs <code>arr[mid+k] - x</code>. If left distance is greater → window should slide right (<code>left = mid+1</code>). Otherwise → <code>right = mid</code>.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">You're not searching for <code>x</code> — you're searching for the left boundary of the k-window. <code>right = arr.length - k</code> because window of size k starting at <code>right</code> would be the last valid window. No absolute values needed in comparison.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>O(log(n-k)) vs naive O(n).</strong> Shows mastery of searching a non-obvious search space. Interviewers often ask "can you do better than O(n)?" — this is the answer. Edge cases: <code>x</code> smaller than all elements (return first k), <code>x</code> larger than all (return last k).</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(11)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log(n-k))</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-11">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-11">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(11)">Copy</button></div>
+<pre id="code-11"><span class="kw">public</span> List&lt;<span class="tp">Integer</span>&gt; <span class="fn">findClosestElements</span>(<span class="tp">int</span>[] arr, <span class="tp">int</span> k, <span class="tp">int</span> x) {
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> arr.length <span class="op">-</span> k;   <span class="cm">// window start range</span>
+    <span class="kw">while</span> (left <span class="op">&lt;</span> right) {
+        <span class="tp">int</span> mid <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;
+        <span class="kw">if</span> (x <span class="op">-</span> arr[mid] <span class="op">&gt;</span> arr[mid <span class="op">+</span> k] <span class="op">-</span> x)
+            left  <span class="op">=</span> mid <span class="op">+</span> <span class="nm">1</span>;
+        <span class="kw">else</span>
+            right <span class="op">=</span> mid;
+    }
+    List&lt;<span class="tp">Integer</span>&gt; result <span class="op">=</span> <span class="kw">new</span> ArrayList&lt;&gt;();
+    <span class="kw">for</span> (<span class="tp">int</span> i <span class="op">=</span> left; i <span class="op">&lt;</span> left <span class="op">+</span> k; i<span class="op">++</span>) result.<span class="fn">add</span>(arr[i]);
+    <span class="kw">return</span> result;
+}</pre></div></div>
+    </div>
+
+    <!-- ── CARD 12 ── -->
+    <div class="problem-card" id="card-12">
+      <div class="card-header">
+        <div class="card-num">12</div>
+        <div class="card-meta">
+          <div class="card-title-row"><span class="card-title">Median of Two Sorted Arrays</span><span class="diff-badge hard">Hard</span><span class="lc-link">LC #4</span></div>
+          <div class="pattern-tags"><span class="ptag">Hard</span><span class="ptag">Partition</span><span class="ptag">Two Arrays</span></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="section"><div class="section-header"><div class="section-icon approach">🧭</div><span class="section-title">Approach</span></div>
+          <div class="approach-text">Binary search on a <strong>partition of the smaller array</strong>. For each partition <code>i</code> of A, compute partition <code>j</code> of B such that left halves balance right halves. Invariant: <code>maxLeftA &lt;= minRightB</code> AND <code>maxLeftB &lt;= minRightA</code>. When invariant holds, compute median from the 4 boundary values.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon tip">💡</div><span class="section-title">Tip</span></div>
+          <div class="tip-box">Always binary search on the <strong>shorter array</strong> — swap if needed. Use <code>Integer.MIN_VALUE</code>/<code>MAX_VALUE</code> as sentinels for empty partition edges. <code>j = (m + n + 1) / 2 - i</code> ensures left halves always total <code>(m+n+1)/2</code> elements.</div>
+        </div>
+        <div class="section"><div class="section-header"><div class="section-icon faang">⚡</div><span class="section-title">FAANG Tip</span></div>
+          <div class="faang-box"><strong>Top FAANG hard — Google, FB, Amazon flagship.</strong> Practice explaining the partition invariant verbally — that's what separates candidates. Know: O(log(min(m,n))) is the target, naive merge is O(m+n). Draw the partition on paper. Edge cases: empty array, one element in each, all of A &lt; all of B.</div>
+        </div>
+      </div>
+      <div class="solution-toggle" onclick="toggleSolution(12)">
+        <div class="solution-toggle-left"><span class="section-icon solution">📄</span><span class="toggle-label">Solution</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="complexity-row"><span class="complexity-chip time">Time: O(log min(m,n))</span><span class="complexity-chip space">Space: O(1)</span></div><div class="chevron" id="chev-12">▾</div></div>
+      </div>
+      <div class="solution-body" id="sol-12">
+        <div class="code-block"><div class="code-block-header"><span class="code-lang">Java</span><button class="copy-btn" onclick="copyCode(12)">Copy</button></div>
+<pre id="code-12"><span class="kw">public</span> <span class="tp">double</span> <span class="fn">findMedianSortedArrays</span>(<span class="tp">int</span>[] A, <span class="tp">int</span>[] B) {
+    <span class="kw">if</span> (A.length <span class="op">&gt;</span> B.length) <span class="kw">return</span> <span class="fn">findMedianSortedArrays</span>(B, A);
+    <span class="tp">int</span> m <span class="op">=</span> A.length, n <span class="op">=</span> B.length;
+    <span class="tp">int</span> left <span class="op">=</span> <span class="nm">0</span>, right <span class="op">=</span> m;
+    <span class="kw">while</span> (left <span class="op">&lt;=</span> right) {
+        <span class="tp">int</span> i <span class="op">=</span> left <span class="op">+</span> (right <span class="op">-</span> left) <span class="op">/</span> <span class="nm">2</span>;   <span class="cm">// partition A</span>
+        <span class="tp">int</span> j <span class="op">=</span> (m <span class="op">+</span> n <span class="op">+</span> <span class="nm">1</span>) <span class="op">/</span> <span class="nm">2</span> <span class="op">-</span> i;           <span class="cm">// partition B</span>
+
+        <span class="tp">int</span> maxLA  <span class="op">=</span> (i <span class="op">==</span> <span class="nm">0</span>) ? Integer.MIN_VALUE : A[i<span class="op">-</span><span class="nm">1</span>];
+        <span class="tp">int</span> minRA  <span class="op">=</span> (i <span class="op">==</span> m) ? Integer.MAX_VALUE : A[i];
+        <span class="tp">int</span> maxLB  <span class="op">=</span> (j <span class="op">==</span> <span class="nm">0</span>) ? Integer.MIN_VALUE : B[j<span class="op">-</span><span class="nm">1</span>];
+        <span class="tp">int</span> minRB  <span class="op">=</span> (j <span class="op">==</span> n) ? Integer.MAX_VALUE : B[j];
+
+        <span class="kw">if</span> (maxLA <span class="op">&lt;=</span> minRB <span class="op">&amp;&amp;</span> maxLB <span class="op">&lt;=</span> minRA) {
+            <span class="kw">if</span> ((m <span class="op">+</span> n) <span class="op">%</span> <span class="nm">2</span> <span class="op">==</span> <span class="nm">1</span>)
+                <span class="kw">return</span> Math.<span class="fn">max</span>(maxLA, maxLB);
+            <span class="kw">return</span> (Math.<span class="fn">max</span>(maxLA, maxLB) <span class="op">+</span> Math.<span class="fn">min</span>(minRA, minRB)) <span class="op">/</span> <span class="nm">2.0</span>;
+        } <span class="kw">else if</span> (maxLA <span class="op">&gt;</span> minRB) right <span class="op">=</span> i <span class="op">-</span> <span class="nm">1</span>;
+        <span class="kw">else</span>                        left  <span class="op">=</span> i <span class="op">+</span> <span class="nm">1</span>;
+    }
+    <span class="kw">throw new</span> IllegalArgumentException();
+}</pre></div></div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+let viewed = new Set([1]);
+
+function show(id, el) {
+  document.querySelectorAll('.problem-card').forEach(c => c.classList.remove('visible'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('card-' + id).classList.add('visible');
+  el.classList.add('active');
+  viewed.add(id);
+  const pct = Math.round(viewed.size / 12 * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = viewed.size + ' / 12 viewed';
+}
+
+function toggleSolution(id) {
+  const sol = document.getElementById('sol-' + id);
+  const chev = document.getElementById('chev-' + id);
+  const open = sol.classList.contains('open');
+  sol.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+}
+
+function copyCode(id) {
+  const pre = document.getElementById('code-' + id);
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = pre.closest('.code-block').querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+</script>
+</body>
+</html>

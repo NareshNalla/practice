@@ -1,4 +1,4 @@
-package com.naresh.b_concepts.mt.exam;
+package com.naresh.a_dsalgo;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
 # PriorityQueue in Java & Heap Patterns
 
-This document provides a guide to the `PriorityQueue` class in Java and summarizes common patterns for solving heap-related problems, ordered from foundational to advanced concepts.
+This document provides a guide to the `PriorityQueue` class in Java and summarizes common patterns for solving heap-related problems.
 
 ---
 
@@ -28,64 +28,54 @@ A `PriorityQueue` is an unbounded priority queue based on a priority heap. It pr
 ## 2. Heap Problem Patterns (Easy to Hard)
 
 ### Pattern 1: Basic Heap for Greedy Processing (Easy)
-**Problem**: [LastStoneWeight.java](./LastStoneWeight.java) - Smash the two heaviest stones repeatedly.
-
-- **Concept**: Always needing the "extreme" (largest or smallest) elements.
-- **Technique**: Max-Heap.
-- **Steps**:
+- **Problem**: [LastStoneWeight.java](./LastStoneWeight.java) - Smash the two heaviest stones repeatedly.
+- **FAANG Pattern**: "Greedy Extreme Tracking"
+- **Method Logic**:
     1. Insert all weights into a **Max-Heap**.
-    2. While more than 1 stone remains:
-        - `poll()` the two largest stones.
-        - If weights differ, `offer()` the difference back into the heap.
-    3. Return the last stone weight or 0.
+    2. While more than 1 stone remains, `poll()` the two largest and `offer()` the difference back.
+    3. Final `poll()` or 0 is the answer.
+- **Complexity**: Time: $O(n \log n)$ | Space: $O(n)$
 
 ### Pattern 2: Fixed-Size Heap for Top-K (Medium)
-**Problem**: [KthLargestStream.java](./KthLargestStream.java) - Find the $K^{th}$ largest element in a live stream.
-
-- **Concept**: Maintaining only the "Top-K" elements.
-- **Technique**: Min-Heap of size $K$.
-- **FAANG Tip**: In a Min-Heap of size $K$, the root is the smallest of the largest $K$ elements, which is exactly the $K^{th}$ largest overall.
-- **Steps**:
-    1. Add new element to the **Min-Heap**.
-    2. If heap size > $K$, `poll()` (remove the smallest).
-    3. The `peek()` value is always the $K^{th}$ largest.
+- **Problem**: [KthLargestStream.java](./KthLargestStream.java) - Find the $K^{th}$ largest element in a live stream.
+- **FAANG Pattern**: "Fixed-Size Min-Heap"
+- **Method Logic**:
+    1. Maintain a **Min-Heap** of size $K$.
+    2. New elements are added; if size > $K$, the smallest (root) is removed.
+    3. The root (`peek()`) is always the $K^{th}$ largest element.
+- **Complexity**: Time: $O(\log K)$ per add | Space: $O(K)$
 
 ### Pattern 3: Two-Heaps for Dynamic Median (Hard)
-**Problem**: [FindMedianInStream.java](./FindMedianInStream.java) - Maintain the median of a live stream.
-
-- **Concept**: Balancing two halves of data to find the center.
-- **Technique**: Two Heaps (Max-Heap + Min-Heap).
-- **FAANG Tip**: 
-    - **Max-Heap** stores the **lower half** (small numbers).
-    - **Min-Heap** stores the **upper half** (large numbers).
-    - Keep sizes balanced (difference $\le 1$). Odd total: the bigger heap's root IS the median. Even total: average both roots.
-- **Steps**:
-    1. `addNum(num)`:
-        - Add to Max-Heap, then move Max-Heap's top to Min-Heap (ensures sorting).
-        - If Min-Heap is larger, move its top back to Max-Heap (ensures balance).
-    2. `findMedian()`:
-        - If sizes are unequal, the larger heap's top is the median.
-        - If equal, average of both tops.
+- **Problem**: [FindMedianInStream.java](./FindMedianInStream.java) - Maintain the median of a live stream.
+- **FAANG Pattern**: "Two-Heap Balancing"
+- **Method Logic**:
+    1. **Max-Heap** stores the lower half; **Min-Heap** stores the upper half.
+    2. Balance sizes so they differ by at most 1.
+    3. Median is either the top of the larger heap or the average of both tops.
+- **Complexity**: Time: $O(\log n)$ add, $O(1)$ median | Space: $O(n)$
 
 ---
 
-## 3. Agent Skill: Documentation Generator
+## 3. Agent Skill: Documentation Standards (Java DSA)
 
-### System Prompt for Summary Documentation
-Use this prompt to generate revision notes for any topic (Trees, Heaps, DP, etc.):
+When updating Java files or creating summaries, follow these rules:
 
-> Act as an expert technical writer. Create a summary document for the problems I solved in [TOPIC]. For each problem, include:
-> 1. **Problem**: Clear, one-sentence goal.
-> 2. **Technique**: The specific algorithm or data structure used.
-> 3. **FAANG Tip**: The key intuition, pattern name, or common interview trick.
-> 4. **Complexity**: Big O for Time and Space.
-> 5. **Steps**: Bulleted list of high-level logic (1-5 steps).
->
-> Follow the layout of `python_tree_revision.md`. Order problems by concept complexity (Foundational -> Advanced).
+### 1. Java Class-Level Javadoc
+- **Problem**: Clear title of the algorithm/problem.
+- **Description**: Concise summary of what the code achieves.
+- **Note**: Do *not* include strategy or patterns here.
 
-### Pattern Recognition Guide
-- **Top-K elements?** -> Min-heap of size $K$.
-- **Dynamic Median / Balancing?** -> Two heaps.
-- **Greedy Extremes?** -> Single heap.
-- **Merging Sorted Lists?** -> Min-heap with pointers.
-- **Task Scheduling / Frequency?** -> Map + Max-Heap.
+### 2. Java Method-Level Javadoc
+- **FAANG Pattern**: The conceptual name of the pattern (e.g., "Two-Pointer", "Monotonic Stack").
+- **Strategy**: Step-by-step logic of the implementation.
+- **Complexity**: Explicit Big O for Time and Space.
+
+### 3. Summary Markdown Template
+Use this structure for MD revision files:
+```markdown
+### [Problem Name]
+- **Problem**: [One-sentence goal]
+- **FAANG Pattern**: [Pattern Name]
+- **Method Logic**: [1-3 bullet points on the "How"]
+- **Complexity**: Time: [O(...)] | Space: [O(...)]
+```
