@@ -1,0 +1,14 @@
+package com.naresh.a_dsalgo.ae_stack.implementation;
+
+public class StackLinkedListTest {
+	public static void main(String[] args) {
+		
+		StackLinkedList<String> sl = new StackLinkedList<String>();
+		sl.pop();
+		sl.push("Ramu");
+		sl.push("Faheem");
+		sl.push("Naresh");
+        //sl.pop();
+		System.out.println(sl.pop());
+	}
+}
