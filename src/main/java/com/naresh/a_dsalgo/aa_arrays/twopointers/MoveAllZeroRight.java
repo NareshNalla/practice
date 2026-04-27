@@ -1,4 +1,4 @@
-package com.naresh.a_dsalgo.aa_arrays.problems;
+package com.naresh.a_dsalgo.aa_arrays.twopointers;
 
 import java.util.Arrays;
 import java.util.Objects;

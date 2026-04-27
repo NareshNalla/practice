@@ -2,6 +2,10 @@ package com.naresh.a_dsalgo.aa_arrays.problems;
 
 import java.util.Arrays;
 
+/**
+ * Problem: Rotate Array
+ * Description: Rotate an array to the right by k steps using O(1) extra space.
+ */
 public class RotateArrayByK {
 
     /**
@@ -23,6 +27,7 @@ public class RotateArrayByK {
      * 4. Reverse remaining n-k (4) elements: [5,6,7,1,2,3,4] -> Result
      */
     public static void rotate(int[] nums, int k) {
+        // Pattern: Triple Reversal | Time: O(n), Space: O(1)
         if (nums == null || nums.length == 0 || k == 0) {
             return;
         }
@@ -49,6 +54,7 @@ public class RotateArrayByK {
             end--;
         }
     }
+    // FAANG Tip: Triple reversal is the optimal O(1) space solution. Mention O(n) space solution with extra array for comparison.
 
     public static void main(String[] args) {
         // Test cases

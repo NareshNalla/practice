@@ -1,6 +1,9 @@
 package com.naresh.a_dsalgo.aa_arrays.problems;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SortbyFrequencyIncreasing {
     public static void main(String[] args) {
@@ -8,7 +11,24 @@ public class SortbyFrequencyIncreasing {
         sortByFrequency(array);
         System.out.println("\n---");
         sortByFrequencyOptimized(array);
+        System.out.println("\n--- Streams Solution (Clubbed):");
+        System.out.println(Arrays.toString(sortByFrequencyStreams(array)));
     }
+
+    /**
+     * Algorithm: Full functional stream approach. Grouping and sorting are clubbed using a collect/sort pipeline.
+     */
+    public static int[] sortByFrequencyStreams(int[] nums) {
+        // Pattern: Streams (Grouping & Custom Sort) | Time: O(n log n), Space: O(n)
+        return Arrays.stream(nums).boxed()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())) // Step 1: Freq Map
+            .entrySet().stream()
+            .sorted(Map.Entry.<Integer, Long>comparingByValue() // Step 2: Sort by freq
+                .thenComparing(Map.Entry.comparingByKey())) // Step 3: Sort by value
+            .flatMapToInt(e -> IntStream.generate(e::getKey).limit(e.getValue())) // Step 4: Expand
+            .toArray();
+    }
+    // FAANG Tip: flatMapToInt with IntStream.generate is an elegant way to rebuild the array from frequency pairs.
 
     public static void sortByFrequency(int[] nums) {
         // Pattern: Frequency Hashing & Custom Sort | Time: O(n log n), Space: O(n)
@@ -55,9 +75,3 @@ public class SortbyFrequencyIncreasing {
         }
     }
 }
-
-/**
- * NOTE: To sort by DECREASING frequency:
- * 1. In sortByFrequency: Change to .sort(Comparator.comparingInt(map::get).reversed().thenComparingInt(a -> a))
- * 2. In sortByFrequencyOptimized: Iterate buckets backwards from nums.length down to 1.
- */

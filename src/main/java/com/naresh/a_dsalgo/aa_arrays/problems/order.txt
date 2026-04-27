@@ -1,0 +1,16 @@
+ Phase 1: The Essentials (Warm-up & Basic Patterns)
+Builds foundational skills like hashing and simple pointer moves.
+1.
+ContainsDuplicate.java (Hashing basics)
+2.
+TwoSum.java (The "Hello World" of hashing)
+3.
+MoveAllZeroRight.java (Two-pointer basics)
+4.
+RemoveDuplicates.java (In-place array modification)
+🟡 Phase 2: Core Interview Patterns (High Criticality)
+Master these to solve 70% of array problems. 5.  MaxSumSubArrayKadanes.java (Greedy / DP foundational concept) 6.  SortColors.java (The "Dutch National Flag" - 3-way partitioning) 7.  ProductOfArrayExceptSelf.java (Prefix/Postfix product technique) 8.  RotateArrayByK.java (Array reversal trick)
+🟠 Phase 3: Advanced Logic & Frequency
+Focuses on mapping, sorting criteria, and sequence logic. 9.  LongestConsecutiveSequence.java (Set-based sequence tracking) 10. FreqencyTopK.java (Heap + Map pattern) 11. WordsByFrequency.java (Bucket sort or custom sort) 12. SortbyFrequencyIncreasing.java (Custom sorting logic)
+🔴 Phase 4: Niche & Complex (Harder Concepts)
+Advanced concepts like Binary Search on answers or complex grid logic. 13. ValidSudoku.java (Matrix validation & Bitmasking) 14. KthSmallestSorted.java (Binary Search or Heap logic) 15. KEmptySlots.java (Sliding Window / Min-Queue - a tough Google classic) 16. MoveNonNegativeStart.java (Partitioning logic)

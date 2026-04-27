@@ -34,3 +34,26 @@ public class ProductOfArrayExceptSelf {
         System.out.println("Output: " + Arrays.toString(solution.productExceptSelf(nums)));
     }
 }
+
+/**
+ * Dry Run:
+ * Input: nums = {1, 2, 3, 4}
+ *
+ * 1. Initialization:
+ *    n = 4, res = [0, 0, 0, 0], preFix = 1
+ *
+ * 2. First Pass (Prefix Products):
+ *    i = 0: res[0] = 1, preFix = 1
+ *    i = 1: res[1] = 1, preFix = 2
+ *    i = 2: res[2] = 2, preFix = 6
+ *    i = 3: res[3] = 6, preFix = 24
+ *    Result: [1, 1, 2, 6]
+ *
+ * 3. Second Pass (Postfix Products):
+ *    postFix = 1
+ *    i = 3: res[3] = 6 * 1 = 6, postFix = 4
+ *    i = 2: res[2] = 2 * 4 = 8, postFix = 12
+ *    i = 1: res[1] = 1 * 12 = 12, postFix = 24
+ *    i = 0: res[0] = 1 * 24 = 24, postFix = 24
+ *    Result: [24, 12, 8, 6]
+ */

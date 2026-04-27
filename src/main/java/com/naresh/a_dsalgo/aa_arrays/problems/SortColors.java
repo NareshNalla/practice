@@ -3,13 +3,16 @@ package com.naresh.a_dsalgo.aa_arrays.problems;
 import java.util.Arrays;
 
 /**
- * Dutch National Flag Algorithm - Sort Colors (0s, 1s, and 2s)
- * Time Complexity: O(N) - Single pass
- * Space Complexity: O(1)
+ * Problem: Sort Colors (Dutch National Flag)
+ * Description: Sort an array with 0s, 1s, and 2s in-place in a single pass.
  */
 public class SortColors {
 
+    /**
+     * Algorithm: Three-way partitioning using low, mid, and high pointers.
+     */
     public static void sortColors(int[] nums) {
+        // Pattern: Three-way Partitioning | Time: O(n), Space: O(1)
         if (nums == null || nums.length <= 1) return;
 
         int low = 0;          // Position for next 0
@@ -26,7 +29,7 @@ public class SortColors {
             } else { // nums[mid] == 2
                 swap(nums, mid, high);
                 high--;
-                // Note: We don't increment mid here because the swapped element 
+                // Note: We don't increment mid here because the swapped element
                 // from 'high' needs to be evaluated.
             }
         }
@@ -37,6 +40,7 @@ public class SortColors {
         nums[i] = nums[j];
         nums[j] = temp;
     }
+    // FAANG Tip: Explain that 'mid' isn't incremented on high-swap because the new element at 'mid' is unknown.
 
     public static void main(String[] args) {
         int[][] tests = {

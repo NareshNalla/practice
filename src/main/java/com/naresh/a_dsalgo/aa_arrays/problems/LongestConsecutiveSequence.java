@@ -14,7 +14,7 @@ public class LongestConsecutiveSequence {
         // Pattern: Sequence Tracking (Set) | Time: O(n), Space: O(n)
         if (nums == null || nums.length == 0) return 0;
         var set = new HashSet<Integer>();
-        for (int num : nums) set.add(num); // Build O(1) lookup set //eliminate duplicates
+        for (int num : nums) set.add(num); // Build lookup set to eliminate duplicates
         var maxLen = 0;
         for (int num : set) {
             if (!set.contains(num - 1)) { // Only start of a sequence
@@ -30,4 +30,10 @@ public class LongestConsecutiveSequence {
         return maxLen;
     }
     // FAANG Tip: The inner while loop only runs for the start of sequences, ensuring O(n) total time.
+
+    public static void main(String[] args) {
+        var solution = new LongestConsecutiveSequence();
+        int[] nums = {100, 4, 200, 1, 3, 2};
+        System.out.println("Longest consecutive: " + solution.longestConsecutive(nums));
+    }
 }
