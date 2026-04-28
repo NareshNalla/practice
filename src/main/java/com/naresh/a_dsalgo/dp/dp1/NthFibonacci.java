@@ -1,45 +1,23 @@
 package com.naresh.a_dsalgo.dp.dp1;
 
+/**
+ * Problem: N-th Fibonacci Number
+ * Description: Calculate the n-th Fibonacci number.
+ */
 public class NthFibonacci {
-	
-	//tc:O(2 ^ n)   sc:O(n)
-	public static int fib1(int n) {
-		if(n <= 2) return 1; 
-		int prev1 = fib1(n-1);
-		int prev2 = fib1(n-2);
-		return prev1 + prev2;
-	}
-	
-	//tc:O(n)   sc:O(n) = n  + n
-	public static int fib2(int n) {
-		int[] mem = new int[n+1];
-		auxfib2(n, mem);
-		return mem[n];
-	}
-	private static int auxfib2(int n, int[] mem) {
-		if(n <= 2) return 1; 
-		//look up memory
-		if(mem[n] != 0) return mem[n];
-		int prev1 = auxfib2(n-1, mem);
-		int prev2 = auxfib2(n-2, mem);
-		//fill  memory with subproblem solutions
-		return mem[n] = prev1 + prev2;
-	}
-	
-	//tc:O(n)   sc:O(n) = n
-	public static int fib3(int n) {
-		int[] mem = new int[n+1];
-		mem[1] = mem[2] = 1;
-		//fill up memory from bottom-up manner
-		for(int i = 3; i <= n; ++i)
-			mem[i] = mem[i-1] + mem[i-2];
-		return mem[n];
-	}
-	
-	public static void main(String[] args) {
-		int n = 10;//Integer.parseInt(args[0]);
-		System.out.println(fib3(n));
-		System.out.println(fib2(n));
-	}
-
+    /**
+     * Algorithm: Use iterative approach with two variables to store previous values.
+     */
+    public int fib(int n) {
+        // Pattern: Iterative DP | Time: O(n), Space: O(1)
+        if (n <= 1) return n;
+        int a = 0, b = 1;
+        for (int i = 2; i <= n; i++) {
+            var sum = a + b;
+            a = b;
+            b = sum;
+        }
+        return b;
+    }
+    // FAANG Tip: Memoization (O(n) space) is fine, but O(1) space iterative solution is superior.
 }

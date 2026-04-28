@@ -1,62 +1,29 @@
 package com.naresh.a_dsalgo.dp.dp2;
 
-import java.util.Arrays;
-
+/**
+ * Problem: Minimum Path Sum / Maximum Path Sum in Grid
+ * Description: Given a grid, find a path from top-left to bottom-right that minimizes/maximizes the sum of all numbers along its path.
+ */
 public class GridPaths {
-
-	public static void displayPaths(int n) {
-		auxPaths(0, 0, n, "");
-	}
-	private static void auxPaths(int i, int j, int n, String path) {
-		if(i >= n || j >= n) return;
-		if(i == n-1 && j == n-1) {
-			System.out.println(path+"("+(n-1)+","+(n-1)+")");
-			return;
-		}
-		auxPaths(i, j+1, n, path+"("+(i)+","+(j)+")");
-		auxPaths(i+1, j, n, path+"("+(i)+","+(j)+")");
-	}
-	public static int maxSum4(int[][] in) {
-		int[][] mem = new int[in.length+1][in.length+1];
-		for(int i = 0; i <= in.length; ++i)
-			mem[i][0] = mem[0][i] = 0;
-		for(int i = 1; i <= in.length; ++i) {
-			for(int j = 1; j <= in.length; ++j) {
-				int top = mem[i-1][j];
-				int left = mem[i][j-1];
-				mem[i][j] = Math.max(top, left) + in[i-1][j-1];
-			}
-		}
-		System.out.println();
-		for(int[] tmp:mem)
-			System.out.println(Arrays.toString(tmp));
-		retrieveOptimalPath(in.length, in.length, mem);
-		System.out.println("(" + in.length + "," + in.length + ")");
-
-		return mem[in.length][in.length];
-	}
-	private static void retrieveOptimalPath(int i, int j, int[][] mem) {
-		if(i == 1 && j == 1) return;
-		if(mem[i-1][j] > mem[i][j-1]) {
-			retrieveOptimalPath(i-1, j, mem);
-			System.out.print("(" + (i-1) + "," + j + ")->");
-		} else {
-			retrieveOptimalPath(i, j-1, mem);
-			System.out.print("(" + i + "," + (j-1) + ")->");
-		}			
-	}
-
-	
-	public static void main(String[] args) {
-		int n = 5;//Integer.parseInt(args[0]);
-		int[][] in= {{500, 100, 230},
-		           {1000, 300, 100},
-		           {200, 1000, 200}};
-		int[][] in1= {{1, 2, 1},
-		           {1, 2, 2},
-		           {0, 1, 3}};
-		int ans = maxSum4(in1);
-	}
-
-
+    /**
+     * Algorithm: Bottom-up DP. Each cell's max value depends on the max of its top and left neighbors.
+     */
+    public int maxPathSum(int[][] grid) {
+        // Pattern: DP (2D Space Optimized) | Time: O(m * n), Space: O(n)
+        int m = grid.length, n = grid[0].length;
+        var dp = new int[n];
+        dp[0] = grid[0][0];
+        
+        // Initialize first row
+        for (int j = 1; j < n; j++) dp[j] = dp[j - 1] + grid[0][j];
+        
+        for (int i = 1; i < m; i++) {
+            dp[0] += grid[i][0]; // Update first column
+            for (int j = 1; j < n; j++) {
+                dp[j] = Math.max(dp[j], dp[j - 1]) + grid[i][j]; // Max from top or left
+            }
+        }
+        return dp[n - 1];
+    }
+    // FAANG Tip: Always check if you can modify the input grid in-place to achieve O(1) space if memory is constrained.
 }

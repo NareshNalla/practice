@@ -1,4 +1,4 @@
-package com.naresh.a_dsalgo.greedy;
+package com.naresh.a_dsalgo.greedy.problems;
 
 import java.util.PriorityQueue;
 

@@ -1,12 +1,14 @@
-package com.naresh.a_dsalgo.dp.dp2;
+package com.naresh.a_dsalgo.dp.dp1;
+
+import java.util.Arrays;
 
 /**
- * Problem: Longest Increasing Subsequence (LIS)
+ * Problem: Longest Increasing Subsequence
  * Description: Given an integer array nums, return the length of the longest strictly increasing subsequence.
  */
-public class LISofAnArray {
+public class LongestIncreasingSubsequence {
     /**
-     * Algorithm: Binary search based approach (Patience Sorting). Maintain an array 'tails' where tails[i] is the smallest tail of all increasing subsequences of length i+1.
+     * Algorithm: Patient sorting approach using binary search to maintain a tail array.
      */
     public int lengthOfLIS(int[] nums) {
         // Pattern: Binary Search / Patience Sorting | Time: O(n log n), Space: O(n)
@@ -20,10 +22,10 @@ public class LISofAnArray {
                 if (tails[m] < x) i = m + 1;
                 else j = m;
             }
-            tails[i] = x;
+            tails[i] = x; // Update tail of LIS with length i+1
             if (i == size) size++;
         }
         return size;
     }
-    // FAANG Tip: While O(n^2) DP is easier to come up with, the O(n log n) solution is the gold standard for this problem.
+    // FAANG Tip: While O(n^2) DP is common, FAANG interviews often expect the O(n log n) binary search optimization.
 }

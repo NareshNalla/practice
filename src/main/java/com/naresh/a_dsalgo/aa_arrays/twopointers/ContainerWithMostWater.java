@@ -9,15 +9,15 @@ public class ContainerWithMostWater {
      * Algorithm: Use two pointers at the start and end of the array. Calculate area at each step 
      * and move the pointer pointing to the shorter line inward to maximize potential area.
      */
-    public int maxArea(int[] height) {
+    public int maxArea(int[] heights) {
         // Pattern: Two Pointers | Time: O(n), Space: O(1)
-        if (height == null || height.length < 2) return 0;
-        var maxArea = 0; var left = 0; var right = height.length - 1;
+        if (heights == null || heights.length < 2) return 0;
+        var maxArea = 0; var left = 0; var right = heights.length - 1;
         while (left < right) {
-            var currentHeight = Math.min(height[left], height[right]);
+            var currentHeight = Math.min(heights[left], heights[right]);
             var currentWidth = right - left;
             maxArea = Math.max(maxArea, currentHeight * currentWidth);
-            if (height[left] < height[right]) left++; else right--; // Move shorter line inward
+            if (heights[left] < heights[right]) left++; else right--; // Move shorter line inward
         }
         return maxArea;
     }
