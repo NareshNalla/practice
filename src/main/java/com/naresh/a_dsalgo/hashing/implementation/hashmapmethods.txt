@@ -1,0 +1,13 @@
+map.merge(key, value, remappingFunction): Use when you want to update a value associated with a key, or insert it if the key is absent, using a remapping function to combine old and new values.
+•
+map.containsKey(key): Use to efficiently check if a map contains a specific key without retrieving its value.
+•
+map.computeIfAbsent(key, mappingFunction): Use to get the value for a key, or compute and insert a new value if the key is not present, returning the (existing or newly computed) value.
+•
+map.put(key, value): Use to associate a value with a key, replacing any existing value for that key.
+•
+map.get(key): Use to retrieve the value associated with a key, returning null if the key is not found.
+•
+map.values(): Use to get a Collection view of all the values contained in the map.
+•
+HashMap.newHashMap(capacity): (Java 19+) Use as a concise way to create a new HashMap with an initial capacity, often for performance optimization.
