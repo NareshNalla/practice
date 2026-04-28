@@ -3,8 +3,7 @@ package com.naresh.a_dsalgo.aa_arrays.prefixsum.problems;
 import java.util.HashMap;
 import java.util.Map;
 
-public class
-ContiguousArray {
+public class ContiguousArray {
 
     /**
      * Finds the maximum length of a contiguous subarray with an equal number of 0 and 1.
