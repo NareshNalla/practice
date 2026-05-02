@@ -25,7 +25,6 @@ public class ReverseLinkedListII {
         var dummy = new ListNode(0, head); // Dummy node for head-reversal cases
         var prev = dummy; 
         for (int i = 0; i < left - 1; i++) prev = prev.next; // Move to position left-1
-        
         var start = prev.next; // Node at position 'left'
         var then = start.next; // Node to be moved to front of sub-list
         
