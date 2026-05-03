@@ -37,12 +37,13 @@ public class DailyType {
         //var person1 = new Person("Test", 0);
         System.out.println(person.name()); //not getName()
         //System.out.println(person1);
-        //SEALED class and pattern matching
+        
+        //SEALED class and pattern matching (Java 21+)
         Shape shape = new Circle(5.0);
-        if (shape instanceof Circle cir) {//java 17
+        if (shape instanceof Circle cir) {//java 17+
             System.out.println(shape);
         }
-        double area = switch(shape){ //exaustive - no default needed
+        double area = switch(shape){ //exhaustive - no default needed
             case Circle cir -> Math.PI * cir.r() * cir.r();
             case Rect rec -> rec.w * rec.h;
         };
@@ -101,8 +102,20 @@ public class DailyType {
         System.out.println(counter);
 
     }
+    
+    /**
+     * Sealed Interface (Java 17+)
+     * Only Circle and Rect can implement this interface.
+     * This prevents unauthorized implementations and makes exhaustive switch cases possible.
+     */
     sealed interface Shape permits Circle, Rect {}
+    
+    /**
+     * Record (Java 16+) + Sealed Interface Implementation
+     * Immutable data carrier with automatic equals, hashCode, toString
+     */
     record Circle(double r) implements Shape {}
+    
     record Rect(double w, double h) implements Shape {}
 
     static void doWork() {/* simulate work*/}

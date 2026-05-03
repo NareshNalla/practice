@@ -10,6 +10,6 @@ public class BinarySearchTreeTest {
 		bst.add(bst.root, bst.nodeCreate(13));
 		bst.add(bst.root, bst.nodeCreate(6));
 		
-		bst.search(10, bst.root);
+		bst.search(12, bst.root);
 	}
 }

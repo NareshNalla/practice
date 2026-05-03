@@ -13,33 +13,33 @@ public class BinarySearchTree {
 			root = newNode;
 			return;
 		}
+        if(newNode.value < start.value){
+            if(start.left == null){
+                start.left = newNode;
+            }
+            add(start.left, newNode);
+        }
 		if(newNode.value > start.value){
 			if(start.right == null){
 				start.right = newNode;
 			}
 				add(start.right, newNode);
 		}
-		if(newNode.value < start.value){
-			if(start.left == null){
-				start.left = newNode;
-			}
-			add(start.left, newNode);
-		}
 	}
 	public void search(int value, TreeNode start){
 		if(start == null){
 			System.out.println("Node is not fount");
+            return;
 		}
 		if(start.value == value){
 			System.out.println("Node is fount");
 			return;
 		}
-		if(value > start.value){
-			search(value, start.right);
-		}
 		if(value < start.value){
 			search(value, start.left);
-		}
+		}else{
+            search(value, start.right);
+        }
 	}
 
 }

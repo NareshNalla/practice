@@ -6,13 +6,6 @@ package com.naresh.a_dsalgo.af_linkedlist.problems;
  */
 public class ReorderList {
 
-    static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
-
     /**
      * Algorithm: 1. Find the middle using slow/fast pointers. 2. Reverse the second half 
      * of the list. 3. Merge the two halves by alternating nodes.
