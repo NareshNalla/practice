@@ -32,4 +32,57 @@ public class NumberOfIslands {
         dfs(grid, r, c - 1);
     }
     // FAANG Tip: Modifying the grid in-place (sinking) avoids using an extra 'visited' set, saving space.
+
+    public static void main(String[] args) {
+        var sol = new NumberOfIslands();
+
+        // Test Case 1: Multiple islands
+        // Grid: [['1','1','0','0','0'],
+        //        ['1','1','0','0','0'],
+        //        ['0','0','1','0','0'],
+        //        ['0','0','0','1','1']]
+        char[][] grid1 = {
+            {'1', '1', '0', '0', '0'},
+            {'1', '1', '0', '0', '0'},
+            {'0', '0', '1', '0', '0'},
+            {'0', '0', '0', '1', '1'}
+        };
+        System.out.println("Test Case 1 (3 Islands): " + (sol.numIslands(deepCopy(grid1)) == 3 ? "PASS" : "FAIL"));
+
+        // Test Case 2: Single large island
+        // Grid: [['1','1','1','1','0'],
+        //        ['1','1','0','1','0'],
+        //        ['1','1','0','0','0'],
+        //        ['0','0','0','0','0']]
+        char[][] grid2 = {
+            {'1', '1', '1', '1', '0'},
+            {'1', '1', '0', '1', '0'},
+            {'1', '1', '0', '0', '0'},
+            {'0', '0', '0', '0', '0'}
+        };
+        System.out.println("Test Case 2 (1 Island): " + (sol.numIslands(deepCopy(grid2)) == 1 ? "PASS" : "FAIL"));
+
+        // Test Case 3: All water
+        char[][] grid3 = {{'0', '0'}, {'0', '0'}};
+        System.out.println("Test Case 3 (0 Islands): " + (sol.numIslands(deepCopy(grid3)) == 0 ? "PASS" : "FAIL"));
+
+        // Test Case 4: Checkerboard pattern
+        // Grid: [['1','0','1'],
+        //        ['0','1','0'],
+        //        ['1','0','1']]
+        char[][] grid4 = {
+            {'1', '0', '1'},
+            {'0', '1', '0'},
+            {'1', '0', '1'}
+        };
+        System.out.println("Test Case 4 (5 Islands): " + (sol.numIslands(deepCopy(grid4)) == 5 ? "PASS" : "FAIL"));
+    }
+
+    private static char[][] deepCopy(char[][] grid) {
+        char[][] copy = new char[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            copy[i] = grid[i].clone();
+        }
+        return copy;
+    }
 }

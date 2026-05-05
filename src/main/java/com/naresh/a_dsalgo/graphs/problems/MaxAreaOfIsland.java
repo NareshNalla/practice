@@ -27,4 +27,48 @@ public class MaxAreaOfIsland {
         return 1 + dfs(grid, r + 1, c) + dfs(grid, r - 1, c) + dfs(grid, r, c + 1) + dfs(grid, r, c - 1);
     }
     // FAANG Tip: DFS naturally returns the sum of component sizes. Mention that space is O(m*n) for the recursion stack in the worst case.
+
+    public static void main(String[] args) {
+        var sol = new MaxAreaOfIsland();
+
+        // Test Case 1: Multiple islands
+        // Grid: [[1,1,0,0,0],
+        //        [1,1,0,0,0],
+        //        [0,0,1,0,0],
+        //        [0,0,0,1,1]]
+        int[][] grid1 = {
+            {1, 1, 0, 0, 0},
+            {1, 1, 0, 0, 0},
+            {0, 0, 1, 0, 0},
+            {0, 0, 0, 1, 1}
+        };
+        System.out.println("Test Case 1 (Max Area 4): " + (sol.maxAreaOfIsland(deepCopy(grid1)) == 4 ? "PASS" : "FAIL"));
+
+        // Test Case 2: Single large island
+        // Grid: [[0,0,1,1,0],
+        //        [1,1,1,1,1],
+        //        [0,0,1,1,0]]
+        int[][] grid2 = {
+            {0, 0, 1, 1, 0},
+            {1, 1, 1, 1, 1},
+            {0, 0, 1, 1, 0}
+        };
+        System.out.println("Test Case 2 (Max Area 9): " + (sol.maxAreaOfIsland(deepCopy(grid2)) == 9 ? "PASS" : "FAIL"));
+
+        // Test Case 3: No islands
+        int[][] grid3 = {{0, 0}, {0, 0}};
+        System.out.println("Test Case 3 (No Islands): " + (sol.maxAreaOfIsland(deepCopy(grid3)) == 0 ? "PASS" : "FAIL"));
+
+        // Test Case 4: Full island
+        int[][] grid4 = {{1, 1}, {1, 1}};
+        System.out.println("Test Case 4 (Full Island): " + (sol.maxAreaOfIsland(deepCopy(grid4)) == 4 ? "PASS" : "FAIL"));
+    }
+
+    private static int[][] deepCopy(int[][] grid) {
+        int[][] copy = new int[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            copy[i] = grid[i].clone();
+        }
+        return copy;
+    }
 }

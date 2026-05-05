@@ -9,7 +9,6 @@ import com.naresh.a_dsalgo.tree.implementation.TreeNode;
  */
 public class BinaryTreeMaximumPathSum {
     private int maxSum = Integer.MIN_VALUE; // Global variable to store the maximum path sum found
-
     /**
      * Algorithm: Post-order DFS. For each node, recursively calculate the maximum path sum *starting* from that node
      * and going downwards (either left or right child). This value is returned to its parent.
@@ -26,16 +25,13 @@ public class BinaryTreeMaximumPathSum {
 
     private int dfs(TreeNode node) {
         if (node == null) return 0;
-
         // Recursively get max path sum from left and right children
         // We take Math.max(0, ...) because we don't want to include negative path sums
         var leftSum = Math.max(0, dfs(node.left));
         var rightSum = Math.max(0, dfs(node.right));
-
         // Calculate the path sum that *goes through* the current node
         // This path can potentially be the global maximum
         maxSum = Math.max(maxSum, node.value + leftSum + rightSum);
-
         // Return the maximum path sum *starting* from the current node and going downwards
         // This is what the parent node will consider
         return node.value + Math.max(leftSum, rightSum);

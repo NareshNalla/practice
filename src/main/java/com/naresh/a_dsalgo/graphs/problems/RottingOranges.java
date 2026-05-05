@@ -41,4 +41,50 @@ public class RottingOranges {
         return fresh == 0 ? minutes : -1;
     }
     // FAANG Tip: BFS is ideal for "minimum time" or "shortest path" in unweighted graphs/grids.
+
+    public static void main(String[] args) {
+        var sol = new RottingOranges();
+
+        // Test Case 1: Some oranges will rot after 4 minutes
+        // Grid: [[2,1,1],
+        //        [1,1,0],
+        //        [0,1,1]]
+        // 2 = rotten, 1 = fresh, 0 = empty
+        int[][] grid1 = {
+            {2, 1, 1},
+            {1, 1, 0},
+            {0, 1, 1}
+        };
+        System.out.println("Test Case 1 (All Rotten in 4 min): " + (sol.orangesRotting(deepCopy(grid1)) == 4 ? "PASS" : "FAIL"));
+
+        // Test Case 2: All oranges are rotten
+        int[][] grid2 = {
+            {2, 2},
+            {2, 2}
+        };
+        System.out.println("Test Case 2 (Already All Rotten): " + (sol.orangesRotting(deepCopy(grid2)) == 0 ? "PASS" : "FAIL"));
+
+        // Test Case 3: Some oranges can never rot (isolated fresh oranges)
+        int[][] grid3 = {
+            {2, 1},
+            {1, 1}
+        };
+        int result3 = sol.orangesRotting(deepCopy(grid3));
+        System.out.println("Test Case 3 (All Fresh Can Rot - 2 min): " + (result3 == 2 ? "PASS" : "FAIL"));
+
+        // Test Case 4: No fresh oranges
+        int[][] grid4 = {
+            {2, 0},
+            {0, 0}
+        };
+        System.out.println("Test Case 4 (No Fresh): " + (sol.orangesRotting(deepCopy(grid4)) == 0 ? "PASS" : "FAIL"));
+    }
+
+    private static int[][] deepCopy(int[][] grid) {
+        int[][] copy = new int[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            copy[i] = grid[i].clone();
+        }
+        return copy;
+    }
 }

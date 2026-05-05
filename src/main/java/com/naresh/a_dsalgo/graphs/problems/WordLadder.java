@@ -46,4 +46,30 @@ public class WordLadder {
         return 0;
     }
     // FAANG Tip: BFS guarantees shortest path. Removing words from the set acts as a 'visited' check.
+
+    public static void main(String[] args) {
+        var sol = new WordLadder();
+
+        // Test Case 1: Standard word ladder
+        // Begin: "hit", End: "cog"
+        // WordList: ["hot","dot","dog","lot","log","cog"]
+        List<String> wordList1 = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
+        int result1 = sol.ladderLength("hit", "cog", wordList1);
+        System.out.println("Test Case 1 (hit -> cog): " + (result1 == 5 ? "PASS" : "FAIL"));
+
+        // Test Case 2: End word not in list
+        List<String> wordList2 = Arrays.asList("hot", "dot", "dog", "lot", "log");
+        int result2 = sol.ladderLength("hit", "cog", wordList2);
+        System.out.println("Test Case 2 (End Not Found): " + (result2 == 0 ? "PASS" : "FAIL"));
+
+        // Test Case 3: Single step transformation
+        List<String> wordList3 = Arrays.asList("hot");
+        int result3 = sol.ladderLength("hit", "hot", wordList3);
+        System.out.println("Test Case 3 (One Step): " + (result3 == 2 ? "PASS" : "FAIL"));
+
+        // Test Case 4: No path exists
+        List<String> wordList4 = Arrays.asList("dog", "lot", "log", "cog");
+        int result4 = sol.ladderLength("hit", "cog", wordList4);
+        System.out.println("Test Case 4 (No Path): " + (result4 == 0 ? "PASS" : "FAIL"));
+    }
 }

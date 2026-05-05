@@ -30,14 +30,11 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
     private TreeNode build(int[] preorder, int inStart, int inEnd) {
         // Base case: if the inorder segment is invalid, return null
         if (inStart > inEnd) return null;
-
         // The current root's value is at preIdx in the preorder array
         var rootVal = preorder[preIdx++];
         var root = new TreeNode(rootVal);
-
         // Find the root's index in the inorder array
         var rootInorderIndex = inMap.get(rootVal);
-
         // Recursively build the left subtree using the left segment of inorder
         root.left = build(preorder, inStart, rootInorderIndex - 1);
         // Recursively build the right subtree using the right segment of inorder

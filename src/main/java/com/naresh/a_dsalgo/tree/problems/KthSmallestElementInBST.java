@@ -18,22 +18,18 @@ public class KthSmallestElementInBST {
         // Pattern: Iterative In-order | Time: O(h + k), Space: O(h)
         var stack = new ArrayDeque<TreeNode>(); // Use Deque as a stack
         var curr = root;
-
         while (curr != null || !stack.isEmpty()) {
             // Traverse to the leftmost node, pushing all visited nodes onto the stack
             while (curr != null) {
                 stack.push(curr);
                 curr = curr.left;
             }
-
             // Pop the top node (which is the smallest in the current subtree)
             curr = stack.pop();
-
             // Process the node: decrement k
             if (--k == 0) {
                 return curr.value; // Found the kth smallest element
             }
-
             // Move to the right subtree
             curr = curr.right;
         }

@@ -21,15 +21,12 @@ public class ValidateBinarySearchTree {
         // Pattern: DFS (Range Validation) | Time: O(n), Space: O(h)
         return validate(root, null, null);
     }
-
     private boolean validate(TreeNode node, Integer min, Integer max) {
         if (node == null) return true; // An empty tree is a valid BST
-
         // Check if current node's value violates the min/max constraints
         if ((min != null && node.value <= min) || (max != null && node.value >= max)) {
             return false;
         }
-
         // Recursively validate left and right subtrees with updated constraints
         // For left child: value must be < node.value (so node.value becomes new max)
         // For right child: value must be > node.value (so node.value becomes new min)

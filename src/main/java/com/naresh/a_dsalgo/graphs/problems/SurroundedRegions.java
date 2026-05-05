@@ -42,4 +42,44 @@ public class SurroundedRegions {
         dfs(board, r, c - 1);
     }
     // FAANG Tip: Focus on the "escape" condition (border connectivity). DFS from borders is a common pattern for grid problems.
+
+    public static void main(String[] args) {
+        var sol = new SurroundedRegions();
+
+        // Test Case 1: Classic surrounded regions
+        // Input:  [['X','X','X','X'],
+        //         ['X','O','O','X'],
+        //         ['X','X','O','X'],
+        //         ['X','O','X','X']]
+        char[][] board1 = {
+            {'X', 'X', 'X', 'X'},
+            {'X', 'O', 'O', 'X'},
+            {'X', 'X', 'O', 'X'},
+            {'X', 'O', 'X', 'X'}
+        };
+        sol.solve(board1);
+        System.out.println("Test Case 1 (Surrounded): " + (board1[1][1] == 'X' && board1[1][2] == 'X' ? "PASS" : "FAIL"));
+
+        // Test Case 2: O on border (should not be surrounded)
+        char[][] board2 = {
+            {'X', 'X', 'X'},
+            {'X', 'O', 'X'},
+            {'X', 'X', 'X'}
+        };
+        sol.solve(board2);
+        System.out.println("Test Case 2 (Border O): " + (board2[1][1] == 'X' ? "PASS" : "FAIL"));
+
+        // Test Case 3: All X's
+        char[][] board3 = {
+            {'X', 'X'},
+            {'X', 'X'}
+        };
+        sol.solve(board3);
+        System.out.println("Test Case 3 (All X): " + (board3[0][0] == 'X' ? "PASS" : "FAIL"));
+
+        // Test Case 4: Single cell
+        char[][] board4 = {{'O'}};
+        sol.solve(board4);
+        System.out.println("Test Case 4 (Single O Border): " + (board4[0][0] == 'O' ? "PASS" : "FAIL"));
+    }
 }

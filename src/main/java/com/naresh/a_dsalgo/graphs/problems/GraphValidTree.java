@@ -31,4 +31,27 @@ public class GraphValidTree {
         return parent[i] = find(parent, parent[i]); // Path compression
     }
     // FAANG Tip: A valid tree with n nodes must have exactly n-1 edges. Union-Find with path compression is optimal for cycle detection.
+
+    public static void main(String[] args) {
+        var sol = new GraphValidTree();
+
+        // Test Case 1: Valid tree (n=5, edges=4, no cycle)
+        // Edges: [0,1], [0,2], [0,3], [1,4]
+        int[][] edges1 = {{0, 1}, {0, 2}, {0, 3}, {1, 4}};
+        System.out.println("Test Case 1 (Valid Tree): " + (sol.validTree(5, edges1) ? "PASS" : "FAIL"));
+
+        // Test Case 2: Invalid tree (cycle exists)
+        // Edges: [0,1], [1,2], [2,0]
+        int[][] edges2 = {{0, 1}, {1, 2}, {2, 0}};
+        System.out.println("Test Case 2 (Cycle Exists): " + (!sol.validTree(3, edges2) ? "PASS" : "FAIL"));
+
+        // Test Case 3: Invalid tree (not enough edges)
+        // Edges: [0,1] for n=3 (needs 2 edges)
+        int[][] edges3 = {{0, 1}};
+        System.out.println("Test Case 3 (Too Few Edges): " + (!sol.validTree(3, edges3) ? "PASS" : "FAIL"));
+
+        // Test Case 4: Single node tree
+        int[][] edges4 = {};
+        System.out.println("Test Case 4 (Single Node): " + (sol.validTree(1, edges4) ? "PASS" : "FAIL"));
+    }
 }
