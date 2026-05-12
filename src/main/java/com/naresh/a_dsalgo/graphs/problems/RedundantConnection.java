@@ -9,7 +9,7 @@ public class RedundantConnection {
      * Algorithm: Use Union-Find to detect the first edge that connects two nodes already in the same component.
      */
     public int[] findRedundantConnection(int[][] edges) {
-        // Pattern: Union-Find | Time: O(V + Eα(V)), Space: O(V)
+        // Pattern: Union-Find | Time: O(Nα(N)), Space: O(N) where N is the number of vertices O(V + Eα(V)), Space: O(V)
         var parent = new int[edges.length + 1];
         for (int i = 0; i <= edges.length; i++) parent[i] = i;
 
