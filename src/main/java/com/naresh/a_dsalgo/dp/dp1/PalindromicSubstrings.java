@@ -26,4 +26,17 @@ public class PalindromicSubstrings {
         return count;
     }
     // FAANG Tip: Similar to "Longest Palindromic Substring". O(1) space is the key differentiator from DP approach.
+
+    public static void main(String[] args) {
+        var s = "aaa";
+        var result = new PalindromicSubstrings().countSubstrings(s);
+        System.out.println("Palindromic substrings in '" + s + "': " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: s = "aaa"
+     * Centers: at each index count palindromes -> total = 6
+     * Result: 6
+     */
 }

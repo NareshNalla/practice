@@ -1,6 +1,6 @@
 package com.naresh.a_dsalgo.dp.dp1;
 
-import java.util.Arrays;
+// removed unused import
 
 /**
  * Problem: Longest Increasing Subsequence
@@ -27,5 +27,27 @@ public class LongestIncreasingSubsequence {
         }
         return size;
     }
+
+    public static void main(String[] args) {
+        var nums = new int[]{10,9,2,5,3,7,101,18};
+        var result = new LongestIncreasingSubsequence().lengthOfLIS(nums);
+        System.out.println("LIS length: " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: nums = {10,9,2,5,3,7,101,18}
+     *
+     * Brief trace (tails updates):
+     * tails after processing 10 -> [10]
+     * after 9 -> [9]
+     * after 2 -> [2]
+     * after 5 -> [2,5]
+     * after 3 -> [2,3]
+     * after 7 -> [2,3,7]
+     * after 101 -> [2,3,7,101]
+     * after 18 -> [2,3,7,18]
+     * Result: size = 4
+     */
     // FAANG Tip: While O(n^2) DP is common, FAANG interviews often expect the O(n log n) binary search optimization.
 }

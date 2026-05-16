@@ -23,5 +23,21 @@ public class DecodeWays {
         }
         return prev1;
     }
+
+    public static void main(String[] args) {
+        var s = "226";
+        var result = new DecodeWays().numDecodings(s);
+        System.out.println("Decodings for '" + s + "': " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: s = "226"
+     *
+     * 1. Initialization: prev2=1, prev1=1
+     * 2. i=1 ('2','22'): curr = prev1 (since '2' != '0') + prev2 (since 22 valid) -> 2
+     *    i=2 ('6','26'): curr = prev1 (6 valid -> 2) + prev2 (26 valid -> 1) -> 3
+     * 3. Result: 3
+     */
     // FAANG Tip: Handle '0' carefully. A leading '0' or an invalid '0' (like '30') makes the string undecodable.
 }

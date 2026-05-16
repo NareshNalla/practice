@@ -19,4 +19,17 @@ public class MaxSubArraySum {
         return maxSoFar;
     }
     // FAANG Tip: This is a classic example of DP where we only need the previous state, thus O(1) space.
+
+    public static void main(String[] args) {
+        var nums = new int[]{-2,1,-3,4,-1,2,1,-5,4};
+        var result = new MaxSubArraySum().maxSubArray(nums);
+        System.out.println("Max subarray sum: " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: nums = {-2,1,-3,4,-1,2,1,-5,4}
+     * currentMax and maxSoFar update to yield 6 for subarray [4,-1,2,1]
+     * Result: 6
+     */
 }

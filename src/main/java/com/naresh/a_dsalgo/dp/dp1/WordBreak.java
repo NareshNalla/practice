@@ -25,5 +25,19 @@ public class WordBreak {
         }
         return dp[s.length()];
     }
+
+    public static void main(String[] args) {
+        var s = "leetcode";
+        var dict = List.of("leet", "code");
+        var result = new WordBreak().wordBreak(s, dict);
+        System.out.println("Can segment '" + s + "': " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: s = "leetcode", wordDict = ["leet","code"]
+     * dp builds to allow segmentation at dp[4] ("leet") and dp[8] ("leetcode") -> true
+     * Result: true
+     */
     // FAANG Tip: O(n^3) time due to two loops and substring operation. Using a Trie can optimize dictionary lookups.
 }

@@ -19,5 +19,18 @@ public class NthFibonacci {
         }
         return b;
     }
+
+    public static void main(String[] args) {
+        var n = 10;
+        var result = new NthFibonacci().fib(n);
+        System.out.println("Fibonacci(" + n + ") = " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: n = 10
+     * Iteratively compute fib: 0,1,1,2,3,5,8,13,21,34,55 -> Result: 55
+     */
+
     // FAANG Tip: Memoization (O(n) space) is fine, but O(1) space iterative solution is superior.
 }

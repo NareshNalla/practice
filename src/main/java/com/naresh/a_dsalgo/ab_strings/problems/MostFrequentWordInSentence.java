@@ -1,4 +1,4 @@
-package com.naresh.a_dsalgo.strings;
+package com.naresh.a_dsalgo.ab_strings.problems;
 
 import java.util.*;
 import java.util.stream.Collectors;

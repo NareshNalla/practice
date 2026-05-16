@@ -24,5 +24,20 @@ public class HouseRobberII {
         }
         return rob2;
     }
+
+    public static void main(String[] args) {
+        var nums = new int[]{2,3,2};
+        var result = new HouseRobberII().rob(nums);
+        System.out.println("Max robbed (circle): " + result);
+    }
+
+    /**
+     * Dry Run:
+     * Input: nums = {2,3,2}
+     *
+     * 1. Split into ranges: [0..1] -> {2,3} -> robRange = 3, [1..2] -> {3,2} -> robRange = 3
+     * 2. Max of both = 3
+     * 3. Result: 3
+     */
     // FAANG Tip: Circular constraint is handled by solving two subproblems. Corner case: single house.
 }

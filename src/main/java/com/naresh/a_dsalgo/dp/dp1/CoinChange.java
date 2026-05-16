@@ -25,4 +25,21 @@ public class CoinChange {
         return dp[amount] > amount ? -1 : dp[amount];
     }
     // FAANG Tip: Initializing with 'amount + 1' is cleaner than Integer.MAX_VALUE to avoid overflow during '1 + dp[i-coin]'.
+
+    public static void main(String[] args) {
+        var coins = new int[]{1,2,5};
+        var amount = 11;
+        var result = new CoinChange().coinChange(coins, amount);
+        System.out.println("Fewest coins for " + amount + ": " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: coins = {1,2,5}, amount = 11
+     *
+     * 1. Initialization:
+     *    dp = [0, 12, 12, ..., 12] (length 12), dp[0]=0
+     * 2. Process amounts updating dp via coins; final dp[11] = 3 (5+5+1)
+     * 3. Result: 3
+     */
 }

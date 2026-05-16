@@ -17,5 +17,18 @@ public class MaxProfitStockBuySingle {
         }
         return maxProfit;
     }
+
+    public static void main(String[] args) {
+        var prices = new int[]{7, 1, 5, 3, 6, 4};
+        var result = new MaxProfitStockBuySingle().maxProfit(prices);
+        System.out.println("Max profit: " + result);
+    }
+
+    /*
+     * Dry Run:
+     * Input: prices = {7,1,5,3,6,4}
+     * Track minPrice and maxProfit: minPrice becomes 1, maxProfit becomes 5 (buy at 1, sell at 6).
+     * Result: 5
+     */
     // FAANG Tip: This is essentially a 1D DP problem optimized to O(1) space.
 }
