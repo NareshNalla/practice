@@ -24,4 +24,25 @@ public class LongestCommonSubsequence {
         return dp[m][n];
     }
     // FAANG Tip: Space can be optimized to O(min(m, n)) using only two rows. Mention LCS is the basis for the 'diff' utility.
+
+    public static void main(String[] args) {
+        var text1 = "abcde";
+        var text2 = "ace";
+        var result = new LongestCommonSubsequence().longestCommonSubsequence(text1, text2);
+        System.out.println("LCS length: " + result); // Output: 3 (LCS: "ace")
+    }
+
+    /*
+     * Dry Run:
+     * Input: text1="abcde", text2="ace"
+     * dp table (6x4):
+     *      ""  a  c  e
+     *  ""  0   0  0  0
+     *  a   0   1  1  1
+     *  b   0   1  1  1
+     *  c   0   1  2  2
+     *  d   0   1  2  2
+     *  e   0   1  2  3
+     * Result: dp[5][3]=3
+     */
 }

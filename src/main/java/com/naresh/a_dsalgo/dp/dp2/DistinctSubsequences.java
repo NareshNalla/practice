@@ -23,4 +23,21 @@ public class DistinctSubsequences {
         return dp[tl];
     }
     // FAANG Tip: Space optimization from 2D to 1D is possible by iterating 'j' backwards.
+
+    public static void main(String[] args) {
+        var s = "babgbag";
+        var t = "bag";
+        var result = new DistinctSubsequences().numDistinct(s, t);
+        System.out.println("Distinct subsequences: " + result); // Output: 5
+    }
+
+    /*
+     * Dry Run:
+     * Input: s="babgbag", t="bag"
+     * dp[0]=1 (base: empty t)
+     * After s[0]='b': dp stays [1,0,0,0]
+     * After s[1]='a': dp becomes [1,1,0,0]
+     * After s[2]='b': dp becomes [1,1,1,0]
+     * Continue... Final: dp[3]=5
+     */
 }

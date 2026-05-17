@@ -34,4 +34,20 @@ public class RegularExpressionMatching {
         return dp[m][n];
     }
     // FAANG Tip: Handling '*' is the most complex part. It can either skip the preceding character or match it multiple times.
+
+    public static void main(String[] args) {
+        var s = "aa";
+        var p = "a";
+        var result = new RegularExpressionMatching().isMatch(s, p);
+        System.out.println("Pattern match result: " + result); // Output: false
+    }
+
+    /*
+     * Dry Run:
+     * Input: s="aa", p="a"
+     * dp[0][0]=true, dp[1][0]=false, dp[2][0]=false
+     * Match at dp[1][1]: s[0]=='a'==p[0], dp[1][1]=dp[0][0]=true
+     * No match at dp[2][1]: s[1]=='a'==p[0] but dp[2][1]=dp[1][0]=false
+     * Result: false (p="a" matches only one 'a', not two)
+     */
 }

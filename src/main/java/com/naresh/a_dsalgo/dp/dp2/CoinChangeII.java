@@ -20,4 +20,20 @@ public class CoinChangeII {
         return dp[amount];
     }
     // FAANG Tip: The order of loops (coins then amounts) is crucial to count combinations, not permutations.
+
+    public static void main(String[] args) {
+        var coins = new int[]{1, 2, 5};
+        var amount = 5;
+        var result = new CoinChangeII().change(amount, coins);
+        System.out.println("Ways to make " + amount + ": " + result); // Output: 4 (5, 2+2+1, 2+1+1+1, 1+1+1+1+1)
+    }
+
+    /*
+     * Dry Run:
+     * Input: amount=5, coins={1,2,5}
+     * After coin 1: dp = [1,1,1,1,1,1]
+     * After coin 2: dp = [1,1,2,2,3,3]
+     * After coin 5: dp = [1,1,2,2,3,4]
+     * Result: 4
+     */
 }

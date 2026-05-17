@@ -36,4 +36,18 @@ public class LongestIncreasingPathInAMatrix {
         return memo[r][c] = max;
     }
     // FAANG Tip: Memoization is essential here to avoid exponential time complexity. Each cell is computed only once.
+
+    public static void main(String[] args) {
+        var matrix = new int[][]{{9, 9, 4}, {6, 6, 8}, {2, 1, 1}};
+        var result = new LongestIncreasingPathInAMatrix().longestIncreasingPath(matrix);
+        System.out.println("Longest increasing path: " + result); // Output: 4 (path: 1->2->6->9)
+    }
+
+    /*
+     * Dry Run:
+     * Input: matrix = {{9,9,4}, {6,6,8}, {2,1,1}}
+     * DFS from each cell, memoizing paths
+     * max path from cell (2,0)=2: 2->6->9 or 2->6->8, length 3 or more
+     * Final: longest is 4 (1->2->6->9)
+     */
 }

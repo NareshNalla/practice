@@ -11,16 +11,16 @@ public class MaximumProductSubarray {
     public int maxProduct(int[] nums) {
         // Pattern: DP (Two States) | Time: O(n), Space: O(1)
         if (nums.length == 0) return 0;
-        var maxSoFar = nums[0];
+        var result = nums[0];
         var minEndingHere = nums[0];
         var maxEndingHere = nums[0];
         for (int i = 1; i < nums.length; i++) {
             var tempMax = Math.max(nums[i], Math.max(maxEndingHere * nums[i], minEndingHere * nums[i]));
             minEndingHere = Math.min(nums[i], Math.min(maxEndingHere * nums[i], minEndingHere * nums[i]));
             maxEndingHere = tempMax;
-            maxSoFar = Math.max(maxSoFar, maxEndingHere);
+            result = Math.max(result, maxEndingHere);
         }
-        return maxSoFar;
+        return result;
     }
 
     public static void main(String[] args) {

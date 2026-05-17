@@ -11,17 +11,28 @@ public class DecodeWays {
      */
     public int numDecodings(String s) {
         // Pattern: DP (Space Optimized) | Time: O(n), Space: O(1)
-        if (s == null || s.isEmpty() || s.charAt(0) == '0') return 0;
-        int prev2 = 1, prev1 = 1; // Base cases: dp[i-2], dp[i-1]
+        if (s.charAt(0) == '0') return 0; // Leading zero is invalid
+        
+        int one = 1;  // Ways to decode up to current position
+        int two = 1;  // Ways to decode up to previous position
+        
         for (int i = 1; i < s.length(); i++) {
-            var curr = 0;
-            if (s.charAt(i) != '0') curr += prev1; // Valid single digit
-            var twoDigit = Integer.parseInt(s.substring(i - 1, i + 1));
-            if (twoDigit >= 10 && twoDigit <= 26) curr += prev2; // Valid double digit
-            prev2 = prev1;
-            prev1 = curr;
+            int current = 0;
+            
+            if (s.charAt(i) != '0') {
+                current = one; // Single digit decode
+            }
+            
+            int twoDigitValue = Integer.parseInt(s.substring(i - 1, i + 1));
+            if (twoDigitValue >= 10 && twoDigitValue <= 26) {
+                current = current + two; // Two digit decode
+            }
+            
+            two = one;
+            one = current;
         }
-        return prev1;
+        
+        return one;
     }
 
     public static void main(String[] args) {
@@ -34,9 +45,9 @@ public class DecodeWays {
      * Dry Run:
      * Input: s = "226"
      *
-     * 1. Initialization: prev2=1, prev1=1
-     * 2. i=1 ('2','22'): curr = prev1 (since '2' != '0') + prev2 (since 22 valid) -> 2
-     *    i=2 ('6','26'): curr = prev1 (6 valid -> 2) + prev2 (26 valid -> 1) -> 3
+     * 1. Initialization: one=1, two=1
+     * 2. i=1 (char='2'): current = one (since '2' != '0') + two (since 22 valid) = 2
+     *    i=2 (char='6'): current = one (since '6' != '0') + two (since 26 valid) = 2 + 1 = 3
      * 3. Result: 3
      */
     // FAANG Tip: Handle '0' carefully. A leading '0' or an invalid '0' (like '30') makes the string undecodable.

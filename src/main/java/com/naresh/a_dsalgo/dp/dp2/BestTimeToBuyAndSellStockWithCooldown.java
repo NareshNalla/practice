@@ -33,4 +33,21 @@ public class BestTimeToBuyAndSellStockWithCooldown {
         return Math.max(sell, cooldown); // Max profit is either from selling or cooling down
     }
     // FAANG Tip: This is a classic state machine DP problem. Clearly defining states and transitions is key.
+
+    public static void main(String[] args) {
+        var prices = new int[]{3, 3, 5, 0, 0, 3, 1, 4};
+        var result = new BestTimeToBuyAndSellStockWithCooldown().maxProfit(prices);
+        System.out.println("Max profit with cooldown: " + result); // Output: 3 (buy at 3, sell at 5)
+    }
+
+    /*
+     * Dry Run:
+     * Input: prices = {3, 3, 5, 0, 0, 3, 1, 4}
+     * State transitions: buy=-3, sell=0, cooldown=0
+     * day 1 (3): buy=-3, sell=3, cooldown=0
+     * day 2 (5): buy=-3, sell=5, cooldown=3
+     * day 3 (0): buy=3, sell=5, cooldown=5
+     * ... (continue tracking states)
+     * Result: max(sell, cooldown) = 3
+     */
 }

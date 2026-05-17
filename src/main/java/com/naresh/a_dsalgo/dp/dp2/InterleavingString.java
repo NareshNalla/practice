@@ -28,4 +28,20 @@ public class InterleavingString {
         return dp[s2.length()];
     }
     // FAANG Tip: 2D DP can be optimized to 1D because each state only depends on the previous row/column.
+
+    public static void main(String[] args) {
+        var s1 = "aabcc";
+        var s2 = "dbbca";
+        var s3 = "aadbbcbcac";
+        var result = new InterleavingString().isInterleave(s1, s2, s3);
+        System.out.println("Is interleave: " + result); // Output: true
+    }
+
+    /*
+     * Dry Run:
+     * Input: s1="aabcc", s2="dbbca", s3="aadbbcbcac" (length=10)
+     * dp[0] = {T,F,F,F,F,F}
+     * Build dp row by row: checking if s3[0..i+j-1] can be formed
+     * Final: dp[5] indicates if s3 is interleaving
+     */
 }

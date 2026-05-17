@@ -30,4 +30,18 @@ public class BurstBalloons {
         return dp[1][n];
     }
     // FAANG Tip: Range DP often involves three loops: length, left boundary, and an internal split point.
+
+    public static void main(String[] args) {
+        var nums = new int[]{3, 1, 5, 8};
+        var result = new BurstBalloons().maxCoins(nums);
+        System.out.println("Max coins from burst: " + result); // Output: 167
+    }
+
+    /*
+     * Dry Run:
+     * Input: nums = {3,1,5,8}, padded = {1,3,1,5,8,1}
+     * Single balloons: dp[1][1]=3, dp[2][2]=1, dp[3][3]=5, dp[4][4]=8
+     * Two adjacent: dp[1][2]=1+3+1=1*3*1=3, etc.
+     * Result: dp[1][4] (all balloons burst)
+     */
 }

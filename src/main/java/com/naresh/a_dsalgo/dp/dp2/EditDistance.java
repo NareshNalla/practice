@@ -31,4 +31,25 @@ public class EditDistance {
         return dp[m][n];
     }
     // FAANG Tip: This is a fundamental string DP problem. Space can be optimized to O(min(m, n)) using two rows.
+
+    public static void main(String[] args) {
+        var word1 = "horse";
+        var word2 = "ros";
+        var result = new EditDistance().minDistance(word1, word2);
+        System.out.println("Min edit distance: " + result); // Output: 3 (delete h, delete e, replace r with s)
+    }
+
+    /*
+     * Dry Run:
+     * Input: word1="horse", word2="ros"
+     * dp table (6x4):
+     *      ""  r  o  s
+     *  ""  0   1  2  3
+     *  h   1   1  2  3
+     *  o   2   2  1  2
+     *  r   3   2  2  2
+     *  s   4   3  3  2
+     *  e   5   4  4  3
+     * Result: dp[5][3]=3
+     */
 }

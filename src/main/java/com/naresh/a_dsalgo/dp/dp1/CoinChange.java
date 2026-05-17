@@ -22,7 +22,7 @@ public class CoinChange {
                 }
             }
         }
-        return dp[amount] > amount ? -1 : dp[amount];
+        return dp[amount] < (amount + 1) ? dp[amount] : -1;
     }
     // FAANG Tip: Initializing with 'amount + 1' is cleaner than Integer.MAX_VALUE to avoid overflow during '1 + dp[i-coin]'.
 

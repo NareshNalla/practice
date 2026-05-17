@@ -26,4 +26,20 @@ public class TargetSum {
         return dp[subsetTarget];
     }
     // FAANG Tip: Transforming the problem into a simpler one (Subset Sum) is a highly valued skill in interviews.
+
+    public static void main(String[] args) {
+        var nums = new int[]{1, 1, 1, 1, 1};
+        var target = 3;
+        var result = new TargetSum().findTargetSumWays(nums, target);
+        System.out.println("Ways to reach target " + target + ": " + result); // Output: 5
+    }
+
+    /*
+     * Dry Run:
+     * Input: nums={1,1,1,1,1}, target=3
+     * sum=5, subsetTarget=(3+5)/2=4
+     * DP: ways to form sum of 4 from {1,1,1,1,1}
+     * dp transitions leading to dp[4]=5
+     * Result: 5
+     */
 }
