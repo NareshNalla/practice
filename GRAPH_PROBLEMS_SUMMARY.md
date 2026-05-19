@@ -129,10 +129,10 @@ javac --release 26 -d target/classes src/main/java/com/naresh/a_dsalgo/graphs/pr
 ### Run Individual Tests
 ```bash
 # Example: Run Number Of Islands
-java -cp target/classes com.naresh.a_dsalgo.graphs.problems.NumberOfIslands
+java -cp target/classes com.naresh.a_dsalgo.ai_graphs.problems.NumberOfIslands
 
 # Example: Run Course Schedule
-java -cp target/classes com.naresh.a_dsalgo.graphs.problems.CourseSchedule
+java -cp target/classes com.naresh.a_dsalgo.ai_graphs.problems.CourseSchedule
 ```
 
 ### Run All Tests at Once
