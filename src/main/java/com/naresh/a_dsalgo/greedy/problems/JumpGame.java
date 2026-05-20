@@ -10,28 +10,29 @@ import java.util.Arrays;
 public class JumpGame {
 
     /**
-     * Algorithm: Greedy approach. Track the maximum reachable index (`maxReach`).
-     * If current index `i` exceeds `maxReach`, return false. Update `maxReach` with `i + nums[i]`.
-     * If `maxReach` covers the last index, return true.
+     * Algorithm: Greedy approach (working backwards). Start from the second to last index.
+     * If a position `i` can reach or surpass the current `finall` (the furthest reachable index
+     * from the right that can reach the end), then `i` becomes the new `finall`.
+     * If `finall` becomes 0, it means the start can reach the end.
      *
      * @param nums An array of non-negative integers representing maximum jump lengths.
      * @return True if the last index can be reached, false otherwise.
      */
     public boolean canJump(int[] nums) {
-        // Pattern: Greedy (Single Pass) | Time: O(N), Space: O(1)
+        // Pattern: Greedy (Backward Traversal) | Time: O(N), Space: O(1)
         if (nums == null || nums.length == 0) return false;
         if (nums.length == 1) return true; // Already at the last index
 
-        var maxReach = 0; // Stores the maximum index reachable so far
+        var finall = nums.length - 1; // Represents the "good" index that can reach the end
 
-        for (var i = 0; i < nums.length; i++) {
-            if (i > maxReach) return false; // Current index unreachable
-            maxReach = Math.max(maxReach, i + nums[i]); // Update max reachable point
-            if (maxReach >= nums.length - 1) return true; // Last index reachable
+        for (var i = nums.length - 2; i >= 0; i--) { // Iterate backwards from second to last element
+            if (i + nums[i] >= finall) { // If current position can reach or pass 'finall'
+                finall = i; // This position 'i' becomes the new 'finall'
+            }
         }
-        return true; // Should be covered by the above return, but as a safeguard
+        return finall == 0; // If 'finall' is 0, it means we can reach the end from the start
     }
-    // FAANG Tip: The greedy choice is to always extend the maximum reachable point. No need to explore all paths.
+    // FAANG Tip: This backward greedy approach is often more intuitive for Jump Game. It simplifies the logic by finding the leftmost reachable "good" position.
 
     public static void main(String[] args) {
         var solution = new JumpGame();

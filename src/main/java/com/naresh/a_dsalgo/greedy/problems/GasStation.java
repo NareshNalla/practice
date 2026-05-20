@@ -9,8 +9,9 @@ import java.util.Arrays;
 public class GasStation {
 
     /**
-     * Algorithm: Calculate net gas difference. If total is negative, return -1. Otherwise, iterate
-     * to find a starting point where current tank never drops below zero.
+     * Algorithm: Iterate through stations, tracking `totalGas`, `totalCost`, `tank` balance, and `startIndex`.
+     * If `tank` drops below zero, reset `startIndex` to the next station and `tank` to zero.
+     * Finally, if `totalGas < totalCost`, return -1; otherwise, return `startIndex`.
      *
      * @param gas An array where `gas[i]` is the amount of gas at station `i`.
      * @param cost An array where `cost[i]` is the amount of gas to travel from station `i` to `i+1`.
@@ -18,23 +19,25 @@ public class GasStation {
      */
     public int canCompleteCircuit(int[] gas, int[] cost) {
         // Pattern: Greedy (Single Pass) | Time: O(N), Space: O(1)
-        var totalGasDiff = 0; // Total net gas change over the entire circuit
-        var currentTank = 0;  // Gas in the tank starting from current potential start_station
-        var startStation = 0; // Potential starting station index
+        var totalGas = 0;
+        var totalCost = 0;
+        var tank = 0; // Current gas in tank
+        var startIndex = 0; // Potential starting station
 
         for (var i = 0; i < gas.length; i++) {
-            var diff = gas[i] - cost[i]; // Net gas change at current station
-            totalGasDiff += diff;
-            currentTank += diff;
+            totalGas += gas[i];
+            totalCost += cost[i];
+            tank += gas[i] - cost[i]; // Update tank balance
 
-            if (currentTank < 0) { // Cannot reach next station from current start
-                currentTank = 0; // Reset tank
-                startStation = i + 1; // Try next station as start
+            if (tank < 0) { // If tank is negative, current path is invalid
+                startIndex = i + 1; // Try next station as start
+                tank = 0; // Reset tank balance
             }
         }
-        return totalGasDiff >= 0 ? startStation : -1; // If total diff is non-negative, solution exists
+
+        return totalGas < totalCost ? -1 : startIndex; // If total gas < total cost, impossible
     }
-    // FAANG Tip: If total gas >= total cost, a unique solution always exists. The key is finding it by resetting the start point.
+    // FAANG Tip: The problem guarantees a unique solution if one exists. The key is that if total gas is sufficient, the `startIndex` found by resetting `tank` is the answer.
 
     public static void main(String[] args) {
         var solution = new GasStation();

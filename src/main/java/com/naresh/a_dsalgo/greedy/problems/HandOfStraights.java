@@ -24,18 +24,25 @@ public class HandOfStraights {
         // Pattern: Greedy (TreeMap) | Time: O(N log N), Space: O(M)
         if (hand == null || hand.length == 0) return true; // Empty hand is valid
         if (groupSize <= 0) throw new IllegalArgumentException("Group size must be positive.");
-        if (hand.length % groupSize != 0) return false; // Cannot form equal groups
+        if (hand.length % groupSize != 0) return false; // Early exit if not divisible
 
         var cardCounts = new TreeMap<Integer, Integer>(); // Stores card -> frequency, keeps keys sorted
-        for (var card : hand) cardCounts.put(card, cardCounts.getOrDefault(card, 0) + 1); // Populate frequencies
+        for (var card : hand) cardCounts.put(card, cardCounts.getOrDefault(card, 0) + 1); // Count each card
 
-        while (!cardCounts.isEmpty()) { // While there are still cards to group
-            var startCard = cardCounts.firstKey(); // Get smallest card
-            for (var i = 0; i < groupSize; i++) { // Try to form a straight
-                var currentCard = startCard + i;
-                if (!cardCounts.containsKey(currentCard) || cardCounts.get(currentCard) == 0) return false; // Missing card
-                cardCounts.put(currentCard, cardCounts.get(currentCard) - 1); // Decrement count
-                if (cardCounts.get(currentCard) == 0) cardCounts.remove(currentCard); // Remove if count is zero
+        while (!cardCounts.isEmpty()) { // Attempt to form groups
+            var first = cardCounts.firstKey(); // Start with the smallest card
+            for (var i = 0; i < groupSize; i++) {
+                var currentCard = first + i;
+                if (!cardCounts.containsKey(currentCard)) {
+                    return false; // Can't form a group
+                }
+
+                var count = cardCounts.get(currentCard);
+                if (count == 1) {
+                    cardCounts.remove(currentCard); // Remove if count is 0
+                } else {
+                    cardCounts.put(currentCard, count - 1); // Decrease count
+                }
             }
         }
         return true; // All cards successfully grouped

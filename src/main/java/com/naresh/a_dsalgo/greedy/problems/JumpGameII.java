@@ -10,8 +10,10 @@ import java.util.Arrays;
 public class JumpGameII {
 
     /**
-     * Algorithm: Greedy approach (BFS-like). Track `jumps`, `currentJumpEnd` (end of current jump's range),
-     * and `farthestReach` (max reach from current jump's range). Increment `jumps` when `i` reaches `currentJumpEnd`.
+     * Algorithm: Greedy approach (BFS-like). Iterate through the array, maintaining `jumps` count,
+     * `currEnd` (the boundary of the current jump's reach), and `currMax` (the farthest point
+     * reachable from any position within the current jump's range). When `i` reaches `currEnd`,
+     * increment `jumps` and update `currEnd` to `currMax`.
      *
      * @param nums An array of non-negative integers representing maximum jump lengths.
      * @return The minimum number of jumps to reach the last index.
@@ -21,19 +23,19 @@ public class JumpGameII {
         if (nums == null || nums.length <= 1) return 0; // Already at end or no jumps needed
 
         var jumps = 0;
-        var currentJumpEnd = 0; // Farthest index reachable with current jumps
-        var farthestReach = 0;  // Farthest point reachable from any index within current jump's range
+        var currMax = 0; // Farthest point reachable from any index within current jump's range
+        var currEnd = 0; // The end of the range that the current jump can cover
 
         for (var i = 0; i < nums.length - 1; i++) { // Iterate up to second to last element
-            farthestReach = Math.max(farthestReach, i + nums[i]); // Update max reach
-            if (i == currentJumpEnd) { // Reached end of current jump's range
+            currMax = Math.max(currMax, i + nums[i]); // Update max reach
+            if (i == currEnd) { // Reached end of current jump's range
                 jumps++; // Increment jump count
-                currentJumpEnd = farthestReach; // Set new end for next jump
+                currEnd = currMax; // Set the new end for the next jump
             }
         }
         return jumps;
     }
-    // FAANG Tip: This is a classic greedy problem, often visualized as BFS. `currentJumpEnd` is the level boundary, `farthestReach` is the next level's boundary.
+    // FAANG Tip: This BFS-like greedy approach is optimal. `currEnd` marks the current level's boundary, `currMax` tracks the next level's boundary.
 
     public static void main(String[] args) {
         var solution = new JumpGameII();

@@ -9,8 +9,9 @@ import java.util.Arrays;
 public class MaximumSubarray {
 
     /**
-     * Algorithm: Kadane's Algorithm. Iterate through the array, maintaining `currentMax` (max sum ending at current pos)
-     * and `globalMax` (overall max sum). `currentMax` is either current element or current element + previous `currentMax`.
+     * Algorithm: Kadane's Algorithm variant. Iterate through the array, maintaining `currentSum`
+     * (sum of current subarray) and `maxNum` (overall maximum sum found). If `currentSum` becomes
+     * negative, reset it to 0 (effectively starting a new subarray). Update `maxNum` at each step.
      *
      * @param nums An array of integers.
      * @return The sum of the contiguous subarray with the largest sum.
@@ -19,16 +20,19 @@ public class MaximumSubarray {
         // Pattern: Kadane's Algorithm (Greedy/DP) | Time: O(N), Space: O(1)
         if (nums == null || nums.length == 0) throw new IllegalArgumentException("Input array cannot be null or empty.");
 
-        var globalMax = nums[0];    // Overall maximum sum found
-        var currentMax = nums[0];   // Maximum sum ending at the current position
+        var currentSum = 0; // Sum of the current subarray being considered
+        var maxNum = nums[0]; // Overall maximum sum found so far
 
-        for (var i = 1; i < nums.length; i++) {
-            currentMax = Math.max(nums[i], currentMax + nums[i]); // Extend or start new subarray
-            globalMax = Math.max(globalMax, currentMax); // Update overall max
+        for (var i = 0; i < nums.length; i++) {
+            if (currentSum < 0) { // If current sum is negative, it won't help future sums
+                currentSum = 0; // Reset current sum, effectively starting a new subarray
+            }
+            currentSum += nums[i]; // Add current element to current sum
+            maxNum = Math.max(maxNum, currentSum); // Update overall maximum sum
         }
-        return globalMax;
+        return maxNum;
     }
-    // FAANG Tip: Kadane's is a fundamental greedy/DP algorithm. Explain why local optimum (currentMax) leads to global optimum (globalMax).
+    // FAANG Tip: This variant of Kadane's algorithm is intuitive: if a subarray sum turns negative, it's better to discard it and start fresh.
 
     public static void main(String[] args) {
         var solution = new MaximumSubarray();

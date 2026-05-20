@@ -12,8 +12,8 @@ public class MergeTripletsToFormTargetTriplet {
     /**
      * Algorithm: Greedy approach. Iterate through triplets, only considering those where all components
      * are less than or equal to the target's corresponding components. For valid triplets, update a
-     * `merged` triplet by taking the maximum of its current components and the triplet's components.
-     * Finally, check if the `merged` triplet matches the `target`.
+     * `maxValues` triplet by taking the maximum of its current components and the triplet's components.
+     * Finally, check if the `maxValues` triplet matches the `target`.
      *
      * @param triplets A 2D array of integer triplets.
      * @param target An integer array representing the target triplet.
@@ -21,18 +21,18 @@ public class MergeTripletsToFormTargetTriplet {
      */
     public boolean mergeTriplets(int[][] triplets, int[] target) {
         // Pattern: Greedy (Single Pass) | Time: O(N), Space: O(1)
-        var merged = new int[]{0, 0, 0}; // Stores max values achieved from valid triplets
+        var maxValues = new int[3]; // Initialize the max values for each element in the triplet
 
-        for (var triplet : triplets) {
-            // Only consider triplets that do not exceed the target in any dimension
+        for (var triplet : triplets) { // Iterate over each triplet
+            // Check if the current triplet can contribute to the target
             if (triplet[0] <= target[0] && triplet[1] <= target[1] && triplet[2] <= target[2]) {
-                merged[0] = Math.max(merged[0], triplet[0]); // Update first component
-                merged[1] = Math.max(merged[1], triplet[1]); // Update second component
-                merged[2] = Math.max(merged[2], triplet[2]); // Update third component
+                maxValues[0] = Math.max(maxValues[0], triplet[0]); // Update first component
+                maxValues[1] = Math.max(maxValues[1], triplet[1]); // Update second component
+                maxValues[2] = Math.max(maxValues[2], triplet[2]); // Update third component
             }
         }
-        // Check if the merged triplet matches the target
-        return merged[0] == target[0] && merged[1] == target[1] && merged[2] == target[2];
+        // Check if the max values match the target triplet
+        return maxValues[0] == target[0] && maxValues[1] == target[1] && maxValues[2] == target[2];
     }
     // FAANG Tip: The greedy choice is to discard any triplet that "overshoots" the target, as it can never contribute positively.
 
